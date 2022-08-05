@@ -5,7 +5,6 @@ import me.alpine.event.impl.EventClick;
 import me.alpine.event.impl.EventRender2D;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
-import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +36,6 @@ public class ModCPS extends Mod {
         leftClicks.removeIf(l -> System.currentTimeMillis() - l > 1000);
         rightClicks.removeIf(l -> System.currentTimeMillis() - l > 1000);
         String cps = String.format("CPS: %s | %s", leftClicks.size(), rightClicks.size());
-        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(cps, x, y, 0x00d9ff);
+        mc.fontRendererObj.drawStringWithShadow(cps, x, y, 0x00d9ff);
     }
 }

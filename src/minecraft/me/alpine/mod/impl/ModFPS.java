@@ -22,16 +22,14 @@ public class ModFPS extends Mod {
 
     @EventTarget
     public void onTick(EventTick e) {
+        this.fps = 1000 / DeltaTime.get();
+        this.fpsSmoothed += (this.fps - this.fpsSmoothed) * 0.001 * DeltaTime.get();
     }
 
     @EventTarget
     public void onRender2D(EventRender2D e) {
-        this.fps = 1000 / DeltaTime.get();
-        this.fpsSmoothed += (this.fps - this.fpsSmoothed) * 0.001 * DeltaTime.get();
-
         DecimalFormat df = new DecimalFormat("#");
         String s = df.format(this.fpsSmoothed);
-        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(String.format("FPS: %s", s), 2, 2, 0x00d9ff);
-        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(String.format("FPS: %s", Minecraft.getDebugFPS()), 2, 11, 0x00d9ff);
+        mc.fontRendererObj.drawStringWithShadow(String.format("FPS: %s", s), 2, 2, 0x00d9ff);
     }
 }

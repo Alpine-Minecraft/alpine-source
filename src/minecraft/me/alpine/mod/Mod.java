@@ -3,8 +3,11 @@ package me.alpine.mod;
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.event.EventManager;
+import net.minecraft.client.Minecraft;
 
 public class Mod {
+    protected final Minecraft mc = Minecraft.getMinecraft();
+
     @Getter private final String name;
     @Getter private final String description;
     @Getter private final EnumModCategory category;
