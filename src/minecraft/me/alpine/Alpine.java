@@ -32,6 +32,7 @@ public class Alpine {
      * This is the method that will be called when Minecraft stops.
      */
     public void onStop() {
+        EventManager.clean();
         logger.info("[Alpine] Stopping!");
     }
 }
