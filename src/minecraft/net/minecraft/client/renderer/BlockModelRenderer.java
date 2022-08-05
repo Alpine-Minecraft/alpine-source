@@ -26,9 +26,6 @@ public class BlockModelRenderer {
     }
 
     public BlockModelRenderer() {
-        if (Reflector.ForgeModContainer_forgeLightPipelineEnabled.exists()) {
-            Reflector.setFieldValue(Reflector.ForgeModContainer_forgeLightPipelineEnabled, Boolean.valueOf(false));
-        }
     }
 
     public boolean renderModel(IBlockAccess blockAccessIn, IBakedModel modelIn, IBlockState blockStateIn, BlockPos blockPosIn, WorldRenderer worldRendererIn) {

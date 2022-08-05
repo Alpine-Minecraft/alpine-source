@@ -88,11 +88,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
         GlStateManager.disableCull();
         this.mainModel.swingProgress = this.getSwingProgress(entity, partialTicks);
         this.mainModel.isRiding = entity.isRiding();
-
-        if (Reflector.ForgeEntity_shouldRiderSit.exists()) {
-            this.mainModel.isRiding = entity.isRiding() && entity.ridingEntity != null && Reflector.callBoolean(entity.ridingEntity, Reflector.ForgeEntity_shouldRiderSit, new Object[0]);
-        }
-
         this.mainModel.isChild = entity.isChild();
 
         try {

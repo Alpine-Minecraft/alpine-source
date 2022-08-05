@@ -127,10 +127,6 @@ public class RenderChunk {
 
             regionrendercache = this.createRegionRenderCache(this.world, blockpos.add(-1, -1, -1), blockpos1.add(1, 1, 1), 1);
 
-            if (Reflector.MinecraftForgeClient_onRebuildChunk.exists()) {
-                Reflector.call(Reflector.MinecraftForgeClient_onRebuildChunk, new Object[]{ this.world, this.position, regionrendercache });
-            }
-
             generator.setCompiledChunk(compiledchunk);
         } finally {
             generator.getLock().unlock();
@@ -182,14 +178,6 @@ public class RenderChunk {
 
                 for (int i = 0; i < aenumworldblocklayer.length; ++i) {
                     EnumWorldBlockLayer enumworldblocklayer = aenumworldblocklayer[i];
-
-                    if (flag2) {
-                        boolean flag4 = Reflector.callBoolean(block, Reflector.ForgeBlock_canRenderInLayer, new Object[]{ enumworldblocklayer });
-
-                        if (!flag4) {
-                            continue;
-                        }
-                    }
 
                     if (this.fixBlockLayer) {
                         enumworldblocklayer = this.fixBlockLayer(block, enumworldblocklayer);

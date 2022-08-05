@@ -483,10 +483,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                     if (d3 < d2 || d2 == 0.0D) {
                         boolean flag2 = false;
 
-                        if (Reflector.ForgeEntity_canRiderInteract.exists()) {
-                            flag2 = Reflector.callBoolean(entity1, Reflector.ForgeEntity_canRiderInteract, new Object[0]);
-                        }
-
                         if (entity1 == entity.ridingEntity && !flag2) {
                             if (d2 == 0.0D) {
                                 this.pointedEntity = entity1;
@@ -1718,16 +1714,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
      * Render rain and snow
      */
     protected void renderRainSnow(float partialTicks) {
-        if (Reflector.ForgeWorldProvider_getWeatherRenderer.exists()) {
-            WorldProvider worldprovider = this.mc.theWorld.provider;
-            Object object = Reflector.call(worldprovider, Reflector.ForgeWorldProvider_getWeatherRenderer, new Object[0]);
-
-            if (object != null) {
-                Reflector.callVoid(object, Reflector.IRenderHandler_render, new Object[]{ Float.valueOf(partialTicks), this.mc.theWorld, this.mc });
-                return;
-            }
-        }
-
         float f5 = this.mc.theWorld.getRainStrength(partialTicks);
 
         if (f5 > 0.0F) {

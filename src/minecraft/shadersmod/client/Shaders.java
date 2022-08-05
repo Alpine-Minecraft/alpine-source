@@ -770,13 +770,6 @@ public class Shaders
         if (flag4 || flag3)
         {
             DefaultVertexFormats.updateVertexFormats();
-
-            if (Reflector.LightUtil.exists())
-            {
-                Reflector.LightUtil_itemConsumer.setValue((Object)null);
-                Reflector.LightUtil_tessellator.setValue((Object)null);
-            }
-
             updateBlockLightLevel();
             mc.scheduleResourcesRefresh();
         }

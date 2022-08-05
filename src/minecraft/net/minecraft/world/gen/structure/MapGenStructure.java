@@ -212,24 +212,12 @@ public abstract class MapGenStructure extends MapGenBase {
 
     private void func_143027_a(World worldIn) {
         if (this.structureData == null) {
-            if (Reflector.ForgeWorld_getPerWorldStorage.exists()) {
-                MapStorage mapstorage = (MapStorage) Reflector.call(worldIn, Reflector.ForgeWorld_getPerWorldStorage, new Object[0]);
-                this.structureData = (MapGenStructureData) mapstorage.loadData(MapGenStructureData.class, this.getStructureName());
-            }
-            else {
-                this.structureData = (MapGenStructureData) worldIn.loadItemData(MapGenStructureData.class, this.getStructureName());
-            }
+            this.structureData = (MapGenStructureData) worldIn.loadItemData(MapGenStructureData.class, this.getStructureName());
 
             if (this.structureData == null) {
                 this.structureData = new MapGenStructureData(this.getStructureName());
 
-                if (Reflector.ForgeWorld_getPerWorldStorage.exists()) {
-                    MapStorage mapstorage1 = (MapStorage) Reflector.call(worldIn, Reflector.ForgeWorld_getPerWorldStorage, new Object[0]);
-                    mapstorage1.setData(this.getStructureName(), this.structureData);
-                }
-                else {
-                    worldIn.setItemData(this.getStructureName(), this.structureData);
-                }
+                worldIn.setItemData(this.getStructureName(), this.structureData);
             }
             else {
                 NBTTagCompound nbttagcompound1 = this.structureData.getTagCompound();

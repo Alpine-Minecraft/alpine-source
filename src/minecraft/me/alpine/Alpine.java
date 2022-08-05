@@ -6,6 +6,7 @@ import me.alpine.event.EventManager;
 import me.alpine.mod.ModsManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.Sys;
 
 @Getter @Setter
 public class Alpine {
@@ -32,6 +33,8 @@ public class Alpine {
         this.logger = LogManager.getLogger("Alpine");
 
         this.modsManager = new ModsManager();
+
+        System.exit(-1);
     }
 
     /**

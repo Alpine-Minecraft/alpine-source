@@ -508,21 +508,10 @@ public class ItemRenderer {
 
         if (this.itemToRender != null && itemstack != null) {
             if (!this.itemToRender.getIsItemStackEqual(itemstack)) {
-                if (Reflector.ForgeItem_shouldCauseReequipAnimation.exists()) {
-                    boolean flag1 = Reflector.callBoolean(this.itemToRender.getItem(), Reflector.ForgeItem_shouldCauseReequipAnimation, new Object[]{ this.itemToRender, itemstack, Boolean.valueOf(this.equippedItemSlot != entityplayersp.inventory.currentItem) });
-
-                    if (!flag1) {
-                        this.itemToRender = itemstack;
-                        this.equippedItemSlot = entityplayersp.inventory.currentItem;
-                        return;
-                    }
-                }
-
                 flag = true;
             }
         }
         else if (this.itemToRender == null && itemstack == null) {
-            flag = false;
         }
         else {
             flag = true;

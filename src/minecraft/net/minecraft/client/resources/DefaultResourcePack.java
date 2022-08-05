@@ -46,8 +46,7 @@ public class DefaultResourcePack implements IResourcePack {
 
     private InputStream getResourceStream(ResourceLocation location) {
         String s = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
-        InputStream inputstream = ReflectorForge.getOptiFineResourceStream(s);
-        return inputstream != null ? inputstream : DefaultResourcePack.class.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
+        return DefaultResourcePack.class.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
     }
 
     public boolean resourceExists(ResourceLocation location) {

@@ -330,14 +330,7 @@ public class EffectRenderer {
     public void addBlockDestroyEffects(BlockPos pos, IBlockState state) {
         boolean flag;
 
-        if (Reflector.ForgeBlock_addDestroyEffects.exists() && Reflector.ForgeBlock_isAir.exists()) {
-            Block block = state.getBlock();
-            Reflector.callBoolean(block, Reflector.ForgeBlock_isAir, new Object[]{ this.worldObj, pos });
-            flag = !Reflector.callBoolean(block, Reflector.ForgeBlock_isAir, new Object[]{ this.worldObj, pos }) && !Reflector.callBoolean(block, Reflector.ForgeBlock_addDestroyEffects, new Object[]{ this.worldObj, pos, this });
-        }
-        else {
-            flag = state.getBlock().getMaterial() != Material.air;
-        }
+        flag = state.getBlock().getMaterial() != Material.air;
 
         if (flag) {
             state = state.getBlock().getActualState(state, this.worldObj, pos);
@@ -442,7 +435,7 @@ public class EffectRenderer {
 
     public void addBlockHitEffects(BlockPos p_addBlockHitEffects_1_, MovingObjectPosition p_addBlockHitEffects_2_) {
         Block block = this.worldObj.getBlockState(p_addBlockHitEffects_1_).getBlock();
-        boolean flag = Reflector.callBoolean(block, Reflector.ForgeBlock_addHitEffects, new Object[]{ this.worldObj, p_addBlockHitEffects_2_, this });
+        boolean flag = false;
 
         if (block != null && !flag) {
             this.addBlockHitEffects(p_addBlockHitEffects_1_, p_addBlockHitEffects_2_.sideHit);
