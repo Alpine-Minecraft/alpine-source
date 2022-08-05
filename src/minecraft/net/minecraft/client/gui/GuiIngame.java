@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import me.alpine.event.impl.EventRender2D;
+import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -152,6 +153,7 @@ public class GuiIngame extends Gui {
             }
         }
 
+        BlurUtil.onRenderGameOverlay(mc.getFramebuffer(), scaledresolution);
         new EventRender2D(scaledresolution).call();
 
         if (this.mc.playerController.isSpectator()) {

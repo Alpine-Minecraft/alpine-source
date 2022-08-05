@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.alpine.event.EventManager;
 import me.alpine.mod.ModsManager;
+import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.Sys;
@@ -33,6 +34,9 @@ public class Alpine {
         this.logger = LogManager.getLogger("Alpine");
 
         this.modsManager = new ModsManager();
+
+        /* Disable fast render to prevent rendering issues (i.e. blur) */
+        Minecraft.getMinecraft().gameSettings.ofFastRender = false;
     }
 
     /**

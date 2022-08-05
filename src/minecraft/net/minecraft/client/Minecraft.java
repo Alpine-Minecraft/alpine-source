@@ -12,6 +12,7 @@ import me.alpine.Alpine;
 import me.alpine.event.impl.EventClick;
 import me.alpine.event.impl.EventKey;
 import me.alpine.event.impl.EventTick;
+import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -1040,6 +1041,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                 }
 
                 this.resize(this.displayWidth, this.displayHeight);
+                BlurUtil.onFrameBufferResize(this.displayWidth, this.displayHeight);
             }
         }
     }
