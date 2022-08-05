@@ -33,8 +33,6 @@ public class Alpine {
         this.logger = LogManager.getLogger("Alpine");
 
         this.modsManager = new ModsManager();
-
-        System.exit(-1);
     }
 
     /**
