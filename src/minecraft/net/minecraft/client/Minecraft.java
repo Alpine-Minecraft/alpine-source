@@ -10,6 +10,7 @@ import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import me.alpine.Alpine;
 import me.alpine.event.impl.EventKey;
+import me.alpine.event.impl.EventTick;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -1437,6 +1438,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         if (this.rightClickDelayTimer > 0) {
             --this.rightClickDelayTimer;
         }
+
+        new EventTick().call();
 
         this.mcProfiler.startSection("gui");
 
