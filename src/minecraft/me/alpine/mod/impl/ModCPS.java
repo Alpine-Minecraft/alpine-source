@@ -23,7 +23,6 @@ public class ModCPS extends Mod {
 
     @EventTarget
     public void onClick(EventClick e) {
-//         leftClicks.add(System.currentTimeMillis());
         if (e.getButton() == 0) {
             leftClicks.add(System.currentTimeMillis());
         } else if (e.getButton() == 1) {
