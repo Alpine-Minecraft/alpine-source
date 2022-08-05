@@ -2,6 +2,7 @@ package me.alpine;
 
 import lombok.Getter;
 import me.alpine.event.EventManager;
+import me.alpine.mod.ModsManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +16,8 @@ public class Alpine {
     @Getter private final String version = "0.1";
     /** The Logger implementation */
     @Getter private final Logger logger = LogManager.getLogger("Alpine");
+
+    @Getter private final ModsManager modsManager = new ModsManager();
 
     /**
      * This is the method that will be called when Minecraft starts.
