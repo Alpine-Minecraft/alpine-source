@@ -3,6 +3,7 @@ package net.minecraft.client.gui;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import me.alpine.event.impl.EventRender2D;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -150,6 +151,8 @@ public class GuiIngame extends Gui {
                 this.func_180474_b(f, scaledresolution);
             }
         }
+
+        new EventRender2D(scaledresolution).call();
 
         if (this.mc.playerController.isSpectator()) {
             this.spectatorGui.renderTooltip(scaledresolution, partialTicks);
