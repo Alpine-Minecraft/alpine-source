@@ -2,6 +2,7 @@ package net.minecraft.client.renderer;
 
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
+import me.alpine.util.render.DeltaTime;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
@@ -1219,6 +1220,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                     throw new ReportedException(crashreport);
                 }
             }
+            DeltaTime.setNano();
         }
 
         this.frameFinish();
