@@ -725,29 +725,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             GlStateManager.translate(0.0F, 0.0F, -0.1F);
         }
 
-        if (Reflector.EntityViewRenderEvent_CameraSetup_Constructor.exists()) {
-            if (!this.mc.gameSettings.debugCamEnable) {
-                float f6 = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0F;
-                float f7 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
-                float f8 = 0.0F;
-
-                if (entity instanceof EntityAnimal) {
-                    EntityAnimal entityanimal = (EntityAnimal) entity;
-                    f6 = entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0F;
-                }
-
-                Block block1 = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
-                Object object = Reflector.newInstance(Reflector.EntityViewRenderEvent_CameraSetup_Constructor, new Object[]{ this, entity, block1, Float.valueOf(partialTicks), Float.valueOf(f6), Float.valueOf(f7), Float.valueOf(f8) });
-                Reflector.postForgeBusEvent(object);
-                f8 = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_CameraSetup_roll, f8);
-                f7 = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_CameraSetup_pitch, f7);
-                f6 = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_CameraSetup_yaw, f6);
-                GlStateManager.rotate(f8, 0.0F, 0.0F, 1.0F);
-                GlStateManager.rotate(f7, 1.0F, 0.0F, 0.0F);
-                GlStateManager.rotate(f6, 0.0F, 1.0F, 0.0F);
-            }
-        }
-        else if (!this.mc.gameSettings.debugCamEnable) {
+        if (!this.mc.gameSettings.debugCamEnable) {
             GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
 
             if (entity instanceof EntityAnimal) {
@@ -2094,14 +2072,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             this.fogColorRed = f16;
             this.fogColorGreen = f17;
             this.fogColorBlue = f7;
-        }
-
-        if (Reflector.EntityViewRenderEvent_FogColors_Constructor.exists()) {
-            Object object = Reflector.newInstance(Reflector.EntityViewRenderEvent_FogColors_Constructor, new Object[]{ this, entity, block, Float.valueOf(partialTicks), Float.valueOf(this.fogColorRed), Float.valueOf(this.fogColorGreen), Float.valueOf(this.fogColorBlue) });
-            Reflector.postForgeBusEvent(object);
-            this.fogColorRed = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_FogColors_red, this.fogColorRed);
-            this.fogColorGreen = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_FogColors_green, this.fogColorGreen);
-            this.fogColorBlue = Reflector.getFieldValueFloat(object, Reflector.EntityViewRenderEvent_FogColors_blue, this.fogColorBlue);
         }
 
         Shaders.setClearColor(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 0.0F);

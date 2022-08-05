@@ -36,16 +36,6 @@ public class DefaultVertexFormats {
             BLOCK = BLOCK_VANILLA;
             ITEM = ITEM_VANILLA;
         }
-
-        if (Reflector.Attributes_DEFAULT_BAKED_FORMAT.exists()) {
-            VertexFormat vertexformat = ITEM;
-            VertexFormat vertexformat1 = (VertexFormat) Reflector.getFieldValue(Reflector.Attributes_DEFAULT_BAKED_FORMAT);
-            vertexformat1.clear();
-
-            for (int i = 0; i < vertexformat.getElementCount(); ++i) {
-                vertexformat1.func_181721_a(vertexformat.getElement(i));
-            }
-        }
     }
 
     static {

@@ -53,7 +53,7 @@ public class RenderChunk {
     private static EnumWorldBlockLayer[] ENUM_WORLD_BLOCK_LAYERS = EnumWorldBlockLayer.values();
     private EnumWorldBlockLayer[] blockLayersSingle = new EnumWorldBlockLayer[1];
     private boolean isMipmaps = Config.isMipmaps();
-    private boolean fixBlockLayer = !Reflector.BetterFoliageClient.exists();
+    private boolean fixBlockLayer = true;
     private boolean playerUpdate = false;
 
     public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos blockPosIn, int indexIn) {

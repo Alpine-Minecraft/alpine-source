@@ -71,78 +71,49 @@ public class IntegratedServer extends MinecraftServer {
         this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
         WorldInfo worldinfo = isavehandler.loadWorldInfo();
 
-        if (Reflector.DimensionManager.exists()) {
-            WorldServer worldserver = this.isDemo() ? (WorldServer) ((WorldServer) (new DemoWorldServer(this, isavehandler, worldinfo, 0, this.theProfiler)).init()) : (WorldServer) (new WorldServerOF(this, isavehandler, worldinfo, 0, this.theProfiler)).init();
-            worldserver.initialize(this.theWorldSettings);
-            Integer[] ainteger = (Integer[]) ((Integer[]) Reflector.call(Reflector.DimensionManager_getStaticDimensionIDs, new Object[0]));
-            Integer[] ainteger1 = ainteger;
-            int i = ainteger.length;
+        this.worldServers = new WorldServer[3];
+        this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
+        this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
 
-            for (int j = 0; j < i; ++j) {
-                int k = ainteger1[j].intValue();
-                WorldServer worldserver1 = k == 0 ? worldserver : (WorldServer) ((WorldServer) (new WorldServerMulti(this, isavehandler, k, worldserver, this.theProfiler)).init());
-                worldserver1.addWorldAccess(new WorldManager(this, worldserver1));
-
-                if (!this.isSinglePlayer()) {
-                    worldserver1.getWorldInfo().setGameType(this.getGameType());
-                }
-
-                if (Reflector.EventBus.exists()) {
-                    Reflector.postForgeBusEvent(Reflector.WorldEvent_Load_Constructor, new Object[]{ worldserver1 });
-                }
-            }
-
-            this.getConfigurationManager().setPlayerManager(new WorldServer[]{ worldserver });
-
-            if (worldserver.getWorldInfo().getDifficulty() == null) {
-                this.setDifficultyForAllWorlds(this.mc.gameSettings.difficulty);
-            }
+        if (worldinfo == null) {
+            worldinfo = new WorldInfo(this.theWorldSettings, p_71247_2_);
         }
         else {
-            this.worldServers = new WorldServer[3];
-            this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
-            this.setResourcePackFromWorld(this.getFolderName(), isavehandler);
+            worldinfo.setWorldName(p_71247_2_);
+        }
 
-            if (worldinfo == null) {
-                worldinfo = new WorldInfo(this.theWorldSettings, p_71247_2_);
+        for (int l = 0; l < this.worldServers.length; ++l) {
+            byte b0 = 0;
+
+            if (l == 1) {
+                b0 = -1;
             }
-            else {
-                worldinfo.setWorldName(p_71247_2_);
+
+            if (l == 2) {
+                b0 = 1;
             }
 
-            for (int l = 0; l < this.worldServers.length; ++l) {
-                byte b0 = 0;
-
-                if (l == 1) {
-                    b0 = -1;
-                }
-
-                if (l == 2) {
-                    b0 = 1;
-                }
-
-                if (l == 0) {
-                    if (this.isDemo()) {
-                        this.worldServers[l] = (WorldServer) (new DemoWorldServer(this, isavehandler, worldinfo, b0, this.theProfiler)).init();
-                    }
-                    else {
-                        this.worldServers[l] = (WorldServer) (new WorldServerOF(this, isavehandler, worldinfo, b0, this.theProfiler)).init();
-                    }
-
-                    this.worldServers[l].initialize(this.theWorldSettings);
+            if (l == 0) {
+                if (this.isDemo()) {
+                    this.worldServers[l] = (WorldServer) (new DemoWorldServer(this, isavehandler, worldinfo, b0, this.theProfiler)).init();
                 }
                 else {
-                    this.worldServers[l] = (WorldServer) (new WorldServerMulti(this, isavehandler, b0, this.worldServers[0], this.theProfiler)).init();
+                    this.worldServers[l] = (WorldServer) (new WorldServerOF(this, isavehandler, worldinfo, b0, this.theProfiler)).init();
                 }
 
-                this.worldServers[l].addWorldAccess(new WorldManager(this, this.worldServers[l]));
+                this.worldServers[l].initialize(this.theWorldSettings);
+            }
+            else {
+                this.worldServers[l] = (WorldServer) (new WorldServerMulti(this, isavehandler, b0, this.worldServers[0], this.theProfiler)).init();
             }
 
-            this.getConfigurationManager().setPlayerManager(this.worldServers);
+            this.worldServers[l].addWorldAccess(new WorldManager(this, this.worldServers[l]));
+        }
 
-            if (this.worldServers[0].getWorldInfo().getDifficulty() == null) {
-                this.setDifficultyForAllWorlds(this.mc.gameSettings.difficulty);
-            }
+        this.getConfigurationManager().setPlayerManager(this.worldServers);
+
+        if (this.worldServers[0].getWorldInfo().getDifficulty() == null) {
+            this.setDifficultyForAllWorlds(this.mc.gameSettings.difficulty);
         }
 
         this.initialWorldChunkLoad();
@@ -161,26 +132,8 @@ public class IntegratedServer extends MinecraftServer {
         logger.info("Generating keypair");
         this.setKeyPair(CryptManager.generateKeyPair());
 
-        if (Reflector.FMLCommonHandler_handleServerAboutToStart.exists()) {
-            Object object = Reflector.call(Reflector.FMLCommonHandler_instance, new Object[0]);
-
-            if (!Reflector.callBoolean(object, Reflector.FMLCommonHandler_handleServerAboutToStart, new Object[]{ this })) {
-                return false;
-            }
-        }
-
         this.loadAllWorlds(this.getFolderName(), this.getWorldName(), this.theWorldSettings.getSeed(), this.theWorldSettings.getTerrainType(), this.theWorldSettings.getWorldName());
         this.setMOTD(this.getServerOwner() + " - " + this.worldServers[0].getWorldInfo().getWorldName());
-
-        if (Reflector.FMLCommonHandler_handleServerStarting.exists()) {
-            Object object1 = Reflector.call(Reflector.FMLCommonHandler_instance, new Object[0]);
-
-            if (Reflector.FMLCommonHandler_handleServerStarting.getReturnType() == Boolean.TYPE) {
-                return Reflector.callBoolean(object1, Reflector.FMLCommonHandler_handleServerStarting, new Object[]{ this });
-            }
-
-            Reflector.callVoid(object1, Reflector.FMLCommonHandler_handleServerStarting, new Object[]{ this });
-        }
 
         return true;
     }
