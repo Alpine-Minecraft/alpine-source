@@ -51,7 +51,6 @@ public final class GuiUtil {
         worldRenderer.pos(x, y, 0.0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
     }
 
     /**
@@ -98,4 +97,34 @@ public final class GuiUtil {
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
+
+    public void drawCircle(double x, double y, double radius, int color) {
+        GL11.glPushAttrib(0);
+        GL11.glScaled(0.5, 0.5, 0.5);
+        x *= 2.0D;
+        y *= 2.0D;
+        radius *= 2.0D;
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+        // enable anti-aliasing
+        GL11.glEnable(GL11.GL_POLYGON_SMOOTH);
+        GL11.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST);
+
+        RenderUtil.glSetColor(color);
+        GL11.glBegin(GL11.GL_POLYGON);
+        /* Iterate backwards so that the polygon is not culled (drawing should be anti-clockwise),
+        also, step 3 times for optimisation */
+        for (int i = 360; i >= 0; i -= 3) {
+            double angle = i * Math.PI / 180;
+            GL11.glVertex2d(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
+        }
+        GL11.glEnd();
+        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glScaled(2.0D, 2.0D, 2.0D);
+        GL11.glPopAttrib();
+    }
+
 }
