@@ -1,6 +1,7 @@
 package me.alpine.util.render.shader;
 
 import lombok.experimental.UtilityClass;
+import me.alpine.util.render.RenderUtil;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.shader.Framebuffer;
 import org.lwjgl.opengl.Display;
@@ -86,11 +87,15 @@ public final class BlurUtil {
 
     public static boolean disableBlur;
 
-    private static final List<double[]> blurAreas = new ArrayList<>();
+    private static final List<Runnable> blurAreas = new ArrayList<>();
 
-    public static void blurArea(final double x, final double y, final double width, final double height) {
+    /**
+     *
+     * @param runnable The runnable that contains the mask
+     */
+    public static void blurArea(Runnable runnable) {
         if (disableBlur) return;
-        blurAreas.add(new double[]{ x, y, width, height });
+        blurAreas.add(runnable);
     }
 
     public static void onRenderGameOverlay(final Framebuffer mcFramebuffer, final ScaledResolution sr) {
@@ -99,14 +104,17 @@ public final class BlurUtil {
         // Draw into the blurFramebuffer
         framebufferRender.bindFramebuffer(false);
         // Draw the areas to be blurred
-        for (final double[] area: blurAreas) {
-            DrawUtil.glDrawFilledQuad(area[0], area[1], area[2], area[3], 0xFF << 24);
-        }
+//        for (final double[] area: blurAreas) {
+////            DrawUtil.glDrawFilledQuad(area[0], area[1], area[2], area[3], 0xFF << 24);
+//            GuiUtil.drawRect(area[0], area[1], area[0] + area[2], area[1] + area[3], 0xFF << 24);
+//        }
+
+        blurAreas.forEach(Runnable::run);
 
         blurAreas.clear();
 
         // Enable blending and using glBlendFuncSeparate
-        final boolean restore = DrawUtil.glEnableBlend();
+        final boolean restore = RenderUtil.glEnableBlend();
 
         // Draw the first pass
 
@@ -131,7 +139,7 @@ public final class BlurUtil {
         glUseProgram(0); // Stop using shader
 
         // Restore the blend state
-        DrawUtil.glRestoreBlend(restore);
+        RenderUtil.glRestoreBlend(restore);
     }
 
     private static void onPass(final int pass) {

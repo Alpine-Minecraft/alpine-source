@@ -5,6 +5,7 @@ import me.alpine.event.EventTarget;
 import me.alpine.event.impl.EventRender2D;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
+import me.alpine.util.render.GuiUtil;
 import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.client.gui.ScaledResolution;
 
@@ -18,7 +19,10 @@ public class ModWatermark extends Mod {
     public void onRender2D(EventRender2D e) {
         ScaledResolution scaledResolution = new ScaledResolution(mc);
         double y = scaledResolution.getScaledHeight() - 10;
-        BlurUtil.blurArea(0, 20, mc.fontRendererObj.getStringWidth("  Alpine " + Alpine.getInstance().getVersion()), 20);
+        BlurUtil.blurArea(() ->
+        {
+            GuiUtil.drawRect(0, y, mc.fontRendererObj.getStringWidth("  ALPINE " + Alpine.getInstance().getVersion()), y + 10, -1);
+        });
         mc.fontRendererObj.drawStringWithShadow("  ALPINE " + Alpine.getInstance().getVersion(), (float) 0, (float) y, 0x00fff7);
 
 

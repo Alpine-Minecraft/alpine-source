@@ -5,6 +5,8 @@ import me.alpine.event.impl.EventClick;
 import me.alpine.event.impl.EventRender2D;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
+import me.alpine.util.render.GuiUtil;
+import me.alpine.util.render.shader.BlurUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,12 @@ public class ModCPS extends Mod {
 
     @EventTarget
     public void onRender2D(EventRender2D e) {
+        BlurUtil.blurArea(() ->
+        {
+//            GuiUtil.drawRect(10, 10, 100, 100,-1);
+            GuiUtil.drawCircle(100, 100, 10, -1);
+        });
+
         int x = e.getSr().getScaledWidth() - 100;
         int y = 2;
         leftClicks.removeIf(l -> System.currentTimeMillis() - l > 1000);
