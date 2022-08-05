@@ -33,12 +33,6 @@ public class ModCPS extends Mod {
 
     @EventTarget
     public void onRender2D(EventRender2D e) {
-        BlurUtil.blurArea(() ->
-        {
-//            GuiUtil.drawRect(10, 10, 100, 100,-1);
-            GuiUtil.drawCircle(100, 100, 10, -1);
-        });
-
         int x = e.getSr().getScaledWidth() - 100;
         int y = 2;
         leftClicks.removeIf(l -> System.currentTimeMillis() - l > 1000);

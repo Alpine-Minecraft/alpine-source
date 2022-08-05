@@ -19,12 +19,6 @@ public class ModWatermark extends Mod {
     public void onRender2D(EventRender2D e) {
         ScaledResolution scaledResolution = new ScaledResolution(mc);
         double y = scaledResolution.getScaledHeight() - 10;
-        BlurUtil.blurArea(() ->
-        {
-            GuiUtil.drawRect(0, y, mc.fontRendererObj.getStringWidth("  ALPINE " + Alpine.getInstance().getVersion()), y + 10, -1);
-        });
         mc.fontRendererObj.drawStringWithShadow("  ALPINE " + Alpine.getInstance().getVersion(), (float) 0, (float) y, 0x00fff7);
-
-
     }
 }
