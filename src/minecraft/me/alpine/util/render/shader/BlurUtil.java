@@ -103,11 +103,6 @@ public final class BlurUtil {
         framebufferRender.framebufferClear();
         // Draw into the blurFramebuffer
         framebufferRender.bindFramebuffer(false);
-        // Draw the areas to be blurred
-//        for (final double[] area: blurAreas) {
-////            DrawUtil.glDrawFilledQuad(area[0], area[1], area[2], area[3], 0xFF << 24);
-//            GuiUtil.drawRect(area[0], area[1], area[0] + area[2], area[1] + area[3], 0xFF << 24);
-//        }
 
         blurAreas.forEach(Runnable::run);
 
