@@ -23,8 +23,6 @@ public class Alpine {
      * This is the method that will be called when Minecraft starts.
      */
     public void onStart() {
-        EventManager.register(this);
-
         /* This adds a shutdown hook to the JVM that will call this.onStop. */
         Runtime.getRuntime().addShutdownHook(new Thread(this::onStop));
 

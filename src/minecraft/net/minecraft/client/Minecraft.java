@@ -9,6 +9,7 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import me.alpine.Alpine;
+import me.alpine.event.impl.EventKey;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -1582,6 +1583,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                         this.currentScreen.handleKeyboardInput();
                     }
                     else {
+                        new EventKey(k).call();
+
                         if (k == 1) {
                             this.displayInGameMenu();
                         }
