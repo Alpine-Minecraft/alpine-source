@@ -55,45 +55,11 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
             modelbase.setModelAttributes(this.renderer.getMainModel());
             modelbase.setLivingAnimations(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_4_);
 
-            if (Reflector.ForgeHooksClient.exists()) {
-                modelbase = this.getArmorModelHook(entitylivingbaseIn, itemstack, armorSlot, modelbase);
-            }
-
             this.func_177179_a((T) modelbase, armorSlot);
             boolean flag = this.isSlotForLeggings(armorSlot);
 
             if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemstack, flag ? 2 : 1, (String) null)) {
-                if (Reflector.ForgeHooksClient_getArmorTexture.exists()) {
-                    this.renderer.bindTexture(this.getArmorResource(entitylivingbaseIn, itemstack, flag ? 2 : 1, (String) null));
-                }
-                else {
-                    this.renderer.bindTexture(this.getArmorResource(itemarmor, flag));
-                }
-            }
-
-            if (Reflector.ForgeHooksClient_getArmorTexture.exists()) {
-                int j = itemarmor.getColor(itemstack);
-
-                if (j != -1) {
-                    float f3 = (float) (j >> 16 & 255) / 255.0F;
-                    float f4 = (float) (j >> 8 & 255) / 255.0F;
-                    float f5 = (float) (j & 255) / 255.0F;
-                    GlStateManager.color(this.colorR * f3, this.colorG * f4, this.colorB * f5, this.alpha);
-                    modelbase.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
-
-                    if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemstack, flag ? 2 : 1, "overlay")) {
-                        this.renderer.bindTexture(this.getArmorResource(entitylivingbaseIn, itemstack, flag ? 2 : 1, "overlay"));
-                    }
-                }
-
-                GlStateManager.color(this.colorR, this.colorG, this.colorB, this.alpha);
-                modelbase.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
-
-                if (!this.field_177193_i && itemstack.isItemEnchanted() && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(entitylivingbaseIn, itemstack, modelbase, p_177182_2_, p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_))) {
-                    this.func_177183_a(entitylivingbaseIn, modelbase, p_177182_2_, p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
-                }
-
-                return;
+                this.renderer.bindTexture(this.getArmorResource(itemarmor, flag));
             }
 
             switch (LayerArmorBase.LayerArmorBase$1.field_178747_a[itemarmor.getArmorMaterial().ordinal()]) {
@@ -217,7 +183,6 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
         }
 
         String s2 = String.format("%s:textures/models/armor/%s_layer_%d%s.png", new Object[]{ s1, s, Integer.valueOf(p_getArmorResource_3_ == 2 ? 2 : 1), p_getArmorResource_4_ == null ? "" : String.format("_%s", new Object[]{ p_getArmorResource_4_ }) });
-        s2 = Reflector.callString(Reflector.ForgeHooksClient_getArmorTexture, new Object[]{ p_getArmorResource_1_, p_getArmorResource_2_, s2, Integer.valueOf(p_getArmorResource_3_), p_getArmorResource_4_ });
         ResourceLocation resourcelocation = (ResourceLocation) ARMOR_TEXTURE_RES_MAP.get(s2);
 
         if (resourcelocation == null) {

@@ -136,7 +136,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         this.mapUploadedSprites.clear();
         this.listAnimatedSprites.clear();
         int i = Integer.MAX_VALUE;
-        Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPre, new Object[]{ this });
         int j = this.getMinSpriteSize();
         int k = 1 << this.mipmapLevels;
 
@@ -326,8 +325,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
             Config.getMinecraft().getTextureManager().bindTexture(locationBlocksTexture);
         }
-
-        Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPost, new Object[]{ this });
 
         if (Config.equals(System.getProperty("saveTextureMap"), "true")) {
             TextureUtil.saveGlTexture(this.basePath.replaceAll("/", "_"), this.getGlTextureId(), this.mipmapLevels, stitcher.getCurrentWidth(), stitcher.getCurrentHeight());

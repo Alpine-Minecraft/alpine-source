@@ -163,7 +163,6 @@ public abstract class EntityLiving extends EntityLivingBase {
      */
     public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
         this.attackTarget = entitylivingbaseIn;
-        Reflector.callVoid(Reflector.ForgeHooks_onLivingSetAttackTarget, new Object[]{ this, entitylivingbaseIn });
     }
 
     /**

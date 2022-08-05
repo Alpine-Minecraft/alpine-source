@@ -51,7 +51,6 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 
                 for (EnumWorldBlockLayer enumworldblocklayer: EnumWorldBlockLayer.values()) {
                     if (Reflector.callBoolean(block, Reflector.ForgeBlock_canRenderInLayer, new Object[]{ enumworldblocklayer })) {
-                        Reflector.callVoid(Reflector.ForgeHooksClient_setRenderLayer, new Object[]{ enumworldblocklayer });
                         IBakedModel ibakedmodel2 = (IBakedModel) Reflector.call(ibakedmodel, Reflector.ISmartBlockModel_handleBlockState, new Object[]{ iblockstate });
                         IBakedModel ibakedmodel3 = (new SimpleBakedModel.Builder(ibakedmodel2, texture)).makeBakedModel();
                         this.blockModelRenderer.renderModel(blockAccess, ibakedmodel3, state, pos, Tessellator.getInstance().getWorldRenderer());

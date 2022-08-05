@@ -144,9 +144,9 @@ public class RenderChunk {
             boolean[] aboolean = new boolean[ENUM_WORLD_BLOCK_LAYERS.length];
             BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
             Iterator iterator = BlockPosM.getAllInBoxMutable(blockpos, blockpos1).iterator();
-            boolean flag1 = Reflector.ForgeBlock_hasTileEntity.exists();
-            boolean flag2 = Reflector.ForgeBlock_canRenderInLayer.exists();
-            boolean flag3 = Reflector.ForgeHooksClient_setRenderLayer.exists();
+            boolean flag1 = false;
+            boolean flag2 = false;
+            boolean flag3 = false;
 
             while (iterator.hasNext()) {
                 BlockPosM blockposm = (BlockPosM) iterator.next();
@@ -189,10 +189,6 @@ public class RenderChunk {
                         if (!flag4) {
                             continue;
                         }
-                    }
-
-                    if (flag3) {
-                        Reflector.callVoid(Reflector.ForgeHooksClient_setRenderLayer, new Object[]{ enumworldblocklayer });
                     }
 
                     if (this.fixBlockLayer) {

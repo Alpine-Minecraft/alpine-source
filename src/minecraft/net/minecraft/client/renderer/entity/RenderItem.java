@@ -320,16 +320,11 @@ public class RenderItem implements IResourceManagerReloadListener {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.pushMatrix();
 
-        if (Reflector.ForgeHooksClient_handleCameraTransforms.exists()) {
-            model = (IBakedModel) Reflector.call(Reflector.ForgeHooksClient_handleCameraTransforms, new Object[]{ model, cameraTransformType });
-        }
-        else {
-            ItemCameraTransforms itemcameratransforms = model.getItemCameraTransforms();
-            itemcameratransforms.applyTransform(cameraTransformType);
+        ItemCameraTransforms itemcameratransforms = model.getItemCameraTransforms();
+        itemcameratransforms.applyTransform(cameraTransformType);
 
-            if (this.func_183005_a(itemcameratransforms.getTransform(cameraTransformType))) {
-                GlStateManager.cullFace(1028);
-            }
+        if (this.func_183005_a(itemcameratransforms.getTransform(cameraTransformType))) {
+            GlStateManager.cullFace(1028);
         }
 
         this.renderItem(stack, model);
@@ -358,14 +353,7 @@ public class RenderItem implements IResourceManagerReloadListener {
         GlStateManager.blendFunc(770, 771);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.setupGuiTransform(x, y, ibakedmodel.isGui3d());
-
-        if (Reflector.ForgeHooksClient_handleCameraTransforms.exists()) {
-            ibakedmodel = (IBakedModel) Reflector.call(Reflector.ForgeHooksClient_handleCameraTransforms, new Object[]{ ibakedmodel, ItemCameraTransforms.TransformType.GUI });
-        }
-        else {
-            ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
-        }
-
+        ibakedmodel.getItemCameraTransforms().applyTransform(ItemCameraTransforms.TransformType.GUI);
         this.renderItem(stack, ibakedmodel);
         GlStateManager.disableAlpha();
         GlStateManager.disableRescaleNormal();
@@ -489,11 +477,7 @@ public class RenderItem implements IResourceManagerReloadListener {
                 this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 13, 2, 0, 0, 0, 255);
                 this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, 12, 1, (255 - j) / 4, 64, 0, 255);
                 this.func_181565_a(worldrenderer, xPosition + 2, yPosition + 13, i, 1, 255 - j, j, 0, 255);
-
-                if (!Reflector.ForgeHooksClient.exists()) {
-                    GlStateManager.enableBlend();
-                }
-
+                GlStateManager.enableBlend();
                 GlStateManager.enableAlpha();
                 GlStateManager.enableTexture2D();
                 GlStateManager.enableLighting();

@@ -105,63 +105,61 @@ public class RenderItemFrame extends Render {
 
             GlStateManager.rotate((float) i * 360.0F / 8.0F, 0.0F, 0.0F, 1.0F);
 
-            if (!Reflector.postForgeBusEvent(Reflector.RenderItemInFrameEvent_Constructor, new Object[]{ itemFrame, this })) {
-                if (item instanceof ItemMap) {
-                    this.renderManager.renderEngine.bindTexture(mapBackgroundTextures);
-                    GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-                    float f = 0.0078125F;
-                    GlStateManager.scale(f, f, f);
-                    GlStateManager.translate(-64.0F, -64.0F, 0.0F);
-                    MapData mapdata = Items.filled_map.getMapData(entityitem.getEntityItem(), itemFrame.worldObj);
-                    GlStateManager.translate(0.0F, 0.0F, -1.0F);
+            if (item instanceof ItemMap) {
+                this.renderManager.renderEngine.bindTexture(mapBackgroundTextures);
+                GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+                float f = 0.0078125F;
+                GlStateManager.scale(f, f, f);
+                GlStateManager.translate(-64.0F, -64.0F, 0.0F);
+                MapData mapdata = Items.filled_map.getMapData(entityitem.getEntityItem(), itemFrame.worldObj);
+                GlStateManager.translate(0.0F, 0.0F, -1.0F);
 
-                    if (mapdata != null) {
-                        this.mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
+                if (mapdata != null) {
+                    this.mc.entityRenderer.getMapItemRenderer().renderMap(mapdata, true);
+                }
+            }
+            else {
+                TextureAtlasSprite textureatlassprite = null;
+
+                if (item == Items.compass) {
+                    textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite(TextureCompass.field_176608_l);
+
+                    if (Config.isShaders()) {
+                        ShadersTex.bindTextureMapForUpdateAndRender(this.mc.getTextureManager(), TextureMap.locationBlocksTexture);
+                    }
+                    else {
+                        this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+                    }
+
+                    if (textureatlassprite instanceof TextureCompass) {
+                        TextureCompass texturecompass = (TextureCompass) textureatlassprite;
+                        double d0 = texturecompass.currentAngle;
+                        double d1 = texturecompass.angleDelta;
+                        texturecompass.currentAngle = 0.0D;
+                        texturecompass.angleDelta = 0.0D;
+                        texturecompass.updateCompass(itemFrame.worldObj, itemFrame.posX, itemFrame.posZ, (double) MathHelper.wrapAngleTo180_float((float) (180 + itemFrame.facingDirection.getHorizontalIndex() * 90)), false, true);
+                        texturecompass.currentAngle = d0;
+                        texturecompass.angleDelta = d1;
+                    }
+                    else {
+                        textureatlassprite = null;
                     }
                 }
-                else {
-                    TextureAtlasSprite textureatlassprite = null;
 
-                    if (item == Items.compass) {
-                        textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite(TextureCompass.field_176608_l);
+                GlStateManager.scale(0.5F, 0.5F, 0.5F);
 
-                        if (Config.isShaders()) {
-                            ShadersTex.bindTextureMapForUpdateAndRender(this.mc.getTextureManager(), TextureMap.locationBlocksTexture);
-                        }
-                        else {
-                            this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-                        }
+                if (!this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull) {
+                    GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+                }
 
-                        if (textureatlassprite instanceof TextureCompass) {
-                            TextureCompass texturecompass = (TextureCompass) textureatlassprite;
-                            double d0 = texturecompass.currentAngle;
-                            double d1 = texturecompass.angleDelta;
-                            texturecompass.currentAngle = 0.0D;
-                            texturecompass.angleDelta = 0.0D;
-                            texturecompass.updateCompass(itemFrame.worldObj, itemFrame.posX, itemFrame.posZ, (double) MathHelper.wrapAngleTo180_float((float) (180 + itemFrame.facingDirection.getHorizontalIndex() * 90)), false, true);
-                            texturecompass.currentAngle = d0;
-                            texturecompass.angleDelta = d1;
-                        }
-                        else {
-                            textureatlassprite = null;
-                        }
-                    }
+                GlStateManager.pushAttrib();
+                RenderHelper.enableStandardItemLighting();
+                this.itemRenderer.func_181564_a(entityitem.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
+                RenderHelper.disableStandardItemLighting();
+                GlStateManager.popAttrib();
 
-                    GlStateManager.scale(0.5F, 0.5F, 0.5F);
-
-                    if (!this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull) {
-                        GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-                    }
-
-                    GlStateManager.pushAttrib();
-                    RenderHelper.enableStandardItemLighting();
-                    this.itemRenderer.func_181564_a(entityitem.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
-                    RenderHelper.disableStandardItemLighting();
-                    GlStateManager.popAttrib();
-
-                    if (textureatlassprite != null && textureatlassprite.getFrameCount() > 0) {
-                        textureatlassprite.updateAnimation();
-                    }
+                if (textureatlassprite != null && textureatlassprite.getFrameCount() > 0) {
+                    textureatlassprite.updateAnimation();
                 }
             }
             GlStateManager.enableLighting();

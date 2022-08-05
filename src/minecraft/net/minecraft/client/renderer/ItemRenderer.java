@@ -380,20 +380,16 @@ public class ItemRenderer {
             }
 
             if (iblockstate.getBlock().getRenderType() != -1) {
-                Object object = Reflector.getFieldValue(Reflector.RenderBlockOverlayEvent_OverlayType_BLOCK);
-
-                if (!Reflector.callBoolean(Reflector.ForgeEventFactory_renderBlockOverlay, new Object[]{ this.mc.thePlayer, Float.valueOf(partialTicks), object, iblockstate, blockpos })) {
-                    this.func_178108_a(partialTicks, this.mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(iblockstate));
-                }
+                this.func_178108_a(partialTicks, this.mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(iblockstate));
             }
         }
 
         if (!this.mc.thePlayer.isSpectator()) {
-            if (this.mc.thePlayer.isInsideOfMaterial(Material.water) && !Reflector.callBoolean(Reflector.ForgeEventFactory_renderWaterOverlay, new Object[]{ this.mc.thePlayer, Float.valueOf(partialTicks) })) {
+            if (this.mc.thePlayer.isInsideOfMaterial(Material.water)) {
                 this.renderWaterOverlayTexture(partialTicks);
             }
 
-            if (this.mc.thePlayer.isBurning() && !Reflector.callBoolean(Reflector.ForgeEventFactory_renderFireOverlay, new Object[]{ this.mc.thePlayer, Float.valueOf(partialTicks) })) {
+            if (this.mc.thePlayer.isBurning()) {
                 this.renderFireInFirstPerson(partialTicks);
             }
         }

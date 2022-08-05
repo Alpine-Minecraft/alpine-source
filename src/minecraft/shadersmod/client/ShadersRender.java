@@ -261,12 +261,6 @@ public class ShadersRender
             GlStateManager.popMatrix();
             GlStateManager.pushMatrix();
             minecraft.mcProfiler.endStartSection("shadow entities");
-
-            if (Reflector.ForgeHooksClient_setRenderPass.exists())
-            {
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(0)});
-            }
-
             renderglobal.renderEntities(entity, frustum, partialTicks);
             Shaders.checkGLError("shadow entities");
             GlStateManager.matrixMode(5888);
@@ -300,16 +294,6 @@ public class ShadersRender
                 minecraft.mcProfiler.endStartSection("shadow translucent");
                 renderglobal.renderBlockLayer(EnumWorldBlockLayer.TRANSLUCENT, (double)partialTicks, 2, entity);
                 Shaders.checkGLError("shadow translucent");
-            }
-
-            if (Reflector.ForgeHooksClient_setRenderPass.exists())
-            {
-                RenderHelper.enableStandardItemLighting();
-                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(1)});
-                renderglobal.renderEntities(entity, frustum, partialTicks);
-                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, new Object[] {Integer.valueOf(-1)});
-                RenderHelper.disableStandardItemLighting();
-                Shaders.checkGLError("shadow entities 1");
             }
 
             GlStateManager.shadeModel(7424);

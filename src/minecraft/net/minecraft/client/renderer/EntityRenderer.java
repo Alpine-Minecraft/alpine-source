@@ -295,9 +295,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             else if (entityIn instanceof EntityEnderman) {
                 this.loadShader(new ResourceLocation("shaders/post/invert.json"));
             }
-            else if (Reflector.ForgeHooksClient_loadEntityShader.exists()) {
-                Reflector.call(Reflector.ForgeHooksClient_loadEntityShader, new Object[]{ entityIn, this });
-            }
         }
     }
 
@@ -662,10 +659,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                 IBlockState iblockstate = this.mc.theWorld.getBlockState(blockpos);
                 Block block = iblockstate.getBlock();
 
-                if (Reflector.ForgeHooksClient_orientBedCamera.exists()) {
-                    Reflector.callVoid(Reflector.ForgeHooksClient_orientBedCamera, new Object[]{ this.mc.theWorld, blockpos, iblockstate, entity });
-                }
-                else if (block == Blocks.bed) {
+                if (block == Blocks.bed) {
                     int j = ((EnumFacing) iblockstate.getValue(BlockBed.FACING)).getHorizontalIndex();
                     GlStateManager.rotate((float) (j * 90), 0.0F, 1.0F, 0.0F);
                 }
@@ -877,7 +871,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                 }
 
                 flag = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) this.mc.getRenderViewEntity()).isPlayerSleeping();
-                boolean flag1 = !ReflectorForge.renderFirstPersonHand(this.mc.renderGlobal, p_renderHand_1_, p_renderHand_2_);
+                boolean flag1 = true;
 
                 if (flag1 && this.mc.gameSettings.thirdPersonView == 0 && !flag && !this.mc.gameSettings.hideGUI && !this.mc.playerController.isSpectator()) {
                     this.enableLightmap();
@@ -1203,12 +1197,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                 GlStateManager.clear(256);
 
                 try {
-                    if (Reflector.ForgeHooksClient_drawScreen.exists()) {
-                        Reflector.callVoid(Reflector.ForgeHooksClient_drawScreen, new Object[]{ this.mc.currentScreen, Integer.valueOf(j1), Integer.valueOf(k1), Float.valueOf(p_181560_1_) });
-                    }
-                    else {
-                        this.mc.currentScreen.drawScreen(j1, k1, p_181560_1_);
-                    }
+                    this.mc.currentScreen.drawScreen(j1, k1, p_181560_1_);
                 } catch (Throwable throwable) {
                     CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering screen");
                     CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
@@ -1485,17 +1474,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             GlStateManager.pushMatrix();
             RenderHelper.enableStandardItemLighting();
             this.mc.mcProfiler.endStartSection("entities");
-
-            if (Reflector.ForgeHooksClient_setRenderPass.exists()) {
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[]{ Integer.valueOf(0) });
-            }
-
             renderglobal.renderEntities(entity, frustum, partialTicks);
-
-            if (Reflector.ForgeHooksClient_setRenderPass.exists()) {
-                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[]{ Integer.valueOf(-1) });
-            }
-
             RenderHelper.disableStandardItemLighting();
             this.disableLightmap();
             GlStateManager.matrixMode(5888);
@@ -1507,7 +1486,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                 GlStateManager.disableAlpha();
                 this.mc.mcProfiler.endStartSection("outline");
 
-                if ((!Reflector.ForgeHooksClient_onDrawBlockHighlight.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onDrawBlockHighlight, new Object[]{ renderglobal, entityplayer, this.mc.objectMouseOver, Integer.valueOf(0), entityplayer.getHeldItem(), Float.valueOf(partialTicks) })) && !this.mc.gameSettings.hideGUI) {
+                if (!this.mc.gameSettings.hideGUI) {
                     renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, partialTicks);
                 }
                 GlStateManager.enableAlpha();
@@ -1522,7 +1501,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             GlStateManager.disableAlpha();
             this.mc.mcProfiler.endStartSection("outline");
 
-            if ((!Reflector.ForgeHooksClient_onDrawBlockHighlight.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onDrawBlockHighlight, new Object[]{ renderglobal, entityplayer1, this.mc.objectMouseOver, Integer.valueOf(0), entityplayer1.getHeldItem(), Float.valueOf(partialTicks) })) && !this.mc.gameSettings.hideGUI) {
+            if (!this.mc.gameSettings.hideGUI) {
                 renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, partialTicks);
             }
             GlStateManager.enableAlpha();
@@ -1610,16 +1589,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             Shaders.endWater();
         }
 
-        if (Reflector.ForgeHooksClient_setRenderPass.exists() && !this.debugView) {
-            RenderHelper.enableStandardItemLighting();
-            this.mc.mcProfiler.endStartSection("entities");
-            Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[]{ Integer.valueOf(1) });
-            this.mc.renderGlobal.renderEntities(entity, frustum, partialTicks);
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, new Object[]{ Integer.valueOf(-1) });
-            RenderHelper.disableStandardItemLighting();
-        }
-
         GlStateManager.shadeModel(7424);
         GlStateManager.depthMask(true);
         GlStateManager.enableCull();
@@ -1629,11 +1598,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
         if (entity.posY + (double) entity.getEyeHeight() >= 128.0D + (double) (this.mc.gameSettings.ofCloudsHeight * 128.0F)) {
             this.mc.mcProfiler.endStartSection("aboveClouds");
             this.renderCloudsCheck(renderglobal, partialTicks, pass);
-        }
-
-        if (Reflector.ForgeHooksClient_dispatchRenderLast.exists()) {
-            this.mc.mcProfiler.endStartSection("forge_render_last");
-            Reflector.callVoid(Reflector.ForgeHooksClient_dispatchRenderLast, new Object[]{ renderglobal, Float.valueOf(partialTicks) });
         }
 
         this.mc.mcProfiler.endStartSection("hand");
@@ -2096,10 +2060,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
         Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
         float f1 = -1.0F;
 
-        if (Reflector.ForgeHooksClient_getFogDensity.exists()) {
-            f1 = Reflector.callFloat(Reflector.ForgeHooksClient_getFogDensity, new Object[]{ this, entity, block, Float.valueOf(partialTicks), Float.valueOf(0.1F) });
-        }
-
         if (f1 >= 0.0F) {
             GlStateManager.setFogDensity(f1);
         }
@@ -2203,10 +2163,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             if (this.mc.theWorld.provider.doesXZShowFog((int) entity.posX, (int) entity.posZ)) {
                 GlStateManager.setFogStart(f * 0.05F);
                 GlStateManager.setFogEnd(f);
-            }
-
-            if (Reflector.ForgeHooksClient_onFogRender.exists()) {
-                Reflector.callVoid(Reflector.ForgeHooksClient_onFogRender, new Object[]{ this, entity, block, Float.valueOf(partialTicks), Integer.valueOf(p_78468_1_), Float.valueOf(f) });
             }
         }
 
