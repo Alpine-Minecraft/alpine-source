@@ -9,6 +9,7 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import me.alpine.Alpine;
+import me.alpine.event.impl.EventClick;
 import me.alpine.event.impl.EventKey;
 import me.alpine.event.impl.EventTick;
 import net.minecraft.block.Block;
@@ -1267,6 +1268,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
     }
 
     private void clickMouse() {
+        new EventClick(0).call();
         if (this.leftClickCounter <= 0) {
             this.thePlayer.swingItem();
 
@@ -1306,6 +1308,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
      * Called when user clicked he's mouse right button (place)
      */
     private void rightClickMouse() {
+        new EventClick(1).call();
         if (!this.playerController.func_181040_m()) {
             this.rightClickDelayTimer = 4;
             boolean flag = true;
