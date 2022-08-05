@@ -1041,7 +1041,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                 }
 
                 this.resize(this.displayWidth, this.displayHeight);
-                BlurUtil.onFrameBufferResize(this.displayWidth, this.displayHeight);
             }
         }
     }
@@ -1430,6 +1429,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         if (this.entityRenderer != null) {
             this.entityRenderer.updateShaderGroupSize(this.displayWidth, this.displayHeight);
         }
+
+        BlurUtil.onFrameBufferResize(this.displayWidth, this.displayHeight);
     }
 
     public MusicTicker func_181535_r() {

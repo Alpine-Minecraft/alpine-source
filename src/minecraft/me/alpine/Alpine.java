@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.alpine.event.EventManager;
 import me.alpine.mod.ModsManager;
+import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +48,9 @@ public class Alpine {
 
         /* This adds a shutdown hook to the JVM that will call this.onStop. */
         Runtime.getRuntime().addShutdownHook(new Thread(this::onStop));
+
+        /* Does an inital set for the framebuffer for the blur */
+        BlurUtil.onFrameBufferResize(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
     }
 
     /**
