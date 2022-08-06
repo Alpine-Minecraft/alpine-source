@@ -5,14 +5,11 @@ import me.alpine.event.EventTarget;
 import me.alpine.event.impl.EventRender2D;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
-import me.alpine.util.render.GuiUtil;
-import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.client.gui.ScaledResolution;
 
 public class ModWatermark extends Mod {
     public ModWatermark() {
         super("Watermark", "A descriptive description", EnumModCategory.HUD);
-        this.setEnabled(true);
     }
 
     @EventTarget

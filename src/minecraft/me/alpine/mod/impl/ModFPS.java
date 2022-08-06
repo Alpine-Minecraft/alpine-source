@@ -6,9 +6,7 @@ import me.alpine.event.impl.EventRender2D;
 import me.alpine.event.impl.EventTick;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
-import me.alpine.util.font.Fonts;
 import me.alpine.util.render.DeltaTime;
-import me.alpine.util.render.GuiUtil;
 import net.minecraft.client.Minecraft;
 
 import java.text.DecimalFormat;
@@ -19,7 +17,6 @@ public class ModFPS extends Mod {
 
     public ModFPS() {
         super("FPS", "Displays the current FPS", EnumModCategory.HUD);
-        this.setEnabled(true);
     }
 
     @EventTarget
