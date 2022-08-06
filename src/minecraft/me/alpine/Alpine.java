@@ -3,12 +3,15 @@ package me.alpine;
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.event.EventManager;
+import me.alpine.event.EventTarget;
+import me.alpine.event.impl.EventKey;
+import me.alpine.gui.click.GuiClick;
 import me.alpine.mod.ModsManager;
 import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
 
 @Getter @Setter
 public class Alpine {
@@ -28,6 +31,8 @@ public class Alpine {
     private final ModsManager modsManager;
 
     private Alpine() {
+        EventManager.register(this);
+
         this.name = "Alpine";
         this.version = "0.1";
         this.owners = new String[]{"iSTeeWx_", "Audi"};
@@ -59,5 +64,12 @@ public class Alpine {
     public void onStop() {
         logger.info("[Alpine] Stopping!");
         EventManager.clean();
+    }
+
+    @EventTarget
+    public void onKey(EventKey e) {
+        if (e.getKey() == Keyboard.KEY_RSHIFT) {
+            Minecraft.getMinecraft().displayGuiScreen(GuiClick.getInstance());
+        }
     }
 }
