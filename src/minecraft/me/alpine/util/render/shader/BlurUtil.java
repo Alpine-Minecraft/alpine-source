@@ -62,7 +62,7 @@ public final class BlurUtil {
 
         @Override
         public void updateUniforms() {
-            final float radius = 20.f;
+            final float radius = 50.0f;
 
             glUniform1i(this.getUniformLocation("texture"), 0);
             glUniform1i(this.getUniformLocation("texture2"), 20);

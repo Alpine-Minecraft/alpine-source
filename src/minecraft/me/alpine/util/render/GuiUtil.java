@@ -1,10 +1,12 @@
 package me.alpine.util.render;
 
 import lombok.experimental.UtilityClass;
+import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 @UtilityClass
@@ -98,6 +100,45 @@ public final class GuiUtil {
         GlStateManager.disableBlend();
     }
 
+    public void drawRoundedRect(double x, double y, double x2, double y2, double radius, int color) {
+        drawRoundedRect(x, y, x2, y2, radius, radius, radius, radius, color);
+    }
+
+    public void drawRoundedRect(double x, double y, double x2, double y2,
+                                double rTopLeft, double rTopRight, double rBottomLeft, double rBottomRight, int color) {
+        GL11.glPushAttrib(0);
+        GL11.glScaled(0.5D, 0.5D, 0.5D);
+        x *= 2.0D;
+        y *= 2.0D;
+        x2 *= 2.0D;
+        y2 *= 2.0D;
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        RenderUtil.glSetColor(color);
+
+        GL11.glBegin(GL11.GL_POLYGON);
+        {
+            int i;
+            for (i = 0; i <= 90; i += 3)
+                GL11.glVertex3d(x + rTopLeft + Math.sin(i * Math.PI / 180.0D) * rTopLeft * -1.0D, y + rTopLeft + Math.cos(i * Math.PI / 180.0D) * rTopLeft * -1.0D, 0.0D);
+            for (i = 90; i <= 180; i += 3)
+                GL11.glVertex3d(x + rBottomLeft + Math.sin(i * Math.PI / 180.0D) * rBottomLeft * -1.0D, y2 - rBottomLeft + Math.cos(i * Math.PI / 180.0D) * rBottomLeft * -1.0D, 0.0D);
+            for (i = 0; i <= 90; i += 3)
+                GL11.glVertex3d(x2 - rBottomRight + Math.sin(i * Math.PI / 180.0D) * rBottomRight, y2 - rBottomRight + Math.cos(i * Math.PI / 180.0D) * rBottomRight, 0.0D);
+            for (i = 90; i <= 180; i += 3)
+                GL11.glVertex3d(x2 - rTopRight + Math.sin(i * Math.PI / 180.0D) * rTopRight, y + rTopRight + Math.cos(i * Math.PI / 180.0D) * rTopRight, 0.0D);
+        }
+        GL11.glEnd();
+
+        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
+        GL11.glScaled(2.0D, 2.0D, 2.0D);
+        GL11.glPopAttrib();
+    }
+
     public void drawCircle(double x, double y, double radius, int color) {
         GL11.glPushAttrib(0);
         GL11.glScaled(0.5, 0.5, 0.5);
@@ -125,6 +166,25 @@ public final class GuiUtil {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glScaled(2.0D, 2.0D, 2.0D);
         GL11.glPopAttrib();
+    }
+
+    /**
+     * Draws a rectangle with rounded corners and a blurred background.
+     * @param x The position of the left edge of the rectangle.
+     * @param y The position of the top edge of the rectangle.
+     * @param x2 The position of the right edge of the rectangle.
+     * @param y2 The position of the bottom edge of the rectangle.
+     * @param opacity How dark the background should be (0-255).
+     * @param cornerSize The size of the rounded corners.
+     */
+    public void drawFrostedGlass(double x, double y, double x2, double y2, int opacity, int tint, int cornerSize) {
+        BlurUtil.blurArea(() -> {
+            drawRoundedRect(x, y, x2, y2, cornerSize, -1);
+        });
+
+        opacity = MathHelper.clamp_int(opacity, 0, 255);
+        int c = (opacity << 24) | (tint & 0xFFFFFF);
+        drawRoundedRect(x, y, x2, y2, cornerSize, c);
     }
 
 }

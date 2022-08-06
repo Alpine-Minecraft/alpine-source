@@ -7,6 +7,7 @@ import me.alpine.event.impl.EventTick;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
 import me.alpine.util.render.DeltaTime;
+import me.alpine.util.render.GuiUtil;
 import net.minecraft.client.Minecraft;
 
 import java.text.DecimalFormat;
@@ -31,5 +32,7 @@ public class ModFPS extends Mod {
         DecimalFormat df = new DecimalFormat("#");
         String s = df.format(this.fpsSmoothed);
         mc.fontRendererObj.drawStringWithShadow(String.format("FPS: %s", s), 2, 2, 0x00d9ff);
+
+        GuiUtil.drawFrostedGlass(100, 100, 200, 200, 100, 0x202020, 8);
     }
 }
