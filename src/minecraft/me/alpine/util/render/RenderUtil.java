@@ -1,7 +1,7 @@
 package me.alpine.util.render;
 
 import lombok.experimental.UtilityClass;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.renderer.GlStateManager;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
@@ -9,12 +9,12 @@ import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
 @UtilityClass
 public class RenderUtil {
     public void glSetColor(final int color) {
-        final double red = (color >> 16 & 0xFF) / 255.0D;
-        final double green = (color >> 8 & 0xFF) / 255.0D;
-        final double blue = (color & 0xFF) / 255.0D;
-        final double alpha = (color >> 24 & 0xFF) / 255.0D;
+        final float red = (color >> 16 & 0xFF) / 255.0F;
+        final float green = (color >> 8 & 0xFF) / 255.0F;
+        final float blue = (color & 0xFF) / 255.0F;
+        final float alpha = (color >> 24 & 0xFF) / 255.0F;
 
-        GL11.glColor4d(red, green, blue, alpha);
+        GlStateManager.color(red, green, blue, alpha);
     }
 
     public boolean glEnableBlend() {
