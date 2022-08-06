@@ -13,4 +13,8 @@ public class BaseProperty {
         this.description = "";
         this.hidden = false;
     }
+
+    public <T extends BaseProperty> T as(Class<T> clazz) {
+        return clazz.cast(this);
+    }
 }
