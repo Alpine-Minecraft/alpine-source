@@ -187,4 +187,28 @@ public final class GuiUtil {
         drawRoundedRect(x, y, x2, y2, cornerSize, c);
     }
 
+    /**
+     * Draws a rectangle with rounded corners and a blurred background.
+     * @param x The position of the left edge of the rectangle.
+     * @param y The position of the top edge of the rectangle.
+     * @param x2 The position of the right edge of the rectangle.
+     * @param y2 The position of the bottom edge of the rectangle.
+     * @param cornerSize The size of the rounded corners.
+     */
+    public void drawFrostedGlassDark(double x, double y, double x2, double y2, int cornerSize) {
+        drawFrostedGlass(x, y, x2, y2, 128, 0x121212, cornerSize);
+    }
+
+
+    /**
+     * Draws a rectangle with rounded corners and a blurred background.
+     * @param x The position of the left edge of the rectangle.
+     * @param y The position of the top edge of the rectangle.
+     * @param x2 The position of the right edge of the rectangle.
+     * @param y2 The position of the bottom edge of the rectangle.
+     * @param cornerSize The size of the rounded corners.
+     */
+    public void drawFrostedGlassLight(double x, double y, double x2, double y2, int cornerSize) {
+        drawFrostedGlass(x, y, x2, y2, 200, 0xF0F0F0, cornerSize);
+    }
 }
