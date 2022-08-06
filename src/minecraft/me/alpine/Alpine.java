@@ -7,6 +7,7 @@ import me.alpine.event.EventTarget;
 import me.alpine.event.impl.EventKey;
 import me.alpine.gui.click.GuiClick;
 import me.alpine.mod.ModsManager;
+import me.alpine.util.font.Fonts;
 import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
@@ -50,6 +51,7 @@ public class Alpine {
      */
     public void onStart() {
         logger.info("[Alpine] Starting Alpine on version " + version);
+        Fonts.setupFonts();
 
         /* This adds a shutdown hook to the JVM that will call this.onStop. */
         Runtime.getRuntime().addShutdownHook(new Thread(this::onStop));
