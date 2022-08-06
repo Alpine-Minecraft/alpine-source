@@ -7,15 +7,16 @@ import java.util.HashMap;
 
 @UtilityClass
 public class Fonts {
-    HashMap<String, MCFontRenderer> fonts;
+    HashMap<String, CFontRenderer> fonts;
 
     public void setupFonts() {
         fonts = new HashMap<>();
 
-        fonts.put("ProductSans 19", MCFontRenderer.create(new ResourceLocation("alpine/font/productsans/bold.ttf"), 19));
+        fonts.put("productsans 14", CFontRenderer.create(new ResourceLocation("alpine/font/productsans/bold.ttf"), 14));
+        fonts.put("productsans 19", CFontRenderer.create(new ResourceLocation("alpine/font/productsans/bold.ttf"), 19));
     }
 
-    public MCFontRenderer get(String name) {
+    public CFontRenderer get(String name) {
         return fonts.get(name);
     }
 }

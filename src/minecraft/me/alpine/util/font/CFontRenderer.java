@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MCFontRenderer extends CFont {
+public class CFontRenderer extends CFont {
     protected CFont.CharData[] boldChars = new CFont.CharData[256];
     protected CFont.CharData[] italicChars = new CFont.CharData[256];
     protected CFont.CharData[] boldItalicChars = new CFont.CharData[256];
@@ -21,13 +21,13 @@ public class MCFontRenderer extends CFont {
     private final int[] colorCode = new int[32];
 
 
-    public MCFontRenderer(Font font, boolean antiAlias, boolean fractionalMetrics) {
+    public CFontRenderer(Font font, boolean antiAlias, boolean fractionalMetrics) {
         super(font, antiAlias, fractionalMetrics);
         setupMinecraftColorcodes();
         setupBoldItalicIDs();
     }
 
-    public static MCFontRenderer create(final ResourceLocation fontLocation, final float fontSize) {
+    public static CFontRenderer create(final ResourceLocation fontLocation, final float fontSize) {
         Font font = null;
 
         try
@@ -45,7 +45,7 @@ public class MCFontRenderer extends CFont {
             return null;
         }
 
-        return new MCFontRenderer(font.deriveFont(fontSize), true, true);
+        return new CFontRenderer(font.deriveFont(fontSize), true, true);
     }
 
     public float drawString(String text, float x, float y, int color) {
