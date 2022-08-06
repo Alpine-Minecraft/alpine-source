@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import me.alpine.event.EventManager;
 import me.alpine.mod.property.BaseProperty;
+import me.alpine.mod.property.impl.*;
 import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Mod {
@@ -27,6 +29,36 @@ public class Mod {
         this.category = category;
         this.enabled = false;
         this.properties = new ArrayList<>();
+    }
+
+    public BooleanProperty addProperty(String name, boolean value) {
+        BooleanProperty property = new BooleanProperty(name, value);
+        this.properties.add(property);
+        return property;
+    }
+
+    public NumberProperty addProperty(String name, double value, double min, double max, double step) {
+        NumberProperty property = new NumberProperty(name, value, min, max, step);
+        this.properties.add(property);
+        return property;
+    }
+
+    public EnumProperty addProperty(String name, String value, String... values) {
+        EnumProperty property = new EnumProperty(name, value, values);
+        this.properties.add(property);
+        return property;
+    }
+
+    public ComboProperty addProperty(String name, String[] selectedValues, String[] values) {
+        ComboProperty property = new ComboProperty(name, selectedValues, values);
+        this.properties.add(property);
+        return property;
+    }
+
+    public FolderProperty addProperty(String name, BaseProperty... properties) {
+        FolderProperty property = new FolderProperty(name, Arrays.asList(properties));
+        this.properties.add(property);
+        return property;
     }
 
     public void onEnable() {
