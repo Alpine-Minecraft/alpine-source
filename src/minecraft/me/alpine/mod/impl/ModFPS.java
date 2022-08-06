@@ -6,6 +6,7 @@ import me.alpine.event.impl.EventRender2D;
 import me.alpine.event.impl.EventTick;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
+import me.alpine.util.font.Fonts;
 import me.alpine.util.render.DeltaTime;
 import me.alpine.util.render.GuiUtil;
 import net.minecraft.client.Minecraft;
@@ -23,8 +24,8 @@ public class ModFPS extends Mod {
 
     @EventTarget
     public void onTick(EventTick e) {
-        this.fps = 1000 / DeltaTime.get();
-        this.fpsSmoothed += (this.fps - this.fpsSmoothed) * 0.001 * DeltaTime.get();
+        this.fps = Minecraft.getDebugFPS();
+        this.fpsSmoothed += (this.fps - this.fpsSmoothed) * 0.1 * DeltaTime.get();
     }
 
     @EventTarget
@@ -32,7 +33,5 @@ public class ModFPS extends Mod {
         DecimalFormat df = new DecimalFormat("#");
         String s = df.format(this.fpsSmoothed);
         mc.fontRendererObj.drawStringWithShadow(String.format("FPS: %s", s), 2, 2, 0x00d9ff);
-
-        GuiUtil.drawFrostedGlass(100, 100, 200, 200, 100, 0x202020, 8);
     }
 }
