@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonSyntaxException;
+import me.alpine.Alpine;
+import me.alpine.mod.impl.ModBlockOverlay;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -2125,9 +2127,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
      */
     public void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int p_72731_3_, float partialTicks) {
         if (p_72731_3_ == 0 && movingObjectPositionIn.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            ModBlockOverlay overlay = (ModBlockOverlay) Alpine.getInstance().getModsManager().getMod(ModBlockOverlay.class);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.color(0.0F, 0.0F, 0.0F, 0.4F);
+            GlStateManager.color(overlay.getRed(), overlay.getGreen(), overlay.getBlue(), overlay.getOpacity());
             GL11.glLineWidth(2.0F);
             GlStateManager.disableTexture2D();
 
@@ -2154,6 +2157,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             if (Config.isShaders()) {
                 Shaders.enableTexture2D();
             }
+
+
 
             GlStateManager.disableBlend();
         }
