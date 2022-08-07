@@ -1,15 +1,18 @@
 package me.alpine.mod.property.impl;
 
-import lombok.Getter;
 import lombok.Setter;
 import me.alpine.mod.property.BaseProperty;
 
 public final class BooleanProperty extends BaseProperty {
-    @Getter @Setter private boolean value;
+    @Setter private boolean value;
 
     public BooleanProperty(final String name, final boolean value) {
         super(name);
         this.value = value;
+    }
+
+    public boolean getValue() {
+        return value;
     }
 
     public void toggle() {
