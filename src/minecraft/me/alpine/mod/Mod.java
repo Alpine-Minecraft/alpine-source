@@ -7,6 +7,7 @@ import me.alpine.mod.property.BaseProperty;
 import me.alpine.mod.property.impl.*;
 import net.minecraft.client.Minecraft;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +58,12 @@ public class Mod {
 
     public FolderProperty addProperty(String name, BaseProperty... properties) {
         FolderProperty property = new FolderProperty(name, Arrays.asList(properties));
+        this.properties.add(property);
+        return property;
+    }
+
+    public ColorProperty addProperty(String name, Color color) {
+        ColorProperty property = new ColorProperty(name, color);
         this.properties.add(property);
         return property;
     }
