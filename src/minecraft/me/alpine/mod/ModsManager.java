@@ -2,10 +2,7 @@ package me.alpine.mod;
 
 import lombok.Getter;
 import me.alpine.event.EventManager;
-import me.alpine.mod.impl.ModCPS;
-import me.alpine.mod.impl.ModFPS;
-import me.alpine.mod.impl.ModTest;
-import me.alpine.mod.impl.ModWatermark;
+import me.alpine.mod.impl.*;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -23,5 +20,6 @@ public class ModsManager {
         this.mods.add(new ModCPS());
         this.mods.add(new ModWatermark());
         this.mods.add(new ModTest());
+        this.mods.add(new ModPing());
     }
 }
