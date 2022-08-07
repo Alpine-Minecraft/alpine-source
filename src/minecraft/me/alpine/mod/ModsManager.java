@@ -22,4 +22,13 @@ public class ModsManager {
         this.mods.add(new ModTest());
         this.mods.add(new ModPing());
     }
+
+    public Mod getMod(Class<Mod> clazz) {
+        for (Mod mod : mods) {
+            if (mod.getClass() == clazz) {
+                return mod;
+            }
+        }
+        return null;
+    }
 }
