@@ -2,6 +2,7 @@ package me.alpine.event;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.Alpine;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -18,7 +19,7 @@ public class Event {
         try {
             EventManager.invoke(this);
         } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            throw new RuntimeException("Failed to Invoke Method", e);
+            Alpine.getInstance().getLogger().error("Failed to Invoke Method", e);
         }
     }
 }
