@@ -19,10 +19,11 @@ public final class NumberProperty extends BaseProperty {
         this.step = step;
     }
 
-    public void setValue(double value) {
+    public double setValue(double value) {
         double d = 1 / this.step;
 
         /* This will clamp the value and round it to the nearest step */
         this.value = Math.round(MathHelper.clamp_double(value, min, max) * d) / d;
+        return this.value;
     }
 }
