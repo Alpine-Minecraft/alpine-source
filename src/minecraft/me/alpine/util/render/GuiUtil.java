@@ -132,10 +132,50 @@ public final class GuiUtil {
         }
         GL11.glEnd();
 
-        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
         GL11.glScaled(2.0D, 2.0D, 2.0D);
+        GL11.glPopAttrib();
+    }
+
+    public void drawRoundedRectOutline(double x, double y, double x2, double y2, double radius, int color) {
+        drawRoundedRectOutline(x, y, x2, y2, radius, radius, radius, radius, color);
+    }
+
+    public void drawRoundedRectOutline(double x, double y, double x2, double y2,
+                                double rTopLeft, double rTopRight, double rBottomLeft, double rBottomRight, int color) {
+        GL11.glPushAttrib(0);
+        GL11.glScaled(2.0D, 2.0D, 2.0D);
+        x *= 0.5D;
+        y *= 0.5D;
+        x2 *= 0.5D;
+        y2 *= 0.5D;
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+        GL11.glLineWidth(0.1F);
+        RenderUtil.glSetColor(color);
+
+        GL11.glBegin(GL11.GL_LINE_LOOP);
+        {
+            int i;
+            for (i = 0; i <= 90; i += 3)
+                GL11.glVertex3d(x + rTopLeft + Math.sin(i * Math.PI / 180.0D) * rTopLeft * -1.0D, y + rTopLeft + Math.cos(i * Math.PI / 180.0D) * rTopLeft * -1.0D, 0.0D);
+            for (i = 90; i <= 180; i += 3)
+                GL11.glVertex3d(x + rBottomLeft + Math.sin(i * Math.PI / 180.0D) * rBottomLeft * -1.0D, y2 - rBottomLeft + Math.cos(i * Math.PI / 180.0D) * rBottomLeft * -1.0D, 0.0D);
+            for (i = 0; i <= 90; i += 3)
+                GL11.glVertex3d(x2 - rBottomRight + Math.sin(i * Math.PI / 180.0D) * rBottomRight, y2 - rBottomRight + Math.cos(i * Math.PI / 180.0D) * rBottomRight, 0.0D);
+            for (i = 90; i <= 180; i += 3)
+                GL11.glVertex3d(x2 - rTopRight + Math.sin(i * Math.PI / 180.0D) * rTopRight, y + rTopRight + Math.cos(i * Math.PI / 180.0D) * rTopRight, 0.0D);
+        }
+        GL11.glEnd();
+
+        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
+        GL11.glScaled(0.5D, 0.5D, 0.5D);
         GL11.glPopAttrib();
     }
 
