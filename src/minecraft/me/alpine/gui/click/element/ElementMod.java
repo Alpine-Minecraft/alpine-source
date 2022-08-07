@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.alpine.mod.Mod;
 import me.alpine.mod.property.BaseProperty;
 import me.alpine.util.font.Fonts;
+import me.alpine.util.render.GuiUtil;
 
 import java.util.ArrayList;
 
@@ -37,10 +38,15 @@ public class ElementMod {
     }
 
     public void onInit() {
-        x = parent.getParent().getBgX() + 3;
-        y = parent.getY() + 3 + parent.getH() + (index * (Fonts.get("productsans 19").getHeight() + 4));
-        w = Fonts.get("productsans 19").getStringWidth(name) + 8;
-        h = Fonts.get("productsans 19").getHeight() + 4;
+        x = parent.getParent().getBgX() + 5;
+        y = parent.getY() + 8 + parent.getH();
+        w = (int) (getParent().getParent().getBgWidth() / 3.5);
+        h = 16;
+
+        if (index - 1 >= 0) {
+            ElementMod prev = parent.getChildren().get(index - 1);
+            y = prev.getY() + prev.getH() + 3;
+        }
     }
 
     public void onClose() {
@@ -49,6 +55,18 @@ public class ElementMod {
 
     public void onRender(int mouseX, int mouseY) {
         if (parent.isOpened()) {
+
+            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 3, 0xFF252535);
+
+            int radioButtonX = x + w - h / 4 - 3;
+            int radioButtonY = y + h / 2;
+            int radioButtonColor = -1;
+
+            if (mod.isEnabled()) {
+                radioButtonColor = 0xFF3080ed;
+                GuiUtil.drawCircle(radioButtonX, radioButtonY, h / 5, radioButtonColor);
+            }
+            GuiUtil.drawCircleOutline(radioButtonX, radioButtonY, h / 4, 1, radioButtonColor);
 
 
             Fonts.get("productsans 19").drawString(name, x, y, mod.isEnabled() ? 0xFF22AA22 : 0xFF000000);
