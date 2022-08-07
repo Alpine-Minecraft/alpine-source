@@ -21,6 +21,7 @@ public class ModsManager {
         this.mods.add(new ModWatermark());
         this.mods.add(new ModTest());
         this.mods.add(new ModPing());
+        this.mods.add(new ModMemory());
     }
 
     public Mod getMod(Class<Mod> clazz) {
