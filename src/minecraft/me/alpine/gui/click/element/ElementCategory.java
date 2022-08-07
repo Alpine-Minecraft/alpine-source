@@ -2,7 +2,6 @@ package me.alpine.gui.click.element;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.alpine.Alpine;
 import me.alpine.gui.click.GuiClick;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;

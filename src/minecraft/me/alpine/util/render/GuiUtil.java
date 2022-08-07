@@ -161,9 +161,11 @@ public final class GuiUtil {
             GL11.glVertex2d(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
         }
         GL11.glEnd();
-        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+//        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
         GL11.glScaled(2.0D, 2.0D, 2.0D);
         GL11.glPopAttrib();
     }
@@ -191,9 +193,13 @@ public final class GuiUtil {
             GL11.glVertex2d(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
         }
         GL11.glEnd();
-        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+//        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+
+
         GL11.glScaled(2.0D, 2.0D, 2.0D);
         GL11.glPopAttrib();
     }

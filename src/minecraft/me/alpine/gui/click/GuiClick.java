@@ -78,8 +78,10 @@ public class GuiClick extends GuiScreen {
 
         GuiUtil.drawRoundedRect(bgX - 0.5, bgY - 0.5, bgX + bgWidth + 0.5, bgY + bgHeight + 0.5, 8, 0xFF000000);
         GuiUtil.drawRoundedRect(bgX, bgY, bgX + bgWidth, bgY + bgHeight, 8, Theme.getBackgroundColor());
+
         final int barY = getChildren().get(0).getY() + getChildren().get(0).getH() + 2;
         GuiUtil.drawRect(bgX, barY, bgX + bgWidth, barY + 1, Theme.getTrimColor());
+        GuiUtil.drawRoundedRect(bgX, barY + 1, getChildren().get(1).getChildren().get(0).getX() + getChildren().get(1).getChildren().get(0).getW() + 5, bgY + bgHeight, 0, 0, 8, 0, 0xFF151525);
         final String s = Alpine.getInstance().getName() + " v" + Alpine.getInstance().getVersion();
         Fonts.get("nunito semibold 22").drawString(s, (bgX + bgWidth - Fonts.get("nunito semibold 22").getStringWidth(s) - 3) * animEased, bgY + 3, 0xFFFFFFFF);
 

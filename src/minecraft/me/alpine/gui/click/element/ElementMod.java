@@ -3,10 +3,15 @@ package me.alpine.gui.click.element;
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.mod.Mod;
-import me.alpine.mod.property.BaseProperty;
+import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
+import me.alpine.util.render.ColorUtil;
+import me.alpine.util.render.DeltaTime;
+import me.alpine.util.render.Easings;
 import me.alpine.util.render.GuiUtil;
+import net.minecraft.util.MathHelper;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ElementMod {
@@ -25,16 +30,13 @@ public class ElementMod {
     @Getter @Setter private int w;
     @Getter @Setter private int h;
 
+    @Getter @Setter private double animEnable;
+
     public ElementMod(ElementCategory parent, Mod mod, int index) {
         this.parent = parent;
         this.name = mod.getName();
         this.mod = mod;
         this.index = index;
-
-        for (int i = 0; i < mod.getProperties().size(); i++) {
-            BaseProperty property = mod.getProperties().get(i);
-//            children.add(new ElementProperty(this, property, i));
-        }
     }
 
     public void onInit() {
@@ -42,6 +44,8 @@ public class ElementMod {
         y = parent.getY() + 8 + parent.getH();
         w = (int) (getParent().getParent().getBgWidth() / 3.5);
         h = 16;
+
+        animEnable = mod.isEnabled() ? 1 : 0;
 
         if (index - 1 >= 0) {
             ElementMod prev = parent.getChildren().get(index - 1);
@@ -58,18 +62,22 @@ public class ElementMod {
 
             GuiUtil.drawRoundedRect(x, y, x + w, y + h, 3, 0xFF252535);
 
+            animEnable += (DeltaTime.get() * 0.01) * (mod.isEnabled() ? 1 : -1);
+            animEnable = MathHelper.clamp_double(animEnable, 0, 1);
+
             int radioButtonX = x + w - h / 4 - 3;
             int radioButtonY = y + h / 2;
-            int radioButtonColor = -1;
+            Color radioButtonColor = ColorUtil.interpolate(Color.WHITE, new Color(0xFF3080ed), animEnable);
 
-            if (mod.isEnabled()) {
-                radioButtonColor = 0xFF3080ed;
-                GuiUtil.drawCircle(radioButtonX, radioButtonY, h / 5, radioButtonColor);
+            if (animEnable > 0.0D) {
+                GuiUtil.drawCircle(radioButtonX, radioButtonY, (h / 6.5) * Easings.easeInOutExponential(animEnable), radioButtonColor.getRGB());
             }
-            GuiUtil.drawCircleOutline(radioButtonX, radioButtonY, h / 4, 1, radioButtonColor);
+            GuiUtil.drawCircleOutline(radioButtonX, radioButtonY, h / 4.0, 1, radioButtonColor.getRGB());
 
 
-            Fonts.get("productsans 19").drawString(name, x, y, mod.isEnabled() ? 0xFF22AA22 : 0xFF000000);
+            final CFontRenderer fr = Fonts.get("productsans 19");
+            final double textY = y + h / 2.0 - fr.getHeight() / 2.0;
+            fr.drawString(name, x + 2, textY, -1);
         }
     }
 
