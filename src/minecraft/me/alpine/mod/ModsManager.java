@@ -24,10 +24,10 @@ public class ModsManager {
         this.mods.add(new ModMemory());
     }
 
-    public Mod getMod(Class<? extends Mod> clazz) {
+    public <T extends Mod> T getMod(Class<T> clazz) {
         for (Mod mod : mods) {
             if (mod.getClass() == clazz) {
-                return mod;
+                return (T) mod;
             }
         }
         return null;
