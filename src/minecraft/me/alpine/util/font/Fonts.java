@@ -16,6 +16,7 @@ public class Fonts {
 
         fonts.put("productsans 14", CFontRenderer.create(new ResourceLocation("alpine/font/productsans/bold.ttf"), 14));
         fonts.put("productsans 19", CFontRenderer.create(new ResourceLocation("alpine/font/productsans/bold.ttf"), 19));
+        fonts.put("nunito semibold 22", CFontRenderer.create(new ResourceLocation("alpine/font/nunito/semibold.ttf"), 22));
         Alpine.getInstance().getLogger().info("[Alpine] Initialized Fonts");
     }
 
