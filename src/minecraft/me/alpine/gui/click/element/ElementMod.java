@@ -2,7 +2,14 @@ package me.alpine.gui.click.element;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.gui.click.Theme;
+import me.alpine.gui.click.element.elementproperty.ElementBaseProperty;
+import me.alpine.gui.click.element.elementproperty.ElementBooleanProperty;
+import me.alpine.gui.click.element.elementproperty.ElementNumberProperty;
 import me.alpine.mod.Mod;
+import me.alpine.mod.property.BaseProperty;
+import me.alpine.mod.property.impl.BooleanProperty;
+import me.alpine.mod.property.impl.NumberProperty;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
 import me.alpine.util.render.ColorUtil;
@@ -23,7 +30,8 @@ public class ElementMod {
 
     @Getter @Setter private boolean opened;
 
-    @Getter private final ArrayList<ElementProperty> children = new ArrayList<>();
+    @Getter private final ArrayList<ElementBaseProperty> children = new ArrayList<>();
+    @Getter @Setter private ElementBaseProperty selectedProperty;
 
     @Getter @Setter private int x;
     @Getter @Setter private int y;
@@ -37,6 +45,19 @@ public class ElementMod {
         this.name = mod.getName();
         this.mod = mod;
         this.index = index;
+
+        for (int i = 0; i < mod.getProperties().size(); i++) {
+            BaseProperty property = mod.getProperties().get(i);
+            addProperty(property);
+        }
+    }
+
+    public void addProperty(BaseProperty property) {
+        if (property instanceof BooleanProperty) {
+            children.add(new ElementBooleanProperty(this, (BooleanProperty) property, children.size()));
+        } else if (property instanceof NumberProperty) {
+            children.add(new ElementNumberProperty(this, (NumberProperty) property, children.size()));
+        }
     }
 
     public void onInit() {
@@ -51,16 +72,23 @@ public class ElementMod {
             ElementMod prev = parent.getChildren().get(index - 1);
             y = prev.getY() + prev.getH() + 3;
         }
+
+        children.forEach(ElementBaseProperty::onInit);
     }
 
     public void onClose() {
-
+        children.forEach(ElementBaseProperty::onClose);
     }
 
     public void onRender(int mouseX, int mouseY) {
         if (parent.isOpened()) {
 
-            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 3, 0xFF252535);
+            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 3, Theme.getBackgroundColor());
+
+            if (isOpened()) {
+                GuiUtil.drawRoundedRect(x + w - 2, y, x + w + 5, y + h, 0, Theme.getBackgroundColor());
+
+            }
 
             animEnable += (DeltaTime.get() * 0.01) * (mod.isEnabled() ? 1 : -1);
             animEnable = MathHelper.clamp_double(animEnable, 0, 1);
@@ -78,6 +106,8 @@ public class ElementMod {
             final CFontRenderer fr = Fonts.get("productsans 19");
             final double textY = y + h / 2.0 - fr.getHeight() / 2.0;
             fr.drawString(name, x + 2, textY, -1);
+
+            children.forEach(e -> e.onRender(mouseX, mouseY));
         }
     }
 
@@ -93,9 +123,11 @@ public class ElementMod {
                 parent.setSelectedMod(this);
             }
         }
+
+        children.forEach(e -> e.onClick(mouseX, mouseY, mouseButton));
     }
 
     public void onRelease(int mouseX, int mouseY, int state) {
-
+        children.forEach(e -> e.onRelease(mouseX, mouseY, state));
     }
 }
