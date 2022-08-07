@@ -2,8 +2,10 @@ package me.alpine.gui.click;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.Alpine;
 import me.alpine.gui.click.element.ElementCategory;
 import me.alpine.mod.EnumModCategory;
+import me.alpine.util.font.Fonts;
 import me.alpine.util.render.DeltaTime;
 import me.alpine.util.render.Easings;
 import me.alpine.util.render.GuiUtil;
@@ -47,6 +49,13 @@ public class GuiClick extends GuiScreen {
         this.bgY = this.height / 2 - bgHeight / 2;
 
         children.forEach(ElementCategory::onInit);
+
+        final String s = Alpine.getInstance().getName() + " v" + Alpine.getInstance().getVersion();
+        int buttonsWidth = children.stream().mapToInt(e -> e.getW() + 3).sum() + Fonts.get("nunito semibold 22").getStringWidth(s) + 8;
+        this.bgWidth = Math.max(this.bgWidth, buttonsWidth + 3);
+        this.bgX = this.width / 2 - bgWidth / 2;
+
+        children.forEach(ElementCategory::onInit);
     }
 
     @Override
@@ -68,7 +77,11 @@ public class GuiClick extends GuiScreen {
         GlStateManager.translate(-this.width / 2.0D, -this.height / 2.0D, 0);
 
         GuiUtil.drawRoundedRect(bgX - 0.5, bgY - 0.5, bgX + bgWidth + 0.5, bgY + bgHeight + 0.5, 8, 0xFF000000);
-        GuiUtil.drawRoundedRect(bgX, bgY, bgX + bgWidth, bgY + bgHeight, 8, 0xFFFFFFFF);
+        GuiUtil.drawRoundedRect(bgX, bgY, bgX + bgWidth, bgY + bgHeight, 8, Theme.getBackgroundColor());
+        final int barY = getChildren().get(0).getY() + getChildren().get(0).getH() + 2;
+        GuiUtil.drawRect(bgX, barY, bgX + bgWidth, barY + 1, Theme.getTrimColor());
+        final String s = Alpine.getInstance().getName() + " v" + Alpine.getInstance().getVersion();
+        Fonts.get("nunito semibold 22").drawString(s, (bgX + bgWidth - Fonts.get("nunito semibold 22").getStringWidth(s) - 3) * animEased, bgY + 3, 0xFFFFFFFF);
 
 
         for (ElementCategory category : children) {

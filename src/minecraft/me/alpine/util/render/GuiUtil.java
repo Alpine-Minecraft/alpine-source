@@ -168,6 +168,36 @@ public final class GuiUtil {
         GL11.glPopAttrib();
     }
 
+    public void drawCircleOutline(double x, double y, double radius, int outlineWidth, int color) {
+        GL11.glPushAttrib(0);
+        GL11.glScaled(0.5, 0.5, 0.5);
+        x *= 2.0D;
+        y *= 2.0D;
+        radius *= 2.0D;
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glLineWidth(outlineWidth);
+
+        // enable anti-aliasing
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+
+        RenderUtil.glSetColor(color);
+        GL11.glBegin(GL11.GL_LINE_LOOP);
+        /* Iterate backwards so that the polygon is not culled (drawing should be anti-clockwise),
+        also, step 3 times for optimisation */
+        for (int i = 360; i >= 0; i -= 3) {
+            double angle = i * Math.PI / 180;
+            GL11.glVertex2d(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
+        }
+        GL11.glEnd();
+        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glScaled(2.0D, 2.0D, 2.0D);
+        GL11.glPopAttrib();
+    }
+
     /**
      * Draws a rectangle with rounded corners and a blurred background.
      * @param x The position of the left edge of the rectangle.
