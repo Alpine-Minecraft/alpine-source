@@ -18,24 +18,25 @@ public class GuiClick extends GuiScreen {
 
     protected double onOpenAnimation = 0;
     @Getter @Setter private EnumModCategory renderedCategory;
-    @Getter private final ArrayList<ElementCategory> children = new ArrayList<>();
+    @Getter private final ArrayList<ElementCategory> children;
     @Getter @Setter private int bgWidth;
     @Getter @Setter private int bgHeight;
     @Getter @Setter private int bgX;
     @Getter @Setter private int bgY;
 
+    public GuiClick() {
+        children = new ArrayList<>();
+
+        for (int i = 0; i < EnumModCategory.values().length; i++) {
+            EnumModCategory category = EnumModCategory.values()[i];
+            children.add(new ElementCategory(this, category.toString(), category, i));
+        }
+    }
+
     @Override
     public void initGui() {
         if (renderedCategory == null) {
             renderedCategory = EnumModCategory.values()[0];
-        }
-
-        children.clear();
-
-        /* TODO: Move to constructor */
-        for (byte i = 0; i < EnumModCategory.values().length; i++) {
-            EnumModCategory category = EnumModCategory.values()[i];
-            children.add(new ElementCategory(this, category.toString(), category, i));
         }
 
         this.onOpenAnimation = 0;
