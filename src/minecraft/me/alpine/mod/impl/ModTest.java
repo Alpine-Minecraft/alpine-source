@@ -23,5 +23,24 @@ public class ModTest extends Mod {
                 new NumberProperty("Number Property", 0.0, 0.0, 1.0, 0.1),
                 new ComboProperty("Combo Property", new String[]{"Value 1", "Value 3"}, new String[]{"Value 1", "Value 2", "Value 3"}),
                 new EnumProperty("Enum Property", "Value 1", "Value 1", "Value 2", "Value 3"));
+        addProperty("Another Boolean Property", true);
+        addProperty("Yet Another Boolean Property", true);
+        addProperty("Still Another Boolean Property", true);
+        addProperty("And Another Boolean Property", true);
+        addProperty("And Still Another Boolean Property", true);
+        addProperty("And Again, a Boolean Property", true);
+        addProperty("it's like the 8th Boolean Property", true);
+        addProperty("and the 9th Boolean Property", true);
+        addProperty("wow, thats 10 :skull:", true);
+        addProperty("bruh what to write now", true);
+        addProperty("69420 ?", true);
+        addProperty("69 ?", true);
+        addProperty("420 ?", true);
+        addProperty("911 ?", true);
+        addProperty("8008135 ?", true);
+
+
+
+
     }
 }
