@@ -22,7 +22,9 @@ public class ElementBaseProperty {
 
     public void onRender(int mouseX, int mouseY) {}
 
-    public void onClick(int mouseX, int mouseY, int mouseButton) {}
+    public boolean onClick(int mouseX, int mouseY, int mouseButton) {
+        return false;
+    }
 
     public void onRelease(int mouseX, int mouseY, int state) {}
 }

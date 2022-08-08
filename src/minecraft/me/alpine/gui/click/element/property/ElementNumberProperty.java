@@ -89,12 +89,14 @@ public class ElementNumberProperty extends ElementBaseProperty {
     }
 
     @Override
-    public void onClick(int mouseX, int mouseY, int mouseButton) {
+    public boolean onClick(int mouseX, int mouseY, int mouseButton) {
         if (hovered) {
             if (mouseButton == 0) {
                 dragged = true;
+                return true;
             }
         }
+        return false;
     }
 
     @Override

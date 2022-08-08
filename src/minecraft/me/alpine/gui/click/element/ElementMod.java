@@ -5,11 +5,13 @@ import lombok.Setter;
 import me.alpine.gui.click.Theme;
 import me.alpine.gui.click.element.property.ElementBaseProperty;
 import me.alpine.gui.click.element.property.ElementBooleanProperty;
+import me.alpine.gui.click.element.property.multicombo.ElementComboProperty;
 import me.alpine.gui.click.element.property.singlecombo.ElementEnumProperty;
 import me.alpine.gui.click.element.property.ElementNumberProperty;
 import me.alpine.mod.Mod;
 import me.alpine.mod.property.BaseProperty;
 import me.alpine.mod.property.impl.BooleanProperty;
+import me.alpine.mod.property.impl.ComboProperty;
 import me.alpine.mod.property.impl.EnumProperty;
 import me.alpine.mod.property.impl.NumberProperty;
 import me.alpine.util.font.CFontRenderer;
@@ -61,6 +63,8 @@ public class ElementMod {
             children.add(new ElementNumberProperty(this, (NumberProperty) property, children.size()));
         } else if (property instanceof EnumProperty) {
             children.add(new ElementEnumProperty(this, (EnumProperty) property, children.size()));
+        } else if (property instanceof ComboProperty) {
+            children.add(new ElementComboProperty(this, (ComboProperty) property, children.size()));
         }
     }
 
@@ -111,7 +115,12 @@ public class ElementMod {
             final double textY = y + h / 2.0 - fr.getHeight() / 2.0;
             fr.drawString(name, x + 2, textY, -1);
 
-            children.forEach(e -> e.onRender(mouseX, mouseY));
+            /* renders children from last to first so that combo settings overlap the next setting */
+            for (int i = children.size() - 1; i >= 0; i--) {
+                children.get(i).onRender(mouseX, mouseY);
+            }
+
+//            children.forEach(e -> e.onRender(mouseX, mouseY));
         }
     }
 
@@ -128,7 +137,12 @@ public class ElementMod {
             }
         }
 
-        children.forEach(e -> e.onClick(mouseX, mouseY, mouseButton));
+        for (ElementBaseProperty child : children) {
+            if (child.onClick(mouseX, mouseY, mouseButton)) {
+                return;
+            }
+        }
+//        children.forEach(e -> e.onClick(mouseX, mouseY, mouseButton));
     }
 
     public void onRelease(int mouseX, int mouseY, int state) {

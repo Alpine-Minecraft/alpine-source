@@ -1,4 +1,4 @@
-package me.alpine.gui.click.element.property.singlecombo;
+package me.alpine.gui.click.element.property.multicombo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,8 +6,8 @@ import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
 import me.alpine.util.render.GuiUtil;
 
-public class ElementEnumChoiceProperty {
-    @Getter private final ElementEnumProperty parent;
+public class ElementComboChoiceProperty {
+    @Getter private final ElementComboProperty parent;
     @Getter private final String name;
     @Getter private final int index;
 
@@ -28,7 +28,7 @@ public class ElementEnumChoiceProperty {
 
     @Getter @Setter private CFontRenderer font;
 
-    public ElementEnumChoiceProperty(ElementEnumProperty parent, String value, int index) {
+    public ElementComboChoiceProperty(ElementComboProperty parent, String value, int index) {
         this.parent = parent;
         this.name = value;
         this.index = index;
@@ -44,7 +44,7 @@ public class ElementEnumChoiceProperty {
         totalH = h;
 
         if (getIndex() - 1 >= 0) {
-            ElementEnumChoiceProperty previous = getParent().getChoices().get(getIndex() - 1);
+            ElementComboChoiceProperty previous = getParent().getChoices().get(getIndex() - 1);
             y = previous.getY() + previous.getTotalH();
         }
     }
@@ -68,10 +68,15 @@ public class ElementEnumChoiceProperty {
     }
 
     public boolean onClick(int mouseX, int mouseY, int mouseButton) {
-        if (hovered) {
+        if (hovered && getParent().isExtended() && getParent().getAnimExpand() >= 0.1) {
             if (mouseButton == 0) {
-                selected = true;
-                getParent().setSelectedValue(getValue());
+                selected = !selected;
+
+                if (selected) {
+                    getParent().getSelectedChoices().add(this.getValue());
+                } else {
+                    getParent().getSelectedChoices().remove(this.getValue());
+                }
                 return true;
             }
         }

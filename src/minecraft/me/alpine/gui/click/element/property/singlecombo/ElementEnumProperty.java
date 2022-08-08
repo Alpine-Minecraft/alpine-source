@@ -144,14 +144,18 @@ public class ElementEnumProperty extends ElementBaseProperty {
     }
 
     @Override
-    public void onClick(int mouseX, int mouseY, int mouseButton) {
-        // if hovering selected box
-        if (mouseX >= selectedBoxX && mouseX <= selectedBoxX + selectedBoxWidth && mouseY >= selectedBoxY && mouseY <= selectedBoxY + selectedBoxHeight) {
-            extended = !extended;
-        }
+    public boolean onClick(int mouseX, int mouseY, int mouseButton) {
         for (ElementEnumChoiceProperty choice : choices) {
-            choice.onClick(mouseX, mouseY, mouseButton);
+            if (choice.onClick(mouseX, mouseY, mouseButton)) {
+                return true;
+            }
         }
+        if (hovered) {
+            extended = !extended;
+            return true;
+        }
+
+        return false;
     }
 
     @Override

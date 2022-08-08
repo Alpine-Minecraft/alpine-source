@@ -88,9 +88,11 @@ public class ElementBooleanProperty extends ElementBaseProperty {
     }
 
     @Override
-    public void onClick(int mouseX, int mouseY, int mouseButton) {
+    public boolean onClick(int mouseX, int mouseY, int mouseButton) {
         if (mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h) {
             property.toggle();
+            return true;
         }
+        return false;
     }
 }
