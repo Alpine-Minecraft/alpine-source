@@ -50,7 +50,7 @@ public class ElementEnumChoiceProperty {
     }
 
     public void onRender(int mouseX, int mouseY) {
-        if (getParent().isExtended()) {
+        if (getParent().isExtended() || getParent().getAnimExpand() > 0) {
             hovered = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
 
 

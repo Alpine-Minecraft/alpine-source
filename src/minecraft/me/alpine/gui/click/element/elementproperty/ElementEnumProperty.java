@@ -6,7 +6,11 @@ import me.alpine.gui.click.element.ElementMod;
 import me.alpine.mod.property.impl.EnumProperty;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
+import me.alpine.util.render.DeltaTime;
+import me.alpine.util.render.Easings;
 import me.alpine.util.render.GuiUtil;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.MathHelper;
 
 import java.util.ArrayList;
 
@@ -73,9 +77,6 @@ public class ElementEnumProperty extends ElementBaseProperty {
         for (ElementEnumChoiceProperty choice : choices) {
             choice.setW((int) selectedBoxWidth);
         }
-
-
-
     }
 
     @Override
@@ -93,13 +94,24 @@ public class ElementEnumProperty extends ElementBaseProperty {
                 double r = extended ? 0 : 5;
                 GuiUtil.drawRoundedRect(selectedBoxX, selectedBoxY,
                         selectedBoxX + selectedBoxWidth, selectedBoxY + selectedBoxHeight,
-                        5,5, r, r, 0xff6a6a6a);
+                        5, 5, r, r, 0xff6a6a6a);
                 choices.get(0).getFont().drawCenteredString(selectedValue, selectedBoxX + selectedBoxWidth / 2, selectedBoxY + selectedBoxHeight / 2.0 - 1, -1);
+
+                animExpand += (extended ? 1 : -1) * DeltaTime.get() * 0.005;
+                animExpand = MathHelper.clamp_double(animExpand, 0, 1);
+                double animExpandEased = Easings.easeInOutExponential(animExpand);
+
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(selectedBoxX, selectedBoxY + selectedBoxHeight, 0);
+                GlStateManager.scale(1, animExpandEased, 1);
+                GlStateManager.translate(-selectedBoxX, -(selectedBoxY + selectedBoxHeight), 0);
 
                 choices.forEach(choice -> {
                     choice.onRender(mouseX, mouseY);
                     choice.setSelected(choice.getValue().equals(selectedValue));
                 });
+
+                GlStateManager.popMatrix();
             }
         }
     }
