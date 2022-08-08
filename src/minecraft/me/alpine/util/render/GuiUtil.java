@@ -2,12 +2,17 @@ package me.alpine.util.render;
 
 import lombok.experimental.UtilityClass;
 import me.alpine.util.render.shader.BlurUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
 
 @UtilityClass
 public final class GuiUtil {
@@ -242,6 +247,52 @@ public final class GuiUtil {
 
         GL11.glScaled(2.0D, 2.0D, 2.0D);
         GL11.glPopAttrib();
+    }
+
+    public void drawColorPalette(int x, int y, int width, int height, Color color) {
+        double red = color.getRed() / 255.0D;
+        double green = color.getGreen() / 255.0D;
+        double blue = color.getBlue() / 255.0D;
+        double alpha = color.getAlpha() / 255.0D;
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+
+        GL11.glBegin(GL11.GL_POLYGON);
+        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+        GL11.glVertex2d(x, y);
+        GL11.glVertex2d(x, y + height);
+        GL11.glColor4d(red, green, blue, alpha);
+        GL11.glVertex2d(x + width, y + height);
+        GL11.glVertex2d(x + width, y);
+        GL11.glEnd();
+
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+
+        GL11.glBegin(GL11.GL_POLYGON);
+        GL11.glColor4d(0.0D, 0.0D, 0.0D, 0.0D);
+        GL11.glVertex2d(x, y);
+        GL11.glColor4d(0.0D, 0.0D, 0.0D, 1.0D);
+        GL11.glVertex2d(x, y + height);
+        GL11.glVertex2d(x + width, y + height);
+        GL11.glColor4d(0.0D, 0.0D, 0.0D, 0.0D);
+        GL11.glVertex2d(x + width, y);
+        GL11.glEnd();
+
+        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glShadeModel(GL11.GL_FLAT);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public void drawImage(int x, int y, int width, int height, String location) {
+        GlStateManager.enableBlend();
+        RenderUtil.glSetColor(-1);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(location));
+        Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 0, width, height, width, height);
     }
 
     /**
