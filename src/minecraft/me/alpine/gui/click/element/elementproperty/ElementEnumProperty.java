@@ -9,8 +9,10 @@ import me.alpine.util.font.Fonts;
 import me.alpine.util.render.DeltaTime;
 import me.alpine.util.render.Easings;
 import me.alpine.util.render.GuiUtil;
+import me.alpine.util.render.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 
@@ -100,6 +102,30 @@ public class ElementEnumProperty extends ElementBaseProperty {
                 animExpand += (extended ? 1 : -1) * DeltaTime.get() * 0.005;
                 animExpand = MathHelper.clamp_double(animExpand, 0, 1);
                 double animExpandEased = Easings.easeInOutExponential(animExpand);
+
+                double arrowX = selectedBoxX + selectedBoxWidth + 5;
+                double arrowY = selectedBoxY + selectedBoxHeight / 2.0 - 1;
+
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(arrowX, arrowY, 0);
+                GlStateManager.rotate((float) (180 * animExpandEased) + 180, 0.0F, 0.0F, 1.0F);
+
+                GL11.glEnable(GL11.GL_BLEND);
+                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                GL11.glDisable(GL11.GL_TEXTURE_2D);
+                GL11.glEnable(GL11.GL_LINE_SMOOTH);
+                GL11.glLineWidth(2f);
+                RenderUtil.glSetColor(0xFF3080ed);
+
+                GL11.glBegin(GL11.GL_LINE_STRIP);
+                {
+                    GL11.glVertex2d(2, 2);
+                    GL11.glVertex2d(0, -2);
+                    GL11.glVertex2d(-2, 2);
+                }
+                GL11.glEnd();
+
+                GlStateManager.popMatrix();
 
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(selectedBoxX, selectedBoxY + selectedBoxHeight, 0);
