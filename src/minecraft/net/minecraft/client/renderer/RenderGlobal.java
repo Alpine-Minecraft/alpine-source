@@ -2126,7 +2126,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
      */
     public void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int p_72731_3_, float partialTicks) {
         if (p_72731_3_ == 0 && movingObjectPositionIn.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-            ModBlockOverlay overlay = (ModBlockOverlay) Alpine.getInstance().getModsManager().getMod(ModBlockOverlay.class);
+            ModBlockOverlay overlay = Alpine.getInstance().getModsManager().getMod(ModBlockOverlay.class);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.color(overlay.getRed(), overlay.getGreen(), overlay.getBlue(), overlay.getOpacity());

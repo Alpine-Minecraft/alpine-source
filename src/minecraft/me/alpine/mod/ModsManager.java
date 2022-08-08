@@ -22,6 +22,7 @@ public class ModsManager {
         this.mods.add(new ModTest());
         this.mods.add(new ModPing());
         this.mods.add(new ModMemory());
+        this.mods.add(new ModBlockOverlay());
     }
 
     public <T extends Mod> T getMod(Class<T> clazz) {
