@@ -14,8 +14,7 @@ public class LayerSheepWool implements LayerRenderer {
     private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/sheep/sheep_fur.png");
     private final RenderSheep sheepRenderer;
     private final ModelSheep1 sheepModel = new ModelSheep1();
-    private static final String __OBFID = "CL_00002413";
-
+    
     public LayerSheepWool(RenderSheep sheepRendererIn) {
         this.sheepRenderer = sheepRendererIn;
     }

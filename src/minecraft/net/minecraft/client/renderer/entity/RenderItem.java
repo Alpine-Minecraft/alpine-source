@@ -45,8 +45,7 @@ public class RenderItem implements IResourceManagerReloadListener {
     public float zLevel;
     private final ItemModelMesher itemModelMesher;
     private final TextureManager textureManager;
-    private static final String __OBFID = "CL_00001003";
-    private ModelResourceLocation modelLocation = null;
+        private ModelResourceLocation modelLocation = null;
     private boolean renderItemGui = false;
     public ModelManager modelManager = null;
 
@@ -380,29 +379,25 @@ public class RenderItem implements IResourceManagerReloadListener {
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering item");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Item being rendered");
                 crashreportcategory.addCrashSectionCallable("Item Type", new Callable() {
-                    private static final String __OBFID = "CL_00001004";
-
+                    
                     public String call() throws Exception {
                         return String.valueOf((Object) stack.getItem());
                     }
                 });
                 crashreportcategory.addCrashSectionCallable("Item Aux", new Callable() {
-                    private static final String __OBFID = "CL_00001005";
-
+                    
                     public String call() throws Exception {
                         return String.valueOf(stack.getMetadata());
                     }
                 });
                 crashreportcategory.addCrashSectionCallable("Item NBT", new Callable() {
-                    private static final String __OBFID = "CL_00001006";
-
+                    
                     public String call() throws Exception {
                         return String.valueOf((Object) stack.getTagCompound());
                     }
                 });
                 crashreportcategory.addCrashSectionCallable("Item Foil", new Callable() {
-                    private static final String __OBFID = "CL_00001007";
-
+                    
                     public String call() throws Exception {
                         return String.valueOf(stack.hasEffect());
                     }
@@ -918,8 +913,7 @@ public class RenderItem implements IResourceManagerReloadListener {
         this.registerItem(Items.gold_nugget, "gold_nugget");
         this.registerItem(Items.nether_wart, "nether_wart");
         this.itemModelMesher.register(Items.potionitem, new ItemMeshDefinition() {
-            private static final String __OBFID = "CL_00002440";
-
+            
             public ModelResourceLocation getModelLocation(ItemStack stack) {
                 return ItemPotion.isSplash(stack.getMetadata()) ? new ModelResourceLocation("bottle_splash", "inventory") : new ModelResourceLocation("bottle_drinkable", "inventory");
             }
@@ -934,8 +928,7 @@ public class RenderItem implements IResourceManagerReloadListener {
         this.registerItem(Items.ender_eye, "ender_eye");
         this.registerItem(Items.speckled_melon, "speckled_melon");
         this.itemModelMesher.register(Items.spawn_egg, new ItemMeshDefinition() {
-            private static final String __OBFID = "CL_00002439";
-
+            
             public ModelResourceLocation getModelLocation(ItemStack stack) {
                 return new ModelResourceLocation("spawn_egg", "inventory");
             }
@@ -973,8 +966,7 @@ public class RenderItem implements IResourceManagerReloadListener {
         this.registerItem(Items.lead, "lead");
         this.registerItem(Items.name_tag, "name_tag");
         this.itemModelMesher.register(Items.banner, new ItemMeshDefinition() {
-            private static final String __OBFID = "CL_00002438";
-
+            
             public ModelResourceLocation getModelLocation(ItemStack stack) {
                 return new ModelResourceLocation("banner", "inventory");
             }
@@ -994,15 +986,13 @@ public class RenderItem implements IResourceManagerReloadListener {
         this.registerItem(Items.prismarine_shard, "prismarine_shard");
         this.registerItem(Items.prismarine_crystals, "prismarine_crystals");
         this.itemModelMesher.register(Items.enchanted_book, new ItemMeshDefinition() {
-            private static final String __OBFID = "CL_00002437";
-
+            
             public ModelResourceLocation getModelLocation(ItemStack stack) {
                 return new ModelResourceLocation("enchanted_book", "inventory");
             }
         });
         this.itemModelMesher.register(Items.filled_map, new ItemMeshDefinition() {
-            private static final String __OBFID = "CL_00002436";
-
+            
             public ModelResourceLocation getModelLocation(ItemStack stack) {
                 return new ModelResourceLocation("filled_map", "inventory");
             }

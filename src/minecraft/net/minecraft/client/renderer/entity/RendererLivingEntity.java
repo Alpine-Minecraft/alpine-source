@@ -33,8 +33,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
     protected FloatBuffer brightnessBuffer = GLAllocation.createDirectFloatBuffer(4);
     protected List<LayerRenderer<T>> layerRenderers = Lists.newArrayList();
     protected boolean renderOutlines = false;
-    private static final String __OBFID = "CL_00001012";
-    public static float NAME_TAG_RANGE = 64.0F;
+        public static float NAME_TAG_RANGE = 64.0F;
     public static float NAME_TAG_RANGE_SNEAK = 32.0F;
 
     public RendererLivingEntity(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
@@ -548,8 +547,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
     static final class RendererLivingEntity$1 {
         static final int[] field_178679_a = new int[Team.EnumVisible.values().length];
-        private static final String __OBFID = "CL_00002435";
-
+        
         static {
             try {
                 field_178679_a[Team.EnumVisible.ALWAYS.ordinal()] = 1;

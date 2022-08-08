@@ -48,8 +48,7 @@ public class CrashReport {
     private File crashReportFile;
     private boolean field_85059_f = true;
     private StackTraceElement[] stacktrace = new StackTraceElement[0];
-    private static final String __OBFID = "CL_00000990";
-    private boolean reported = false;
+        private boolean reported = false;
 
     public CrashReport(String descriptionIn, Throwable causeThrowable) {
         this.description = descriptionIn;
@@ -63,15 +62,13 @@ public class CrashReport {
      */
     private void populateEnvironment() {
         this.theReportCategory.addCrashSectionCallable("Minecraft Version", new Callable() {
-            private static final String __OBFID = "CL_00001197";
-
+            
             public String call() {
                 return "1.8.8";
             }
         });
         this.theReportCategory.addCrashSectionCallable("Operating System", new Callable() {
-            private static final String __OBFID = "CL_00001222";
-
+            
             public String call() {
                 return System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version");
             }
@@ -83,15 +80,13 @@ public class CrashReport {
             }
         });
         this.theReportCategory.addCrashSectionCallable("Java VM Version", new Callable() {
-            private static final String __OBFID = "CL_00001275";
-
+            
             public String call() {
                 return System.getProperty("java.vm.name") + " (" + System.getProperty("java.vm.info") + "), " + System.getProperty("java.vm.vendor");
             }
         });
         this.theReportCategory.addCrashSectionCallable("Memory", new Callable() {
-            private static final String __OBFID = "CL_00001302";
-
+            
             public String call() {
                 Runtime runtime = Runtime.getRuntime();
                 long i = runtime.maxMemory();
@@ -104,8 +99,7 @@ public class CrashReport {
             }
         });
         this.theReportCategory.addCrashSectionCallable("JVM Flags", new Callable() {
-            private static final String __OBFID = "CL_00001329";
-
+            
             public String call() {
                 RuntimeMXBean runtimemxbean = ManagementFactory.getRuntimeMXBean();
                 List list = runtimemxbean.getInputArguments();
@@ -126,8 +120,7 @@ public class CrashReport {
             }
         });
         this.theReportCategory.addCrashSectionCallable("IntCache", new Callable() {
-            private static final String __OBFID = "CL_00001355";
-
+            
             public String call() throws Exception {
                 return IntCache.getCacheSizes();
             }

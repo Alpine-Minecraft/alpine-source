@@ -25,8 +25,7 @@ public class DefaultVertexFormats {
     public static final VertexFormatElement TEX_2S = new VertexFormatElement(1, VertexFormatElement.EnumType.SHORT, VertexFormatElement.EnumUsage.UV, 2);
     public static final VertexFormatElement NORMAL_3B = new VertexFormatElement(0, VertexFormatElement.EnumType.BYTE, VertexFormatElement.EnumUsage.NORMAL, 3);
     public static final VertexFormatElement PADDING_1B = new VertexFormatElement(0, VertexFormatElement.EnumType.BYTE, VertexFormatElement.EnumUsage.PADDING, 1);
-    private static final String __OBFID = "CL_00002403";
-
+    
     public static void updateVertexFormats() {
         if (Config.isShaders()) {
             BLOCK = SVertexFormat.makeDefVertexFormatBlock();

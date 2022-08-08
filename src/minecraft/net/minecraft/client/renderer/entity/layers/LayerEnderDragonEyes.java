@@ -12,8 +12,7 @@ import shadersmod.client.Shaders;
 public class LayerEnderDragonEyes implements LayerRenderer {
     private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/enderdragon/dragon_eyes.png");
     private final RenderDragon dragonRenderer;
-    private static final String __OBFID = "CL_00002419";
-
+    
     public LayerEnderDragonEyes(RenderDragon dragonRendererIn) {
         this.dragonRenderer = dragonRendererIn;
     }

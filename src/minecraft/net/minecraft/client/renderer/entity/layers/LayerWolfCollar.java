@@ -13,8 +13,7 @@ import optifine.CustomColors;
 public class LayerWolfCollar implements LayerRenderer {
     private static final ResourceLocation WOLF_COLLAR = new ResourceLocation("textures/entity/wolf/wolf_collar.png");
     private final RenderWolf wolfRenderer;
-    private static final String __OBFID = "CL_00002405";
-
+    
     public LayerWolfCollar(RenderWolf wolfRendererIn) {
         this.wolfRenderer = wolfRendererIn;
     }

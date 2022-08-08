@@ -38,8 +38,7 @@ public enum ModelRotation implements IModelState, ITransformation {
     private final int quartersX;
     private final int quartersY;
     private static final ModelRotation[] $VALUES = new ModelRotation[]{ X0_Y0, X0_Y90, X0_Y180, X0_Y270, X90_Y0, X90_Y90, X90_Y180, X90_Y270, X180_Y0, X180_Y90, X180_Y180, X180_Y270, X270_Y0, X270_Y90, X270_Y180, X270_Y270 };
-    private static final String __OBFID = "CL_00002393";
-
+    
     private static int combineXY(int p_177521_0_, int p_177521_1_) {
         return p_177521_0_ * 360 + p_177521_1_;
     }

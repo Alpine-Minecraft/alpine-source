@@ -50,8 +50,7 @@ public enum EnumFacing implements IStringSerializable {
     private static final EnumFacing[] HORIZONTALS = new EnumFacing[4];
     private static final Map NAME_LOOKUP = Maps.newHashMap();
     private static final EnumFacing[] $VALUES = new EnumFacing[]{ DOWN, UP, NORTH, SOUTH, WEST, EAST };
-    private static final String __OBFID = "CL_00001201";
-
+    
     private EnumFacing(String p_i17_3_, int p_i17_4_, int p_i17_5_, int p_i17_6_, int p_i17_7_, String p_i17_8_, EnumFacing.AxisDirection p_i17_9_, EnumFacing.Axis p_i17_10_, Vec3i p_i17_11_) {
         this.index = p_i17_5_;
         this.horizontalIndex = p_i17_7_;
@@ -334,8 +333,7 @@ public enum EnumFacing implements IStringSerializable {
         static final int[] field_179515_a;
         static final int[] field_179513_b;
         static final int[] field_179514_c = new int[EnumFacing.Plane.values().length];
-        private static final String __OBFID = "CL_00002322";
-
+        
         static {
             try {
                 field_179514_c[EnumFacing.Plane.HORIZONTAL.ordinal()] = 1;
@@ -418,8 +416,7 @@ public enum EnumFacing implements IStringSerializable {
         private final String name;
         private final EnumFacing.Plane plane;
         private static final EnumFacing.Axis[] $VALUES = new EnumFacing.Axis[]{ X, Y, Z };
-        private static final String __OBFID = "CL_00002321";
-
+        
         private Axis(String p_i14_3_, int p_i14_4_, String p_i14_5_, EnumFacing.Plane p_i14_6_) {
             this.name = p_i14_5_;
             this.plane = p_i14_6_;
@@ -475,8 +472,7 @@ public enum EnumFacing implements IStringSerializable {
         private final int offset;
         private final String description;
         private static final EnumFacing.AxisDirection[] $VALUES = new EnumFacing.AxisDirection[]{ POSITIVE, NEGATIVE };
-        private static final String __OBFID = "CL_00002320";
-
+        
         private AxisDirection(String p_i15_3_, int p_i15_4_, int p_i15_5_, String p_i15_6_) {
             this.offset = p_i15_5_;
             this.description = p_i15_6_;
@@ -496,8 +492,7 @@ public enum EnumFacing implements IStringSerializable {
         VERTICAL("VERTICAL", 1);
 
         private static final EnumFacing.Plane[] $VALUES = new EnumFacing.Plane[]{ HORIZONTAL, VERTICAL };
-        private static final String __OBFID = "CL_00002319";
-
+        
         private Plane(String p_i16_3_, int p_i16_4_) {
         }
 

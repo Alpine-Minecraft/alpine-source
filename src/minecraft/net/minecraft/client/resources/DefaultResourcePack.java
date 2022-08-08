@@ -15,8 +15,7 @@ import java.util.Set;
 public class DefaultResourcePack implements IResourcePack {
     public static final Set defaultResourceDomains = ImmutableSet.of("minecraft", "realms");
     private final Map mapAssets;
-    private static final String __OBFID = "CL_00001073";
-
+    
     public DefaultResourcePack(Map mapAssetsIn) {
         this.mapAssets = mapAssetsIn;
     }

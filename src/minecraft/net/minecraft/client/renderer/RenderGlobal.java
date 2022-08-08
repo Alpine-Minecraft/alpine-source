@@ -182,8 +182,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
     private double prevRenderSortY;
     private double prevRenderSortZ;
     public boolean displayListEntitiesDirty = true;
-    private static final String __OBFID = "CL_00000954";
-    private CloudRenderer cloudRenderer;
+        private CloudRenderer cloudRenderer;
     public Entity renderedEntity;
     public Set chunksToResortTransparency = new LinkedHashSet();
     public Set chunksToUpdateForced = new LinkedHashSet();
@@ -2301,8 +2300,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             }
 
             crashreportcategory.addCrashSectionCallable("Position", new Callable() {
-                private static final String __OBFID = "CL_00000955";
-
+                
                 public String call() throws Exception {
                     return CrashReportCategory.getCoordinateInfo(xCoord, yCoord, zCoord);
                 }
@@ -2752,8 +2750,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
     static final class RenderGlobal$2 {
         static final int[] field_178037_a = new int[VertexFormatElement.EnumUsage.values().length];
-        private static final String __OBFID = "CL_00002535";
-
+        
         static {
             try {
                 field_178037_a[VertexFormatElement.EnumUsage.POSITION.ordinal()] = 1;
@@ -2780,8 +2777,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         final EnumFacing facing;
         final Set setFacing;
         final int counter;
-        private static final String __OBFID = "CL_00002534";
-
+        
         public ContainerLocalRenderInformation(RenderChunk p_i4_1_, EnumFacing p_i4_2_, int p_i4_3_) {
             this.setFacing = EnumSet.noneOf(EnumFacing.class);
             this.renderChunk = p_i4_1_;

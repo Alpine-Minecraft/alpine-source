@@ -37,8 +37,7 @@ public class RenderItemFrame extends Render {
     private final ModelResourceLocation itemFrameModel = new ModelResourceLocation("item_frame", "normal");
     private final ModelResourceLocation mapModel = new ModelResourceLocation("item_frame", "map");
     private RenderItem itemRenderer;
-    private static final String __OBFID = "CL_00001002";
-
+    
     public RenderItemFrame(RenderManager renderManagerIn, RenderItem itemRendererIn) {
         super(renderManagerIn);
         this.itemRenderer = itemRendererIn;

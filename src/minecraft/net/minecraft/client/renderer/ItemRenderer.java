@@ -53,8 +53,7 @@ public class ItemRenderer {
      * The index of the currently held item (0-8, or -1 if not yet updated)
      */
     private int equippedItemSlot = -1;
-    private static final String __OBFID = "CL_00000953";
-
+    
     public ItemRenderer(Minecraft mcIn) {
         this.mc = mcIn;
         this.renderManager = mcIn.getRenderManager();
@@ -548,8 +547,7 @@ public class ItemRenderer {
 
     static final class ItemRenderer$1 {
         static final int[] field_178094_a = new int[EnumAction.values().length];
-        private static final String __OBFID = "CL_00002537";
-
+        
         static {
             try {
                 field_178094_a[EnumAction.NONE.ordinal()] = 1;
