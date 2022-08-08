@@ -5,10 +5,12 @@ import lombok.Setter;
 import me.alpine.gui.click.Theme;
 import me.alpine.gui.click.element.elementproperty.ElementBaseProperty;
 import me.alpine.gui.click.element.elementproperty.ElementBooleanProperty;
+import me.alpine.gui.click.element.elementproperty.ElementEnumProperty;
 import me.alpine.gui.click.element.elementproperty.ElementNumberProperty;
 import me.alpine.mod.Mod;
 import me.alpine.mod.property.BaseProperty;
 import me.alpine.mod.property.impl.BooleanProperty;
+import me.alpine.mod.property.impl.EnumProperty;
 import me.alpine.mod.property.impl.NumberProperty;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
@@ -57,6 +59,8 @@ public class ElementMod {
             children.add(new ElementBooleanProperty(this, (BooleanProperty) property, children.size()));
         } else if (property instanceof NumberProperty) {
             children.add(new ElementNumberProperty(this, (NumberProperty) property, children.size()));
+        } else if (property instanceof EnumProperty) {
+            children.add(new ElementEnumProperty(this, (EnumProperty) property, children.size()));
         }
     }
 
