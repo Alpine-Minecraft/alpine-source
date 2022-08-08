@@ -16,6 +16,8 @@ public class ElementBaseProperty {
     @Getter @Setter protected int h;
     @Getter @Setter protected int totalH;
 
+    @Getter @Setter protected double scrollOffset;
+
     public void onInit() {}
 
     public void onClose() {}

@@ -46,6 +46,14 @@ public class ElementBooleanProperty extends ElementBaseProperty {
         if (getParent().isOpened()) {
             hovered = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
 
+            y = getParent().getParent().getY() + getParent().getH() + 8 - (int) getScrollOffset();
+            totalH = h + 3;
+
+            if (getIndex() - 1 >= 0) {
+                ElementBaseProperty previous = getParent().getChildren().get(getIndex() - 1);
+                y = previous.getY() + previous.getTotalH();
+            }
+
             double targetAnim;
 
             if (hovered) {

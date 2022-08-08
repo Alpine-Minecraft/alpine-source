@@ -87,6 +87,14 @@ public class ElementEnumProperty extends ElementBaseProperty {
         if (getParent().isOpened()) {
             hovered = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
 
+            y = getParent().getParent().getY() + getParent().getH() + 8 - (int) getScrollOffset();
+
+            if (getIndex() - 1 >= 0) {
+                ElementBaseProperty previous = getParent().getChildren().get(getIndex() - 1);
+                y = previous.getY() + previous.getTotalH();
+            }
+            selectedBoxY = this.y + this.h / 2.0 - selectedBoxHeight / 2.0;
+
             GuiUtil.drawRoundedRect(x, y, x + w, y + h, 5, 0xFF151525);
 
             CFontRenderer font = Fonts.get("productsans 14");

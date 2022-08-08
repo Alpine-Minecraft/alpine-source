@@ -15,11 +15,10 @@ import me.alpine.mod.property.BaseProperty;
 import me.alpine.mod.property.impl.*;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
-import me.alpine.util.render.ColorUtil;
-import me.alpine.util.render.DeltaTime;
-import me.alpine.util.render.Easings;
-import me.alpine.util.render.GuiUtil;
+import me.alpine.util.render.*;
 import net.minecraft.util.MathHelper;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,6 +41,9 @@ public class ElementMod {
     @Getter @Setter private int h;
 
     @Getter @Setter private double animEnable;
+
+    @Getter @Setter private double currentScroll;
+    @Getter @Setter private double targetScroll;
 
     public ElementMod(ElementCategory parent, Mod mod, int index) {
         this.parent = parent;
@@ -96,11 +98,30 @@ public class ElementMod {
 
             if (isOpened()) {
                 GuiUtil.drawRoundedRect(x + w - 2, y, x + w + 5, y + h, 0, Theme.getBackgroundColor());
-
             }
 
             animEnable += (DeltaTime.get() * 0.01) * (mod.isEnabled() ? 1 : -1);
             animEnable = MathHelper.clamp_double(animEnable, 0, 1);
+
+            double testX = x + w + 5;
+            double testY = getParent().getY() + getParent().getH() + 2;
+            double testX2 = getParent().getParent().getBgX() + getParent().getParent().getBgWidth();
+            double testY2 = getParent().getParent().getBgY() + getParent().getParent().getBgHeight();
+
+            if (mouseX > testX && mouseX < testX2 && mouseY > testY && mouseY < testY2) {
+                if (Mouse.hasWheel()){
+                    int wheel = Mouse.getDWheel();
+                    if (wheel < 0) {
+                        targetScroll += 10;
+                    } else if (wheel > 0) {
+                        targetScroll -= 10;
+                    }
+                }
+            }
+
+            targetScroll = MathHelper.clamp_double(targetScroll, 0, Math.max(0, children.stream().mapToInt(ElementBaseProperty::getTotalH).sum() - (testY2 - testY) + 10));
+            currentScroll += (targetScroll - currentScroll) * DeltaTime.get() * 0.01;
+
 
             int radioButtonX = x + w - h / 4 - 3;
             int radioButtonY = y + h / 2;
@@ -116,12 +137,15 @@ public class ElementMod {
             final double textY = y + h / 2.0 - fr.getHeight() / 2.0;
             fr.drawString(name, x + 2, textY, -1);
 
+            RenderUtil.prepareScissorBox(testX, testY, testX2 - testX, testY2 - testY);
+            GL11.glEnable(GL11.GL_SCISSOR_TEST);
             /* renders children from last to first so that combo settings overlap the next setting */
             for (int i = children.size() - 1; i >= 0; i--) {
                 children.get(i).onRender(mouseX, mouseY);
+                children.get(i).setScrollOffset(currentScroll);
             }
+            GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
-//            children.forEach(e -> e.onRender(mouseX, mouseY));
         }
     }
 
@@ -138,7 +162,13 @@ public class ElementMod {
             }
         }
 
+        double testY = getParent().getY() + getParent().getH() + 2;
+        double testY2 = getParent().getParent().getBgY() + getParent().getParent().getBgHeight();
+
         for (ElementBaseProperty child : children) {
+            if (child.getY() + child.getTotalH() < testY) continue;
+            if (child.getY() > testY2) continue;
+
             if (child.onClick(mouseX, mouseY, mouseButton)) {
                 return;
             }

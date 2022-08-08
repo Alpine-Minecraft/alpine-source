@@ -50,6 +50,13 @@ public class ElementNumberProperty extends ElementBaseProperty {
         if (getParent().isOpened()) {
             hovered = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
 
+            y = getParent().getParent().getY() + getParent().getH() + 8 - (int) getScrollOffset();
+
+            if (getIndex() - 1 >= 0) {
+                ElementBaseProperty previous = getParent().getChildren().get(getIndex() - 1);
+                y = previous.getY() + previous.getTotalH();
+            }
+
             final double MIN = property.getMin();
             final double MAX = property.getMax();
 
@@ -72,10 +79,10 @@ public class ElementNumberProperty extends ElementBaseProperty {
             GuiUtil.drawRoundedRect(x, y + h - 3, x + w, y + h, 0, 0, 5, 5, 0xff6a6a6a);
 
             double percent = (value - MIN) / (MAX - MIN);
-            RenderUtil.prepareScissorBox(x, y + h - 3, w * percent, 3);
-            GL11.glEnable(GL11.GL_SCISSOR_TEST);
-            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 5, 0xFF3080ed);
-            GL11.glDisable(GL11.GL_SCISSOR_TEST);
+//            RenderUtil.prepareScissorBox(x, y + h - 3, w * percent, 3);
+//            GL11.glEnable(GL11.GL_SCISSOR_TEST);
+            GuiUtil.drawRoundedRect(x, y, x + w * percent, y + h, 5, 0xFF3080ed);
+//            GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
 
 

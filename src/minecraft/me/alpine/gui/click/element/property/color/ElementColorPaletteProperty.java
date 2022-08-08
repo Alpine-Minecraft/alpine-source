@@ -76,6 +76,13 @@ public class ElementColorPaletteProperty {
         if (getParent().getAnimEnable() > 0) {
             hovered = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
 
+            y = parent.getY() + 2;
+            int paletteMargin = 3;
+            paletteY = y + paletteMargin;
+            int hueMargin = 3;
+            hueY = y + hueMargin;
+
+
             if (paletteDragged) {
                 saturation = (MathHelper.clamp_double(mouseX - paletteX, 0, paletteSize)) / (double) paletteSize;
                 brightness = 1 - (MathHelper.clamp_double(mouseY - paletteY, 0, paletteSize)) / (double) paletteSize;

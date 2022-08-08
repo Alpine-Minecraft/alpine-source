@@ -53,6 +53,12 @@ public class ElementComboChoiceProperty {
         if (getParent().isExtended() || getParent().getAnimExpand() > 0) {
             hovered = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
 
+            y = (int) (getParent().getSelectedBoxY() + getParent().getSelectedBoxHeight());
+
+            if (getIndex() - 1 >= 0) {
+                ElementComboChoiceProperty previous = getParent().getChoices().get(getIndex() - 1);
+                y = previous.getY() + previous.getTotalH();
+            }
 
             int color = selected ? 0xFF3080ed : 0xff606060;
             int r = index == getParent().getChoices().size() - 1 ? 5 : 0;
