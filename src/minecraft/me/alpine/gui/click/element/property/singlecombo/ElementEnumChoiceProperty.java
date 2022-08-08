@@ -1,4 +1,4 @@
-package me.alpine.gui.click.element.elementproperty;
+package me.alpine.gui.click.element.property.singlecombo;
 
 import lombok.Getter;
 import lombok.Setter;

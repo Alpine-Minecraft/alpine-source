@@ -1,8 +1,9 @@
-package me.alpine.gui.click.element.elementproperty;
+package me.alpine.gui.click.element.property.singlecombo;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.gui.click.element.ElementMod;
+import me.alpine.gui.click.element.property.ElementBaseProperty;
 import me.alpine.mod.property.impl.EnumProperty;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;

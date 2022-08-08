@@ -1,9 +1,8 @@
-package me.alpine.gui.click.element.elementproperty;
+package me.alpine.gui.click.element.property;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.gui.click.element.ElementMod;
-import me.alpine.gui.click.element.ElementProperty;
 import me.alpine.mod.property.impl.BooleanProperty;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
@@ -11,7 +10,6 @@ import me.alpine.util.render.DeltaTime;
 import me.alpine.util.render.GuiUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
-import org.lwjgl.input.Mouse;
 
 public class ElementBooleanProperty extends ElementBaseProperty {
     @Getter private final BooleanProperty property;
