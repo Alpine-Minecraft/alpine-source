@@ -1,19 +1,18 @@
 package me.alpine.gui.click.element;
 
+import javafx.beans.property.StringProperty;
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.gui.click.Theme;
 import me.alpine.gui.click.element.property.ElementBaseProperty;
 import me.alpine.gui.click.element.property.ElementBooleanProperty;
+import me.alpine.gui.click.element.property.color.ElementColorProperty;
 import me.alpine.gui.click.element.property.multicombo.ElementComboProperty;
 import me.alpine.gui.click.element.property.singlecombo.ElementEnumProperty;
 import me.alpine.gui.click.element.property.ElementNumberProperty;
 import me.alpine.mod.Mod;
 import me.alpine.mod.property.BaseProperty;
-import me.alpine.mod.property.impl.BooleanProperty;
-import me.alpine.mod.property.impl.ComboProperty;
-import me.alpine.mod.property.impl.EnumProperty;
-import me.alpine.mod.property.impl.NumberProperty;
+import me.alpine.mod.property.impl.*;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
 import me.alpine.util.render.ColorUtil;
@@ -65,6 +64,8 @@ public class ElementMod {
             children.add(new ElementEnumProperty(this, (EnumProperty) property, children.size()));
         } else if (property instanceof ComboProperty) {
             children.add(new ElementComboProperty(this, (ComboProperty) property, children.size()));
+        } else if (property instanceof ColorProperty) {
+            children.add(new ElementColorProperty(this, (ColorProperty) property, children.size()));
         }
     }
 
