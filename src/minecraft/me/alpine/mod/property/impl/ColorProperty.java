@@ -7,72 +7,58 @@ import me.alpine.mod.property.BaseProperty;
 import java.awt.*;
 
 public class ColorProperty extends BaseProperty {
-    @Getter @Setter private Color color;
+    @Getter @Setter private float hue;
+    @Getter @Setter private float saturation;
+    @Getter @Setter private float brightness;
 
     public ColorProperty(final String name, final Color color) {
         super(name);
-        this.color = color;
+        float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+        this.hue = hsb[0];
+        this.saturation = hsb[1];
+        this.brightness = hsb[2];
     }
 
-    public float getRed() {
-        return color.getRed() / 255f;
+    public Color getColor() {
+        return Color.getHSBColor(hue, saturation, brightness);
     }
 
-    public float getGreen() {
-        return color.getGreen() / 255f;
+    public void setColor(final Color color) {
+        float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+        this.hue = hsb[0];
+        this.saturation = hsb[1];
+        this.brightness = hsb[2];
     }
 
-    public float getBlue() {
-        return color.getBlue() / 255f;
+    public double getRed() {
+        return getColor().getRed() / 255.0D;
     }
 
-    public float getAlpha() {
-        return color.getAlpha() / 255f;
+    public double getGreen() {
+        return getColor().getGreen() / 255.0D;
     }
 
-    public void setRed(final float red) {
-        color = new Color(red, color.getGreen(), color.getBlue(), color.getAlpha());
+    public double getBlue() {
+        return getColor().getBlue() / 255.0D;
     }
 
-    public void setGreen(final float green) {
-        color = new Color(color.getRed(), green, color.getBlue(), color.getAlpha());
+    public double getAlpha() {
+        return getColor().getAlpha() / 255.0D;
     }
 
-    public void setBlue(final float blue) {
-        color = new Color(color.getRed(), color.getGreen(), blue, color.getAlpha());
+    public void setRed(final double red) {
+        setColor(new Color((float) (red / 255.0), (float) getGreen(), (float) getBlue(), (float) getAlpha()));
     }
 
-    public void setAlpha(final float alpha) {
-        color = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+    public void setGreen(final double green) {
+        setColor(new Color((float) getRed(), (float) (green / 255.0), (float) getBlue(), (float) getAlpha()));
     }
 
-    public float getHue() {
-        final float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-        return hsb[0];
+    public void setBlue(final double blue) {
+        setColor(new Color((float) getRed(), (float) getGreen(), (float) (blue / 255.0), (float) getAlpha()));
     }
 
-    public float getSaturation() {
-        final float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-        return hsb[1];
-    }
-
-    public float getBrightness() {
-        final float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-        return hsb[2];
-    }
-
-    public void setHue(final float hue) {
-        final float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-        color = Color.getHSBColor(hue, hsb[1], hsb[2]);
-    }
-
-    public void setSaturation(final float saturation) {
-        final float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-        color = Color.getHSBColor(hsb[0], saturation, hsb[2]);
-    }
-
-    public void setBrightness(final float brightness) {
-        final float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-        color = Color.getHSBColor(hsb[0], hsb[1], brightness);
+    public void setAlpha(final double alpha) {
+        setColor(new Color((float) getRed(), (float) getGreen(), (float) getBlue(), (float) (alpha / 255.0)));
     }
 }
