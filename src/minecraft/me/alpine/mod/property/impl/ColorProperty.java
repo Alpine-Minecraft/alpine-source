@@ -10,6 +10,9 @@ public class ColorProperty extends BaseProperty {
     @Getter @Setter private float hue;
     @Getter @Setter private float saturation;
     @Getter @Setter private float brightness;
+    private float alpha = 1.0f;
+
+    private boolean renderAlphaSlider;
 
     public ColorProperty(final String name, final Color color) {
         super(name);
@@ -20,7 +23,8 @@ public class ColorProperty extends BaseProperty {
     }
 
     public Color getColor() {
-        return Color.getHSBColor(hue, saturation, brightness);
+        Color c = Color.getHSBColor(hue, saturation, brightness);
+        return new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (alpha * 255.0F));
     }
 
     public void setColor(final Color color) {
@@ -28,6 +32,7 @@ public class ColorProperty extends BaseProperty {
         this.hue = hsb[0];
         this.saturation = hsb[1];
         this.brightness = hsb[2];
+        this.alpha = color.getAlpha() / 255.0F;
     }
 
     public double getRed() {
@@ -43,7 +48,11 @@ public class ColorProperty extends BaseProperty {
     }
 
     public double getAlpha() {
-        return getColor().getAlpha() / 255.0D;
+        if (renderAlphaSlider) {
+            return alpha;
+        } else {
+            return 1.0D;
+        }
     }
 
     public void setRed(final double red) {
@@ -60,5 +69,15 @@ public class ColorProperty extends BaseProperty {
 
     public void setAlpha(final double alpha) {
         setColor(new Color((float) getRed(), (float) getGreen(), (float) getBlue(), (float) (alpha / 255.0)));
+    }
+
+    public ColorProperty setRenderAlphaSlider(final boolean renderAlphaSlider) {
+        this.renderAlphaSlider = renderAlphaSlider;
+        this.alpha = getColor().getAlpha() / 255.0F;
+        return this;
+    }
+
+    public boolean shouldRenderAlphaSlider() {
+        return renderAlphaSlider;
     }
 }
