@@ -35,7 +35,7 @@ public class Alpine {
         EventManager.register(this);
 
         this.name = "Alpine";
-        this.version = "0.1";
+        this.version = "0.3";
         this.owners = new String[]{"iSTeeWx_", "Audi"};
 
         this.logger = LogManager.getLogger("Alpine");

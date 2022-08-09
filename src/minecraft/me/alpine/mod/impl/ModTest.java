@@ -16,6 +16,7 @@ public class ModTest extends Mod {
         addProperty("Boolean Property", true);
         addProperty("Number Property", 0.0, 0.0, 1.0, 0.1);
         addProperty("Color Property", Color.WHITE);
+        addProperty("Color Property with alpha", Color.WHITE).setRenderAlphaSlider(true);
         addProperty("Enum Property", "Value 1", "Value 1", "Value 2", "Value 3");
         addProperty("Combo Property", new String[]{"Value 1", "Value 3"}, new String[]{"Value 1", "Value 2", "Value 3"});
         addProperty("Folder Property",
