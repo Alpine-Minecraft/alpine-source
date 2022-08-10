@@ -2,10 +2,7 @@ package me.alpine.mod.impl;
 
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
-import me.alpine.mod.property.impl.BooleanProperty;
-import me.alpine.mod.property.impl.ComboProperty;
-import me.alpine.mod.property.impl.EnumProperty;
-import me.alpine.mod.property.impl.NumberProperty;
+import me.alpine.mod.property.impl.*;
 
 import java.awt.*;
 
@@ -13,12 +10,18 @@ public class ModTest extends Mod {
     public ModTest() {
         super("TEST MOD", "This is a test mod", EnumModCategory.MISC);
 
-        addProperty("Boolean Property", true);
-        addProperty("Number Property", 0.0, 0.0, 1.0, 0.1);
-        addProperty("Color Property", Color.WHITE);
-        addProperty("Color Property with alpha", Color.WHITE).setRenderAlphaSlider(true);
-        addProperty("Enum Property", "Value 1", "Value 1", "Value 2", "Value 3");
-        addProperty("Combo Property", new String[]{"Value 1", "Value 3"}, new String[]{"Value 1", "Value 2", "Value 3"});
+        BooleanProperty bProp = addProperty("Boolean Property", true);
+        addProperty("Hide Boolean Property", false).addChangeListener(hidden -> bProp.setHidden((Boolean) hidden));
+        NumberProperty nProp = addProperty("Number Property", 0.0, 0.0, 1.0, 0.1);
+        addProperty("Hide Number Property", false).addChangeListener(hidden -> nProp.setHidden((Boolean) hidden));
+        ColorProperty cPropSolid = addProperty("Color Property", Color.WHITE);
+        addProperty("Hide Color Property", false).addChangeListener(hidden -> cPropSolid.setHidden((Boolean) hidden));
+        ColorProperty cPropAlpha = addProperty("Color Property with alpha", Color.WHITE).setRenderAlphaSlider(true);
+        addProperty("Hide Color Property with alpha", false).addChangeListener(hidden -> cPropAlpha.setHidden((Boolean) hidden));
+        EnumProperty eProp = addProperty("Enum Property", "Value 1", "Value 1", "Value 2", "Value 3");
+        addProperty("Hide Enum Property", false).addChangeListener(hidden -> eProp.setHidden((Boolean) hidden));
+        ComboProperty cProp = addProperty("Combo Property", new String[]{"Value 1", "Value 3"}, new String[]{"Value 1", "Value 2", "Value 3"});
+        addProperty("Hide Combo Property", false).addChangeListener(hidden -> cProp.setHidden((Boolean) hidden));
         addProperty("Folder Property",
                 new BooleanProperty("Boolean Property", true),
                 new NumberProperty("Number Property", 0.0, 0.0, 1.0, 0.1),

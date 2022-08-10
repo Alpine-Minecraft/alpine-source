@@ -1,6 +1,5 @@
 package me.alpine.gui.click.element;
 
-import javafx.beans.property.StringProperty;
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.gui.click.Theme;

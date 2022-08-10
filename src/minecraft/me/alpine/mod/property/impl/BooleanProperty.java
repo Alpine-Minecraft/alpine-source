@@ -17,6 +17,8 @@ public final class BooleanProperty extends BaseProperty {
 
     public void toggle() {
         this.value = !this.value;
+
+        listeners.forEach(listener -> listener.onChange(value));
     }
 }
 

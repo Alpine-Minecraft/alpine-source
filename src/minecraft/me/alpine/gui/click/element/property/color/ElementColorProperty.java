@@ -35,22 +35,17 @@ public class ElementColorProperty extends ElementBaseProperty {
 
     @Override
     public void onInit() {
-        x = getParent().getX() + getParent().getW() + 10;
-        y = getParent().getParent().getY() + getParent().getH() + 8;
-        w = (int) (getParent().getParent().getParent().getBgWidth() - getParent().getParent().getParent().getBgWidth() / 3.5) - 20;
-        h = 20;
-        totalH = h + 3;
-
-        if (getIndex() - 1 >= 0) {
-            ElementBaseProperty previous = getParent().getChildren().get(getIndex() - 1);
-            y = previous.getY() + previous.getTotalH();
-        }
+        super.onInit();
 
         palette.onInit();
     }
 
     @Override
     public void onRender(int mouseX, int mouseY) {
+        if (updateTotalHeight(property.isHidden())) {
+            return;
+        }
+
         if (getParent().isOpened()) {
             hovered = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
 
@@ -119,6 +114,10 @@ public class ElementColorProperty extends ElementBaseProperty {
 
     @Override
     public boolean onClick(int mouseX, int mouseY, int mouseButton) {
+        if (updateTotalHeight(property.isHidden())) {
+            return false;
+        }
+
         if (palette.onClick(mouseX, mouseY, mouseButton)) {
             return true;
         }

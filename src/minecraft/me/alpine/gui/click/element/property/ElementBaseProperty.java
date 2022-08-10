@@ -18,7 +18,18 @@ public class ElementBaseProperty {
 
     @Getter @Setter protected double scrollOffset;
 
-    public void onInit() {}
+    public void onInit() {
+        x = getParent().getX() + getParent().getW() + 10;
+        y = getParent().getParent().getY() + getParent().getH() + 8;
+        w = (int) (getParent().getParent().getParent().getBgWidth() - getParent().getParent().getParent().getBgWidth() / 3.5) - 20;
+        h = 20;
+        totalH = h + 3;
+
+        if (getIndex() - 1 >= 0) {
+            ElementBaseProperty previous = getParent().getChildren().get(getIndex() - 1);
+            y = previous.getY() + previous.getTotalH();
+        }
+    }
 
     public void onClose() {}
 
@@ -29,4 +40,13 @@ public class ElementBaseProperty {
     }
 
     public void onRelease(int mouseX, int mouseY, int state) {}
+
+    public final boolean updateTotalHeight(boolean hidden) {
+        if (hidden) {
+            totalH = 0;
+        } else {
+            totalH = h + 3;
+        }
+        return hidden;
+    }
 }
