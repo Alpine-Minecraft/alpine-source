@@ -2,6 +2,7 @@ package net.minecraft.client.renderer;
 
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
+import me.alpine.event.impl.EventRender3D;
 import me.alpine.util.render.DeltaTime;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -1594,6 +1595,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             this.mc.mcProfiler.endStartSection("aboveClouds");
             this.renderCloudsCheck(renderglobal, partialTicks, pass);
         }
+
+        new EventRender3D().call();
 
         this.mc.mcProfiler.endStartSection("hand");
         boolean flag2 = ReflectorForge.renderFirstPersonHand(this.mc.renderGlobal, partialTicks, pass);
