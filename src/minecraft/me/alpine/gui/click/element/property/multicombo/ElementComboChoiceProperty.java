@@ -2,6 +2,7 @@ package me.alpine.gui.click.element.property.multicombo;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.gui.click.Theme;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
 import me.alpine.util.render.GuiUtil;
@@ -60,7 +61,7 @@ public class ElementComboChoiceProperty {
                 y = previous.getY() + previous.getTotalH();
             }
 
-            int color = selected ? 0xFF3080ed : 0xff606060;
+            int color = selected ? Theme.accent() : 0xff606060;
             int r = index == getParent().getChoices().size() - 1 ? 5 : 0;
             GuiUtil.drawRoundedRect(x, y, x + w, y + h, 0, 0, r, r, color);
 

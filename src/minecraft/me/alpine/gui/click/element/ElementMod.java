@@ -93,11 +93,7 @@ public class ElementMod {
     public void onRender(int mouseX, int mouseY) {
         if (parent.isOpened()) {
 
-            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 3, Theme.getBackgroundColor());
-
-            if (isOpened()) {
-                GuiUtil.drawRoundedRect(x + w - 2, y, x + w + 5, y + h, 0, Theme.getBackgroundColor());
-            }
+            GuiUtil.drawRoundedRect(x, y, x + w + (isOpened() ? 6 : 0), y + h, 3, Theme.foreground());
 
             animEnable += (DeltaTime.get() * 0.01) * (mod.isEnabled() ? 1 : -1);
             animEnable = MathHelper.clamp_double(animEnable, 0, 1);
@@ -124,7 +120,7 @@ public class ElementMod {
 
             int radioButtonX = x + w - h / 4 - 3;
             int radioButtonY = y + h / 2;
-            Color radioButtonColor = ColorUtil.interpolate(Color.WHITE, new Color(0xFF3080ed), animEnable);
+            Color radioButtonColor = ColorUtil.interpolate(Color.WHITE, new Color(Theme.accent()), animEnable);
 
             if (animEnable > 0.0D) {
                 GuiUtil.drawCircle(radioButtonX, radioButtonY, (h / 6.5) * Easings.easeInOutExponential(animEnable), radioButtonColor.getRGB());

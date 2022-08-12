@@ -193,11 +193,11 @@ public final class GuiUtil {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
 
-        // enable anti-aliasing
+        // enable anti-aliasing (commented ou cause it made the circle transparent sometimes)
         GL11.glEnable(GL11.GL_POLYGON_SMOOTH);
         GL11.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST);
 
-        RenderUtil.glSetColor(color);
+        RenderUtil.glSetColor(-1);
         GL11.glBegin(GL11.GL_POLYGON);
         /* Iterate backwards so that the polygon is not culled (drawing should be anti-clockwise),
         also, step 3 times for optimisation */

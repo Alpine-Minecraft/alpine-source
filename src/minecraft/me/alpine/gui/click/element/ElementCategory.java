@@ -83,8 +83,8 @@ public class ElementCategory {
         animHover = MathHelper.clamp_double(animHover, 0, 1);
 
 
-        Color colorRect = ColorUtil.interpolate(new Color(0x3080ed), new Color(0x7BB3FF), animHover);
-        Color colorText = ColorUtil.interpolate(new Color(0xFFFFFF), new Color(0x3B3B3B), animHover);
+        Color colorRect = ColorUtil.interpolate(new Color(0x579E9E), new Color(0xDCF9F3), animHover);
+        Color colorText = ColorUtil.interpolate(new Color(0xDCF9F3), new Color(0x001524), animHover);
 
         GuiUtil.drawRoundedRect(x - 0.5, y - 0.5, x + w + 0.5, y + h + 0.5, 2, 0xFF000000);
         GuiUtil.drawRoundedRect(x, y, x + w, y + h, 2, colorRect.getRGB());

@@ -2,6 +2,7 @@ package me.alpine.gui.click.element.property.color;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.gui.click.Theme;
 import me.alpine.gui.click.element.ElementMod;
 import me.alpine.gui.click.element.property.ElementBaseProperty;
 import me.alpine.mod.property.impl.ColorProperty;
@@ -56,7 +57,7 @@ public class ElementColorProperty extends ElementBaseProperty {
                 y = previous.getY() + previous.getTotalH();
             }
 
-            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 5, 0xFF151525);
+            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 5, Theme.background());
 
             CFontRenderer font = Fonts.get("productsans 14");
             font.drawString(getName(), x + 3, y + h / 2.0 - font.getHeight() / 2.0, -1);
@@ -74,7 +75,7 @@ public class ElementColorProperty extends ElementBaseProperty {
 
             String s = "#" + Integer.toHexString(property.getColor().getRGB());
             double d = (cardX - 3 - font.getStringWidth(s)) * (1 - animExpandEased) + (palette.getX() - 3 - font.getStringWidth(s)) * (animExpandEased);
-            font.drawString(s, d, y + h / 2.0 - font.getHeight() / 2.0, 0xFF3080ed);
+            font.drawString(s, d, y + h / 2.0 - font.getHeight() / 2.0, Theme.accent());
 
 
             double arrowX = getX() + getW() - 6;
@@ -89,7 +90,7 @@ public class ElementColorProperty extends ElementBaseProperty {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glEnable(GL11.GL_LINE_SMOOTH);
             GL11.glLineWidth(2f);
-            RenderUtil.glSetColor(0xFF3080ed);
+            RenderUtil.glSetColor(Theme.accent());
 
             GL11.glBegin(GL11.GL_LINE_STRIP);
             {

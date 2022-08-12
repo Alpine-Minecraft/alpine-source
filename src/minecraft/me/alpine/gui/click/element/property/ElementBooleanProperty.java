@@ -2,6 +2,7 @@ package me.alpine.gui.click.element.property;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.gui.click.Theme;
 import me.alpine.gui.click.element.ElementMod;
 import me.alpine.mod.property.impl.BooleanProperty;
 import me.alpine.util.font.CFontRenderer;
@@ -69,7 +70,7 @@ public class ElementBooleanProperty extends ElementBaseProperty {
             animHover = MathHelper.clamp_double(animHover, 0, 1);
             animHover = Math.round(animHover * 10000) / 10000.0;
 
-            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 5, 0xFF151525);
+            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 5, Theme.background());
 
             CFontRenderer font = Fonts.get("productsans 14");
             font.drawString(getName(), x + 3, y + h / 2.0 - font.getHeight() / 2.0, -1);
@@ -83,7 +84,7 @@ public class ElementBooleanProperty extends ElementBaseProperty {
             GuiUtil.drawRoundedRectOutline(checkX + 0.5, checkY + 0.5, checkX + checkSize - 0.5, checkY + checkSize - 0.5, 0, 0xff6a6a6a);
 
             if (animHover > 0.01) {
-                GuiUtil.drawRoundedRect(checkX, checkY, checkX + checkSize * animHover, checkY + checkSize, 0, 0xFF3080ed);
+                GuiUtil.drawRoundedRect(checkX, checkY, checkX + checkSize * animHover, checkY + checkSize, 0, Theme.accent());
             }
 
             GlStateManager.enableBlend();

@@ -2,6 +2,7 @@ package me.alpine.gui.click.element.property;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.gui.click.Theme;
 import me.alpine.gui.click.element.ElementMod;
 import me.alpine.mod.property.impl.NumberProperty;
 import me.alpine.util.font.CFontRenderer;
@@ -69,14 +70,15 @@ public class ElementNumberProperty extends ElementBaseProperty {
                 value += (renderValue - value) * DeltaTime.get() * 0.01;
             }
 
-            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 5, 0xFF151525);
+            GuiUtil.drawRoundedRect(x, y, x + w, y + h, 5, Theme.background());
 
             GuiUtil.drawRoundedRect(x, y + h - 3, x + w, y + h, 0, 0, 5, 5, 0xff6a6a6a);
 
             double percent = (value - MIN) / (MAX - MIN);
 //            RenderUtil.prepareScissorBox(x, y + h - 3, w * percent, 3);
 //            GL11.glEnable(GL11.GL_SCISSOR_TEST);
-            GuiUtil.drawRoundedRect(x, y, x + w * percent, y + h, 5, 0xFF3080ed);
+            GuiUtil.drawRoundedRect(x, y + h - 3, x + w * percent, y + h, 0, 0, 5, 5, Theme.accent());
+
 //            GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
 
