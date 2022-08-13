@@ -1,5 +1,6 @@
 package me.alpine.util.font;
 
+import me.alpine.Alpine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -27,13 +28,17 @@ public class CFontRenderer extends CFont {
         setupBoldItalicIDs();
     }
 
-    public static CFontRenderer create(final ResourceLocation fontLocation, final float fontSize) {
-        Font font = null;
+    public static CFontRenderer create(final String fontLocation, final float fontSize) {
+        Font font;
 
         try
         {
-            IResource iResource = Minecraft.getMinecraft().getResourceManager().getResource(fontLocation);
-            InputStream inputStream = iResource.getInputStream();
+            final InputStream inputStream = Minecraft.getMinecraft().getClass().getResourceAsStream(fontLocation);
+            if (inputStream == null)
+            {
+                Alpine.getInstance().getLogger().error("Could not load font: " + fontLocation);
+                return new CFontRenderer(new Font("Arial", Font.PLAIN, 12), true, true);
+            }
 
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
