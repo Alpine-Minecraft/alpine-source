@@ -1,6 +1,9 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+import me.alpine.Alpine;
+import me.alpine.util.font.CFontRenderer;
+import me.alpine.util.font.Fonts;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -493,15 +496,20 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.scale(f, f, f);
         this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
         GlStateManager.popMatrix();
-        String s = "Alpine - Made by the french for the french";
+
+        CFontRenderer raleway = Fonts.get("raleway semibold 18");
+
+        String s = String.format("%s %s %s", Alpine.getInstance().getName(), Alpine.getInstance().getVersion(), "(1.8.8)");
 
         if (this.mc.isDemo()) {
             s = s + " Demo";
         }
 
-        this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
+//        this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
+        raleway.drawString(s, 2, this.height - 10, -1);
         String s1 = "Copyright Mojang AB. Do not distribute!";
-        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
+//        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
+        raleway.drawString(s1, this.width - raleway.getStringWidth(s1) - 2, this.height - 10, -1);
 
         if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0) {
             drawRect(this.field_92022_t - 2, this.field_92021_u - 2, this.field_92020_v + 2, this.field_92019_w - 1, 1428160512);

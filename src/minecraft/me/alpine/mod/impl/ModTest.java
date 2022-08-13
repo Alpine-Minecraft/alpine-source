@@ -42,9 +42,5 @@ public class ModTest extends Mod {
         addProperty("420 ?", true);
         addProperty("911 ?", true);
         addProperty("8008135 ?", true);
-
-
-
-
     }
 }
