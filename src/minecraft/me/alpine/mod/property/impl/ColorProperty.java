@@ -10,6 +10,9 @@ public class ColorProperty extends BaseProperty {
     @Getter @Setter private float hue;
     @Getter @Setter private float saturation;
     @Getter @Setter private float brightness;
+    /**
+     * The alpha value of the color from 0 to 1.
+     */
     private float alpha = 1.0f;
 
     private boolean renderAlphaSlider;
@@ -24,7 +27,7 @@ public class ColorProperty extends BaseProperty {
 
     public Color getColor() {
         Color c = Color.getHSBColor(hue, saturation, brightness);
-        return new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (alpha * 255.0F));
+        return new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (alpha * 255.0D));
     }
 
     public void setColor(final Color color) {
@@ -32,7 +35,7 @@ public class ColorProperty extends BaseProperty {
         this.hue = hsb[0];
         this.saturation = hsb[1];
         this.brightness = hsb[2];
-        this.alpha = color.getAlpha() / 255.0F;
+        this.alpha = color.getAlpha();
     }
 
     public double getRed() {
@@ -67,8 +70,11 @@ public class ColorProperty extends BaseProperty {
         setColor(new Color((float) getRed(), (float) getGreen(), (float) (blue / 255.0), (float) getAlpha()));
     }
 
-    public void setAlpha(final double alpha) {
-        setColor(new Color((float) getRed(), (float) getGreen(), (float) getBlue(), (float) (alpha / 255.0)));
+    /**
+     * @param alpha alpha from 0 to 1
+     */
+    public void setAlpha(final float alpha) {
+        this.alpha = alpha;
     }
 
     public ColorProperty setRenderAlphaSlider(final boolean renderAlphaSlider) {

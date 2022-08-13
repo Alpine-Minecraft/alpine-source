@@ -9,28 +9,23 @@ import me.alpine.mod.property.impl.NumberProperty;
 import java.awt.*;
 
 public class ModBlockOverlay extends Mod {
-    private final BooleanProperty shouldFill;
-    private final ColorProperty fillColor;
+    private final BooleanProperty shouldFill = addProperty("Fill", true);
+    private final ColorProperty fillColor = addProperty("Fill Color", Color.WHITE);
 
-    private final BooleanProperty outlineSetting;
-    private final ColorProperty outlineColor;
-    private final NumberProperty outlineThickness;
+    private final BooleanProperty outlineSetting = addProperty("Outline", true);
+    private final ColorProperty outlineColor = addProperty("Outline Color", Color.BLACK);
+    private final NumberProperty outlineThickness = addProperty("Outline Thickness", 1, 1, 5, 0.1);
 
 
 
     public ModBlockOverlay() {
         super("BlockOverlay", "BlockOverlay", EnumModCategory.RENDER);
 
-        shouldFill = addProperty("Fill", true);
-        fillColor = addProperty("Fill Color", Color.WHITE);
         fillColor.setRenderAlphaSlider(true);
         fillColor.setAlpha(0.4F);
 
-        outlineSetting = addProperty("Outline", true);
-        outlineColor = addProperty("Outline Color", Color.BLACK);
         outlineColor.setRenderAlphaSlider(true);
         outlineColor.setAlpha(0.4F);
-        outlineThickness = addProperty("Outline Thickness", 1, 1, 5, 0.1);
 
         shouldFill.addChangeListener(b -> fillColor.setHidden(!((boolean) b)));
         outlineSetting.addChangeListener(b -> {

@@ -92,7 +92,7 @@ public class ElementColorPaletteProperty {
         hue = getParent().getProperty().getHue();
         saturation = getParent().getProperty().getSaturation();
         brightness = getParent().getProperty().getBrightness();
-        alpha = getParent().getProperty().getAlpha() * 255;
+        alpha = getParent().getProperty().getAlpha();
     }
 
     public void onRender(int mouseX, int mouseY) {
@@ -118,7 +118,7 @@ public class ElementColorPaletteProperty {
             }
 
             if (alphaDragged) {
-                alpha = ((MathHelper.clamp_double(mouseY - alphaY, 0, alphaHeight)) / (double) alphaHeight) * 255;
+                alpha = ((MathHelper.clamp_double(mouseY - alphaY, 0, alphaHeight)) / (double) alphaHeight);
             }
 
             getParent().getProperty().setHue((float) hue);
