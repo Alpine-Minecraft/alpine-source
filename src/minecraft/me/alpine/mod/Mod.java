@@ -1,7 +1,9 @@
 package me.alpine.mod;
 
+import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.Alpine;
 import me.alpine.event.EventManager;
 import me.alpine.mod.property.BaseProperty;
 import me.alpine.mod.property.impl.*;
@@ -18,10 +20,9 @@ public class Mod {
     @Getter private final String name;
     @Getter private final String description;
     @Getter private final EnumModCategory category;
+    @Getter private final List<BaseProperty> properties;
     @Getter @Setter private String displayName;
     private boolean enabled;
-
-    @Getter private final List<BaseProperty> properties;
 
     public Mod(String name, String description, EnumModCategory category) {
         this.name = name;
@@ -91,5 +92,40 @@ public class Mod {
 
     public void toggle() {
         setEnabled(!isEnabled());
+    }
+
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
+        json.addProperty("enabled", enabled);
+
+        JsonObject properties = new JsonObject();
+
+        for (BaseProperty property: this.properties) {
+            properties.add(property.getName(), property.toJson());
+        }
+
+        json.add("properties", properties);
+
+        return json;
+    }
+
+    public void fromJson(JsonObject json) {
+
+        if (json.has("enabled")) {
+            this.enabled = json.get("enabled").getAsBoolean();
+        } else {
+            Alpine.getInstance().getLogger().warn("Malformed JSON at mod '" + this.name + "', member 'enabled' not found");
+        }
+
+        if (json.has("properties")) {
+            JsonObject properties = json.get("properties").getAsJsonObject();
+            for (BaseProperty property: this.properties) {
+                if (properties.has(property.getName())) {
+                    property.fromJson(properties.get(property.getName()).getAsJsonObject());
+                }
+            }
+        } else {
+            Alpine.getInstance().getLogger().warn("Malformed JSON at mod '" + this.name + "', member 'properties' not found");
+        }
     }
 }

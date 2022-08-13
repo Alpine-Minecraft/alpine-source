@@ -511,6 +511,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 //        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
         raleway.drawString(s1, this.width - raleway.getStringWidth(s1) - 2, this.height - 10, -1);
 
+        String s2 = "Profiles system in Alpha,\n please try to break me (by modifying the JSON),\n and report any bugs on discord or github.";
+        String[] lines = s2.split("\n");
+        int y = this.height - (raleway.getHeight() + 2) * lines.length;
+        for (String line : lines) {
+            raleway.drawString(line, width / 2 - raleway.getStringWidth(line) / 2, y, 0xFFFF0000);
+            y += raleway.getHeight() + 2;
+        }
+
         if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0) {
             drawRect(this.field_92022_t - 2, this.field_92021_u - 2, this.field_92020_v + 2, this.field_92019_w - 1, 1428160512);
             this.drawString(this.fontRendererObj, this.openGLWarning1, this.field_92022_t, this.field_92021_u, -1);

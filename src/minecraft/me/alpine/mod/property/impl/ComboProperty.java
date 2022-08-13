@@ -1,6 +1,8 @@
 package me.alpine.mod.property.impl;
 
+import com.google.gson.JsonObject;
 import lombok.Getter;
+import me.alpine.Alpine;
 import me.alpine.mod.property.BaseProperty;
 
 import java.util.ArrayList;
@@ -15,5 +17,35 @@ public final class ComboProperty extends BaseProperty {
         super(name);
         this.selectedValues = new ArrayList<>(Arrays.asList(selectedValues));
         this.values = Arrays.asList(values);
+    }
+
+    @Override
+    public JsonObject toJson() {
+        final JsonObject json = super.toJson();
+
+        final JsonObject comboJson = new JsonObject();
+
+        for (String value : values) {
+            comboJson.addProperty(value, selectedValues.contains(value));
+        }
+        json.add("values", comboJson);
+
+        return json;
+    }
+
+    @Override
+    public void fromJson(JsonObject json) {
+        if (json.has("values")) {
+            final JsonObject comboJson = json.get("values").getAsJsonObject();
+            for (String value : values) {
+                if (comboJson.has(value)) {
+                    if (comboJson.get(value).getAsBoolean()) {
+                        selectedValues.add(value);
+                    }
+                }
+            }
+        } else {
+            Alpine.getInstance().getLogger().warn("Malformed JSON on combo property, member 'values' not found");
+        }
     }
 }

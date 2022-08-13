@@ -33,4 +33,13 @@ public class ModsManager {
         }
         return null;
     }
+
+    public Mod getMod(String name) {
+        for (Mod mod : mods) {
+            if (mod.getName().equals(name)) {
+                return mod;
+            }
+        }
+        return null;
+    }
 }

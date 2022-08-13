@@ -1,7 +1,9 @@
 package me.alpine.mod.property.impl;
 
+import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.Alpine;
 import me.alpine.mod.property.BaseProperty;
 
 import java.awt.*;
@@ -85,5 +87,45 @@ public class ColorProperty extends BaseProperty {
 
     public boolean shouldRenderAlphaSlider() {
         return renderAlphaSlider;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject json = super.toJson();
+        json.addProperty("hue", hue);
+        json.addProperty("saturation", saturation);
+        json.addProperty("brightness", brightness);
+        json.addProperty("alpha", alpha);
+        return json;
+    }
+
+    @Override
+    public void fromJson(JsonObject json) {
+        if (json.has("hue")) {
+            this.hue = json.get("hue").getAsFloat();
+        } else {
+            Alpine.getInstance().getLogger().warn("Malformed JSON at Color property member 'hue' not found");
+        }
+        if (json.has("saturation")) {
+            this.saturation = json.get("saturation").getAsFloat();
+        } else {
+            Alpine.getInstance().getLogger().warn("Malformed JSON at Color property member 'saturation' not found");
+        }
+        if (json.has("brightness")) {
+            this.brightness = json.get("brightness").getAsFloat();
+        } else {
+            Alpine.getInstance().getLogger().warn("Malformed JSON at Color property member 'brightness' not found");
+        }
+        if (json.has("alpha")) {
+            this.alpha = json.get("alpha").getAsFloat();
+        } else {
+            Alpine.getInstance().getLogger().warn("Malformed JSON at Color property member 'alpha' not found");
+        }
+
+        /* clamp all to reasonable values */
+        this.hue = Math.max(0.0f, Math.min(1.0f, this.hue));
+        this.saturation = Math.max(0.0f, Math.min(1.0f, this.saturation));
+        this.brightness = Math.max(0.0f, Math.min(1.0f, this.brightness));
+        this.alpha = Math.max(0.0f, Math.min(1.0f, this.alpha));
     }
 }

@@ -1,5 +1,6 @@
 package me.alpine.mod.property;
 
+import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +25,14 @@ public class BaseProperty {
 
     public void addChangeListener(final IChangeListener listener) {
         listeners.add(listener);
+    }
+
+    public JsonObject toJson() {
+        final JsonObject json = new JsonObject();
+        return json;
+    }
+
+    public void fromJson(JsonObject json) {
+        // no-op
     }
 }
