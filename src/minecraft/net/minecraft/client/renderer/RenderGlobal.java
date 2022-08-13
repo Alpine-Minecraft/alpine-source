@@ -51,7 +51,6 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
 import net.minecraft.world.IWorldAccess;
-import net.minecraft.world.WorldProvider;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.chunk.Chunk;
 import optifine.*;
@@ -2127,10 +2126,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
     public void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int p_72731_3_, float partialTicks) {
         if (p_72731_3_ == 0 && movingObjectPositionIn.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
             ModBlockOverlay overlay = Alpine.getInstance().getModsManager().getMod(ModBlockOverlay.class);
+
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.color(overlay.getRed(), overlay.getGreen(), overlay.getBlue(), overlay.getOpacity());
-            GL11.glLineWidth(2.0F);
+            GL11.glLineWidth(overlay.getOutlineThickness());
             GlStateManager.disableTexture2D();
 
             if (Config.isShaders()) {
@@ -2138,7 +2137,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             }
 
             GlStateManager.depthMask(false);
-            float f = 0.002F;
             BlockPos blockpos = movingObjectPositionIn.getBlockPos();
             Block block = this.theWorld.getBlockState(blockpos).getBlock();
 
@@ -2147,7 +2145,19 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
                 double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
                 double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
-                func_181561_a(block.getSelectedBoundingBox(this.theWorld, blockpos).expand(0.0020000000949949026D, 0.0020000000949949026D, 0.0020000000949949026D).offset(-d0, -d1, -d2));
+                final AxisAlignedBB aabb = block.getSelectedBoundingBox(this.theWorld, blockpos).expand(0.0020000000949949026D, 0.0020000000949949026D, 0.0020000000949949026D).offset(-d0, -d1, -d2);
+
+                if (overlay.shouldOutline()) {
+                    GlStateManager.color(overlay.getOutlineRed(), overlay.getOutlineGreen(), overlay.getOutlineBlue(), overlay.getOutlineAlpha());
+                    drawBoundingBoxOutline(aabb);
+                }
+
+                if (overlay.shouldFill()) {
+                    GlStateManager.disableCull();
+                    GlStateManager.color(overlay.getFillRed(), overlay.getFillGreen(), overlay.getFillBlue(), overlay.getFillAlpha());
+                    drawFilledBoundingBox(aabb);
+                    GlStateManager.enableCull();
+                }
             }
 
             GlStateManager.depthMask(true);
@@ -2163,33 +2173,77 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         }
     }
 
-    public static void func_181561_a(AxisAlignedBB p_181561_0_) {
+    public static void drawBoundingBoxOutline(AxisAlignedBB aabb) {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(3, DefaultVertexFormats.POSITION);
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.minY, p_181561_0_.minZ).endVertex();
-        worldrenderer.pos(p_181561_0_.maxX, p_181561_0_.minY, p_181561_0_.minZ).endVertex();
-        worldrenderer.pos(p_181561_0_.maxX, p_181561_0_.minY, p_181561_0_.maxZ).endVertex();
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.minY, p_181561_0_.maxZ).endVertex();
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.minY, p_181561_0_.minZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+        worldrenderer.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+        worldrenderer.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
         tessellator.draw();
         worldrenderer.begin(3, DefaultVertexFormats.POSITION);
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.maxY, p_181561_0_.minZ).endVertex();
-        worldrenderer.pos(p_181561_0_.maxX, p_181561_0_.maxY, p_181561_0_.minZ).endVertex();
-        worldrenderer.pos(p_181561_0_.maxX, p_181561_0_.maxY, p_181561_0_.maxZ).endVertex();
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.maxY, p_181561_0_.maxZ).endVertex();
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.maxY, p_181561_0_.minZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+        worldrenderer.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+        worldrenderer.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
         tessellator.draw();
         worldrenderer.begin(1, DefaultVertexFormats.POSITION);
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.minY, p_181561_0_.minZ).endVertex();
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.maxY, p_181561_0_.minZ).endVertex();
-        worldrenderer.pos(p_181561_0_.maxX, p_181561_0_.minY, p_181561_0_.minZ).endVertex();
-        worldrenderer.pos(p_181561_0_.maxX, p_181561_0_.maxY, p_181561_0_.minZ).endVertex();
-        worldrenderer.pos(p_181561_0_.maxX, p_181561_0_.minY, p_181561_0_.maxZ).endVertex();
-        worldrenderer.pos(p_181561_0_.maxX, p_181561_0_.maxY, p_181561_0_.maxZ).endVertex();
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.minY, p_181561_0_.maxZ).endVertex();
-        worldrenderer.pos(p_181561_0_.minX, p_181561_0_.maxY, p_181561_0_.maxZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+        worldrenderer.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+        worldrenderer.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+        worldrenderer.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+        worldrenderer.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+        worldrenderer.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
         tessellator.draw();
+    }
+
+    public static void drawFilledBoundingBox(AxisAlignedBB aabb) {
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN); // front face
+        GL11.glVertex3d(aabb.minX, aabb.minY, aabb.maxZ);
+        GL11.glVertex3d(aabb.maxX, aabb.minY, aabb.maxZ);
+        GL11.glVertex3d(aabb.maxX, aabb.maxY, aabb.maxZ);
+        GL11.glVertex3d(aabb.minX, aabb.maxY, aabb.maxZ);
+        GL11.glEnd();
+
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN); // back face
+        GL11.glVertex3d(aabb.minX, aabb.minY, aabb.minZ);
+        GL11.glVertex3d(aabb.maxX, aabb.minY, aabb.minZ);
+        GL11.glVertex3d(aabb.maxX, aabb.maxY, aabb.minZ);
+        GL11.glVertex3d(aabb.minX, aabb.maxY, aabb.minZ);
+        GL11.glEnd();
+
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN); // left face
+        GL11.glVertex3d(aabb.minX, aabb.maxY, aabb.minZ);
+        GL11.glVertex3d(aabb.minX, aabb.maxY, aabb.maxZ);
+        GL11.glVertex3d(aabb.minX, aabb.minY, aabb.maxZ);
+        GL11.glVertex3d(aabb.minX, aabb.minY, aabb.minZ);
+        GL11.glEnd();
+
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN); // right face
+        GL11.glVertex3d(aabb.maxX, aabb.maxY, aabb.minZ);
+        GL11.glVertex3d(aabb.maxX, aabb.maxY, aabb.maxZ);
+        GL11.glVertex3d(aabb.maxX, aabb.minY, aabb.maxZ);
+        GL11.glVertex3d(aabb.maxX, aabb.minY, aabb.minZ);
+        GL11.glEnd();
+
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN); // top face
+        GL11.glVertex3d(aabb.minX, aabb.maxY, aabb.minZ);
+        GL11.glVertex3d(aabb.maxX, aabb.maxY, aabb.minZ);
+        GL11.glVertex3d(aabb.maxX, aabb.maxY, aabb.maxZ);
+        GL11.glVertex3d(aabb.minX, aabb.maxY, aabb.maxZ);
+        GL11.glEnd();
+
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN); // bottom face
+        GL11.glVertex3d(aabb.minX, aabb.minY, aabb.minZ);
+        GL11.glVertex3d(aabb.maxX, aabb.minY, aabb.minZ);
+        GL11.glVertex3d(aabb.maxX, aabb.minY, aabb.maxZ);
+        GL11.glVertex3d(aabb.minX, aabb.minY, aabb.maxZ);
+        GL11.glEnd();
     }
 
     public static void func_181563_a(AxisAlignedBB p_181563_0_, int p_181563_1_, int p_181563_2_, int p_181563_3_, int p_181563_4_) {
