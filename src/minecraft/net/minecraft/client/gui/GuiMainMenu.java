@@ -105,11 +105,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
     public GuiMainMenu() {
         this.openGLWarning2 = field_96138_a;
-        this.splashText = "missingno";
+        this.splashText = "ya eu un problème ;(";
         BufferedReader bufferedreader = null;
 
         try {
-            List<String> list = Lists.<String>newArrayList();
+            List<String> list = Lists.newArrayList();
             bufferedreader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(splashTexts).getInputStream(), Charsets.UTF_8));
             String s;
 
@@ -122,13 +122,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
             }
 
             if (!list.isEmpty()) {
-                while (true) {
-                    this.splashText = (String) list.get(RANDOM.nextInt(list.size()));
-
-                    if (this.splashText.hashCode() != 125780783) {
-                        break;
-                    }
-                }
+                do {
+                    this.splashText = list.get(RANDOM.nextInt(list.size()));
+                } while (this.splashText.hashCode() == 125780783);
             }
         } catch (IOException var12) {
             ;
@@ -505,18 +501,16 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
             s = s + " Demo";
         }
 
-//        this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
         raleway.drawString(s, 2, this.height - 10, -1);
         String s1 = "Copyright Mojang AB. Do not distribute!";
-//        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
         raleway.drawString(s1, this.width - raleway.getStringWidth(s1) - 2, this.height - 10, -1);
 
         String s2 = "Profiles system in Alpha,\n please try to break me (by modifying the JSON),\n and report any bugs on discord or github.";
         String[] lines = s2.split("\n");
-        int y = this.height - (raleway.getHeight() + 2) * lines.length;
-        for (String line : lines) {
-            raleway.drawString(line, width / 2 - raleway.getStringWidth(line) / 2, y, 0xFFFF0000);
-            y += raleway.getHeight() + 2;
+        int y = this.height - raleway.getHeight() - 2;
+        for (int lineIndex = lines.length - 1; lineIndex >= 0; lineIndex --) {
+            raleway.drawString(lines[lineIndex], width / 2 - raleway.getStringWidth(lines[lineIndex]) / 2, y, 0xFFFF0000);
+            y -= raleway.getHeight() + 2;
         }
 
         if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0) {
