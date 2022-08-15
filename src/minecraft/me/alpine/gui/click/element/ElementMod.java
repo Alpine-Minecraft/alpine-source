@@ -5,10 +5,10 @@ import lombok.Setter;
 import me.alpine.gui.click.Theme;
 import me.alpine.gui.click.element.property.ElementBaseProperty;
 import me.alpine.gui.click.element.property.ElementBooleanProperty;
+import me.alpine.gui.click.element.property.ElementNumberProperty;
 import me.alpine.gui.click.element.property.color.ElementColorProperty;
 import me.alpine.gui.click.element.property.multicombo.ElementComboProperty;
 import me.alpine.gui.click.element.property.singlecombo.ElementEnumProperty;
-import me.alpine.gui.click.element.property.ElementNumberProperty;
 import me.alpine.mod.Mod;
 import me.alpine.mod.property.BaseProperty;
 import me.alpine.mod.property.impl.*;
@@ -23,15 +23,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ElementMod {
-    @Getter private final ElementCategory parent;
+    @Getter private final ElementTabCategory parent;
 
     @Getter private final String name;
     @Getter private final Mod mod;
     @Getter private final int index;
-
-    @Getter @Setter private boolean opened;
-
     @Getter private final ArrayList<ElementBaseProperty> children = new ArrayList<>();
+    @Getter @Setter private boolean opened;
     @Getter @Setter private ElementBaseProperty selectedProperty;
 
     @Getter @Setter private int x;
@@ -44,7 +42,7 @@ public class ElementMod {
     @Getter @Setter private double currentScroll;
     @Getter @Setter private double targetScroll;
 
-    public ElementMod(ElementCategory parent, Mod mod, int index) {
+    public ElementMod(ElementTabCategory parent, Mod mod, int index) {
         this.parent = parent;
         this.name = mod.getName();
         this.mod = mod;
@@ -76,6 +74,9 @@ public class ElementMod {
         w = (int) (getParent().getParent().getBgWidth() / 3.5);
         h = 16;
 
+        getParent().getParent().setModsX(x);
+        getParent().getParent().setModsWidth(w);
+
         animEnable = mod.isEnabled() ? 1 : 0;
 
         if (index - 1 >= 0) {
@@ -104,7 +105,7 @@ public class ElementMod {
             double testY2 = getParent().getParent().getBgY() + getParent().getParent().getBgHeight();
 
             if (mouseX > testX && mouseX < testX2 && mouseY > testY && mouseY < testY2) {
-                if (Mouse.hasWheel()){
+                if (Mouse.hasWheel()) {
                     int wheel = Mouse.getDWheel();
                     if (wheel < 0) {
                         targetScroll += 10;
@@ -160,7 +161,7 @@ public class ElementMod {
         double testY = getParent().getY() + getParent().getH() + 2;
         double testY2 = getParent().getParent().getBgY() + getParent().getParent().getBgHeight();
 
-        for (ElementBaseProperty child : children) {
+        for (ElementBaseProperty child: children) {
             if (child.getY() + child.getTotalH() < testY) continue;
             if (child.getY() > testY2) continue;
 
