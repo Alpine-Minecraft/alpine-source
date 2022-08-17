@@ -3,6 +3,7 @@ package me.alpine.gui.click.element;
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.gui.click.GuiClick;
+import me.alpine.gui.click.Theme;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
 import me.alpine.util.render.ColorUtil;
@@ -61,11 +62,11 @@ public class ElementTabProfiles extends ElementTab {
         animHover = MathHelper.clamp_double(animHover, 0, 1);
 
 
-        Color colorRect = ColorUtil.interpolate(new Color(0x579E9E), new Color(0xDCF9F3), animHover);
-        Color colorText = ColorUtil.interpolate(new Color(0xDCF9F3), new Color(0x001524), animHover);
+//        Color colorRect = ColorUtil.interpolate(new Color(0x579E9E), new Color(0xDCF9F3), animHover);
+        Color colorText = ColorUtil.interpolate(new Color(0x499A9D), new Color(0xFFFFFF), animHover);
 
         GuiUtil.drawRoundedRect(x - 0.5, y - 0.5, x + w + 0.5, y + h + 0.5, 2, 0xFF000000);
-        GuiUtil.drawRoundedRect(x, y, x + w, y + h, 2, colorRect.getRGB());
+        GuiUtil.drawRoundedRect(x, y, x + w, y + h, 2, Theme.foreground());
         Fonts.get("productsans 19").drawCenteredString(name, x + w / 2.0D, y + 3, colorText.getRGB());
     }
 

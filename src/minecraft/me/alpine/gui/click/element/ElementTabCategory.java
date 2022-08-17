@@ -3,6 +3,7 @@ package me.alpine.gui.click.element;
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.gui.click.GuiClick;
+import me.alpine.gui.click.Theme;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
 import me.alpine.util.font.CFontRenderer;
@@ -23,6 +24,7 @@ public class ElementTabCategory extends ElementTab {
     @Getter @Setter private ElementMod selectedMod;
 
     @Getter @Setter private double animHover;
+    @Getter @Setter private double animSelected;
     @Getter @Setter private boolean hovered;
 
     public ElementTabCategory(GuiClick parent, String name, EnumModCategory category, int index) {
@@ -70,12 +72,22 @@ public class ElementTabCategory extends ElementTab {
         animHover = Math.max(0, Math.min(1, animHover));
         animHover = MathHelper.clamp_double(animHover, 0, 1);
 
+        if (getParent().getRenderedTab() == this) {
+            animSelected += DeltaTime.get() * 0.008;
+        } else {
+            animSelected -= DeltaTime.get() * 0.008;
+        }
+        animSelected = Math.max(0, Math.min(1, animSelected));
+        animSelected = MathHelper.clamp_double(animSelected, 0, 1);
 
-        Color colorRect = ColorUtil.interpolate(new Color(0x579E9E), new Color(0xDCF9F3), animHover);
         Color colorText = ColorUtil.interpolate(new Color(0xDCF9F3), new Color(0x001524), animHover);
 
+        Color colorBg1 = ColorUtil.interpolate(new Color(Theme.background()), new Color(0x579E9E), animSelected);
+        Color colorBg2 = ColorUtil.interpolate(colorBg1, new Color(Theme.accent()), animHover);
+
+
         GuiUtil.drawRoundedRect(x - 0.5, y - 0.5, x + w + 0.5, y + h + 0.5, 2, 0xFF000000);
-        GuiUtil.drawRoundedRect(x, y, x + w, y + h, 2, colorRect.getRGB());
+        GuiUtil.drawRoundedRect(x, y, x + w, y + h, 2, colorBg2.getRGB());
         Fonts.get("productsans 19").drawCenteredString(name, x + w / 2.0D, y + 3, colorText.getRGB());
     }
 
