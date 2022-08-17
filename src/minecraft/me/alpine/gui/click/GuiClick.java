@@ -37,7 +37,7 @@ public class GuiClick extends GuiScreen {
 
         for (int i = 0; i < EnumModCategory.values().length; i++) {
             EnumModCategory category = EnumModCategory.values()[i];
-            children.add(new ElementTabCategory(this, category.toString(), category, i));
+            children.add(new ElementTabCategory(this, category.getFormattedName(), category, i));
         }
 
         children.add(new ElementTabProfiles(this, children.size(), "Profiles"));
