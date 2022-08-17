@@ -3,7 +3,6 @@ package me.alpine.mod;
 import lombok.Getter;
 import me.alpine.util.render.GuiUtil;
 import me.alpine.util.render.Position;
-import net.minecraft.client.gui.ScaledResolution;
 
 import javax.vecmath.Tuple2d;
 
@@ -26,7 +25,7 @@ public class ModDraggable extends Mod {
                 position.getDrawX() + size.x, position.getDrawY() + size.y, 0xFF000000);
     }
 
-    public final void update(int mouseX, int mouseY) {
+    public void onRenderGui(int mouseX, int mouseY) {
         this.hovered = mouseX >= position.getDrawX() && mouseX <= position.getDrawX() + size.x &&
                 mouseY >= position.getDrawY() && mouseY <= position.getDrawY() + size.y;
 

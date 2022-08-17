@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import me.alpine.Alpine;
 import me.alpine.mod.ModDraggable;
-import me.alpine.util.render.Position;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class GuiHudEditor extends GuiScreen {
 
         for (ModDraggable mod: children) {
             mod.drawOutline();
-            mod.update(mouseX, mouseY);
+            mod.onRenderGui(mouseX, mouseY);
         }
     }
 

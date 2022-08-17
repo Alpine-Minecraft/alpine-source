@@ -145,23 +145,23 @@ public final class GuiUtil {
         GL11.glPopAttrib();
     }
 
-    public void drawRoundedRectOutline(double x, double y, double x2, double y2, double radius, int color) {
-        drawRoundedRectOutline(x, y, x2, y2, radius, radius, radius, radius, color);
+    public void drawRoundedRectOutline(double x, double y, double x2, double y2, double width, double radius, int color) {
+        drawRoundedRectOutline(x, y, x2, y2, width, radius, radius, radius, radius, color);
     }
 
-    public void drawRoundedRectOutline(double x, double y, double x2, double y2,
+    public void drawRoundedRectOutline(double x, double y, double x2, double y2, double width,
                                 double rTopLeft, double rTopRight, double rBottomLeft, double rBottomRight, int color) {
         GL11.glPushAttrib(0);
-        GL11.glScaled(2.0D, 2.0D, 2.0D);
-        x *= 0.5D;
-        y *= 0.5D;
-        x2 *= 0.5D;
-        y2 *= 0.5D;
+        GL11.glScaled(0.5D, 0.5D, 0.5D);
+        x *= 2.0D;
+        y *= 2.0D;
+        x2 *= 2.0D;
+        y2 *= 2.0D;
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
-        GL11.glLineWidth(0.1F);
+        GL11.glLineWidth((float) width);
         RenderUtil.glSetColor(color);
 
         GL11.glBegin(GL11.GL_LINE_LOOP);
@@ -181,7 +181,7 @@ public final class GuiUtil {
         GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
-        GL11.glScaled(0.5D, 0.5D, 0.5D);
+        GL11.glScaled(2.0D, 2.0D, 2.0D);
         GL11.glPopAttrib();
     }
 

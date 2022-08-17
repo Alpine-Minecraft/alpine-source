@@ -1,18 +1,17 @@
 package me.alpine.mod.impl;
 
+import me.alpine.event.EventTarget;
+import me.alpine.event.impl.EventRender2D;
 import me.alpine.mod.EnumModCategory;
-import me.alpine.mod.Mod;
-import me.alpine.mod.ModDraggable;
+import me.alpine.mod.ModText;
 import me.alpine.mod.property.impl.*;
 import me.alpine.util.render.Position;
 
-import javax.vecmath.Tuple2d;
-import javax.vecmath.Vector2d;
 import java.awt.*;
 
-public class ModTest extends ModDraggable {
+public class ModTest extends ModText {
     public ModTest() {
-        super("TEST MOD", "This is a test mod", EnumModCategory.MISC, new Position(0, 0), new Vector2d(100, 100));
+        super("TEST MOD", "This is a test mod", EnumModCategory.MISC, new Position(0, 0));
 
         BooleanProperty bProp = addProperty("Boolean Property", true);
         addProperty("Hide Boolean Property", false).addChangeListener(hidden -> bProp.setHidden((Boolean) hidden));
@@ -46,5 +45,23 @@ public class ModTest extends ModDraggable {
         addProperty("420 ?", true);
         addProperty("911 ?", true);
         addProperty("8008135 ?", true);
+    }
+
+    @Override
+    public String getText() {
+        return toString();
+    }
+
+    @Override
+    public String toString() {
+        return "ModTest{" +
+                "name='" + getName() +
+                '}';
+    }
+
+    @Override
+    @EventTarget
+    public void onAlwaysRender(EventRender2D e) {
+        super.onAlwaysRender(e);
     }
 }

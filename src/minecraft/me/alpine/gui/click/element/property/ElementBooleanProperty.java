@@ -75,7 +75,7 @@ public class ElementBooleanProperty extends ElementBaseProperty {
             int checkY = y + checkMargin;
 
             GlStateManager.disableBlend();
-            GuiUtil.drawRoundedRectOutline(checkX + 0.5, checkY + 0.5, checkX + checkSize - 0.5, checkY + checkSize - 0.5, 0, 0xff6a6a6a);
+            GuiUtil.drawRoundedRectOutline(checkX + 0.5, checkY + 0.5, checkX + checkSize - 0.5, checkY + checkSize - 0.5, 0.1, 0, 0xff6a6a6a);
 
             if (animHover > 0.01) {
                 GuiUtil.drawRoundedRect(checkX, checkY, checkX + checkSize * animHover, checkY + checkSize, 0, Theme.accent());

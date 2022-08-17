@@ -33,6 +33,15 @@ public class Mod {
         this.properties = new ArrayList<>();
     }
 
+    public <T extends BaseProperty> T addProperty(T property) {
+        this.properties.add(property);
+        return property;
+    }
+
+    public void addProperties(BaseProperty... properties) {
+        this.properties.addAll(Arrays.asList(properties));
+    }
+
     public BooleanProperty addProperty(String name, boolean value) {
         BooleanProperty property = new BooleanProperty(name, value);
         this.properties.add(property);
@@ -112,7 +121,7 @@ public class Mod {
     public void fromJson(JsonObject json) {
 
         if (json.has("enabled")) {
-            this.enabled = json.get("enabled").getAsBoolean();
+            this.setEnabled(json.get("enabled").getAsBoolean());
         } else {
             Alpine.getInstance().getLogger().warn("Malformed JSON at mod '" + this.name + "', member 'enabled' not found");
         }
