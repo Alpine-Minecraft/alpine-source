@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.alpine.event.EventManager;
 import me.alpine.mod.impl.*;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ModsManager {
@@ -41,5 +42,15 @@ public class ModsManager {
             }
         }
         return null;
+    }
+
+    public ArrayList<ModDraggable> getDraggableMods() {
+        ArrayList<ModDraggable> draggableMods = new ArrayList<>();
+        for (Mod mod : mods) {
+            if (mod instanceof ModDraggable) {
+                draggableMods.add((ModDraggable) mod);
+            }
+        }
+        return draggableMods;
     }
 }

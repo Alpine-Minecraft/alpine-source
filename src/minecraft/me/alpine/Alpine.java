@@ -6,6 +6,7 @@ import me.alpine.event.EventManager;
 import me.alpine.event.EventTarget;
 import me.alpine.event.impl.EventKey;
 import me.alpine.gui.click.GuiClick;
+import me.alpine.gui.drag.GuiHudEditor;
 import me.alpine.mod.ModsManager;
 import me.alpine.profile.ProfileManager;
 import me.alpine.util.font.Fonts;
@@ -86,6 +87,8 @@ public class Alpine {
     public void onKey(EventKey e) {
         if (e.getKey() == Keyboard.KEY_RSHIFT) {
             Minecraft.getMinecraft().displayGuiScreen(GuiClick.getInstance());
+        } else if (e.getKey() == Keyboard.KEY_RCONTROL) {
+            Minecraft.getMinecraft().displayGuiScreen(GuiHudEditor.getInstance());
         }
     }
 }

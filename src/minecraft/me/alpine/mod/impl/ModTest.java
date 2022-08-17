@@ -2,13 +2,17 @@ package me.alpine.mod.impl;
 
 import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.Mod;
+import me.alpine.mod.ModDraggable;
 import me.alpine.mod.property.impl.*;
+import me.alpine.util.render.Position;
 
+import javax.vecmath.Tuple2d;
+import javax.vecmath.Vector2d;
 import java.awt.*;
 
-public class ModTest extends Mod {
+public class ModTest extends ModDraggable {
     public ModTest() {
-        super("TEST MOD", "This is a test mod", EnumModCategory.MISC);
+        super("TEST MOD", "This is a test mod", EnumModCategory.MISC, new Position(0, 0), new Vector2d(100, 100));
 
         BooleanProperty bProp = addProperty("Boolean Property", true);
         addProperty("Hide Boolean Property", false).addChangeListener(hidden -> bProp.setHidden((Boolean) hidden));

@@ -95,6 +95,7 @@ public final class GuiUtil {
         GlStateManager.disableTexture2D();
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         GlStateManager.color(red, green, blue, alpha);
+        GL11.glLineWidth(2.0F);
         worldRenderer.begin(GL11.GL_LINE_LOOP, DefaultVertexFormats.POSITION);
         worldRenderer.pos(x, y2, 0.0D).endVertex();
         worldRenderer.pos(x2, y2, 0.0D).endVertex();
