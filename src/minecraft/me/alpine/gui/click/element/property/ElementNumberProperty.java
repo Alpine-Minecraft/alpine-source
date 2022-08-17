@@ -39,19 +39,14 @@ public class ElementNumberProperty extends ElementBaseProperty {
 
     @Override
     public void onRender(int mouseX, int mouseY) {
+        updatePositionY();
+
         if (updateTotalHeight(property.isHidden())) {
             return;
         }
 
         if (getParent().isOpened()) {
             hovered = mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
-
-            y = getParent().getParent().getY() + getParent().getH() + 8 - (int) getScrollOffset();
-
-            if (getIndex() - 1 >= 0) {
-                ElementBaseProperty previous = getParent().getChildren().get(getIndex() - 1);
-                y = previous.getY() + previous.getTotalH();
-            }
 
             final double MIN = property.getMin();
             final double MAX = property.getMax();
