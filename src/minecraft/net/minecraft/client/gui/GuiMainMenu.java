@@ -2,6 +2,7 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 import me.alpine.Alpine;
+import me.alpine.gui.altmanager.GuiLogin;
 import me.alpine.util.font.CFontRenderer;
 import me.alpine.util.font.Fonts;
 import net.minecraft.client.Minecraft;
@@ -202,6 +203,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));
+        this.buttonList.add(new GuiButton("ALT".hashCode(), 10, 10, "Alts Manager"));
 
         synchronized (this.threadLock) {
             this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
@@ -243,6 +245,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
      */
     protected void actionPerformed(GuiButton button) throws IOException {
+        if (button.id == "ALT".hashCode()) {
+            this.mc.displayGuiScreen(new GuiLogin());
+        }
+
         if (button.id == 0) {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         }

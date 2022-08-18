@@ -8,6 +8,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import lombok.Setter;
 import me.alpine.Alpine;
 import me.alpine.event.impl.EventClick;
 import me.alpine.event.impl.EventKey;
@@ -166,7 +167,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
     private Entity renderViewEntity;
     public Entity pointedEntity;
     public EffectRenderer effectRenderer;
-    private final Session session;
+    @Setter  private Session session;
     private boolean isGamePaused;
 
     /**
