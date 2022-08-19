@@ -106,6 +106,7 @@ public class Alpine {
         if (!this.getModsManager().getMod(ModOldAnims.class).isEnabled()) return;
 
         final Minecraft mc = Minecraft.getMinecraft();
+        if (mc.thePlayer == null) return;
         if (mc.thePlayer.getItemInUseCount() <= 0) return;
 
         final boolean mouseDown = mc.gameSettings.keyBindAttack.isKeyDown() && mc.gameSettings.keyBindUseItem.isKeyDown();
