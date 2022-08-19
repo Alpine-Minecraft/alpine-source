@@ -38,11 +38,11 @@ public final class ComboProperty extends BaseProperty {
         if (json.has("values")) {
             final JsonObject comboJson = json.get("values").getAsJsonObject();
             for (String value : values) {
-                if (comboJson.has(value)) {
-                    if (comboJson.get(value).getAsBoolean()) {
-                        selectedValues.add(value);
-                    }
-                }
+                if (!comboJson.has(value)) continue;
+                if (!comboJson.get(value).getAsBoolean()) continue;
+                if (selectedValues.contains(value)) continue;
+
+                selectedValues.add(value);
             }
         } else {
             Alpine.getInstance().getLogger().warn("Malformed JSON on combo property, member 'values' not found");
