@@ -35,6 +35,7 @@ public class ElementNumberProperty extends ElementBaseProperty {
     @Override
     public void onInit() {
         super.onInit();
+        value = property.getValue();
     }
 
     @Override
