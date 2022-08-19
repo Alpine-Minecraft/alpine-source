@@ -5,13 +5,18 @@ import lombok.Setter;
 import me.alpine.event.EventManager;
 import me.alpine.event.EventTarget;
 import me.alpine.event.impl.EventKey;
+import me.alpine.event.impl.EventTick;
 import me.alpine.gui.click.GuiClick;
 import me.alpine.gui.drag.GuiHudEditor;
 import me.alpine.mod.ModsManager;
+import me.alpine.mod.impl.ModOldAnims;
 import me.alpine.profile.ProfileManager;
 import me.alpine.util.font.Fonts;
 import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.MovingObjectPosition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
@@ -42,7 +47,7 @@ public class Alpine {
 
         this.name = "Alpine";
         this.version = "0.3";
-        this.owners = new String[]{"iSTeeWx_", "Audi"};
+        this.owners = new String[]{ "iSTeeWx_", "Audi" };
 
         this.logger = LogManager.getLogger("Alpine");
         this.directory = new File(Minecraft.getMinecraft().mcDataDir, "alpine");
@@ -89,6 +94,37 @@ public class Alpine {
             Minecraft.getMinecraft().displayGuiScreen(GuiClick.getInstance());
         } else if (e.getKey() == Keyboard.KEY_RCONTROL) {
             Minecraft.getMinecraft().displayGuiScreen(GuiHudEditor.getInstance());
+        }
+    }
+
+    @EventTarget
+    public void onTick(EventTick e) {
+        attemptSwing();
+    }
+
+    private void attemptSwing() {
+        if (!this.getModsManager().getMod(ModOldAnims.class).isEnabled()) return;
+
+        final Minecraft mc = Minecraft.getMinecraft();
+        if (mc.thePlayer.getItemInUseCount() <= 0) return;
+
+        final boolean mouseDown = mc.gameSettings.keyBindAttack.isKeyDown() && mc.gameSettings.keyBindUseItem.isKeyDown();
+        if (!mouseDown || mc.objectMouseOver == null || mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) return;
+
+        this.swingItem();
+    }
+
+    private void swingItem() {
+        final EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+        final int swingAnimationEnd =
+                thePlayer.isPotionActive(Potion.digSpeed) ?
+                (6 - (1 + thePlayer.getActivePotionEffect(Potion.digSpeed).getAmplifier())) :
+                (thePlayer.isPotionActive(Potion.digSlowdown) ?
+                 (6 + (1 + thePlayer.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2) :
+                 6);
+        if (!thePlayer.isSwingInProgress || thePlayer.swingProgressInt >= swingAnimationEnd / 2 || thePlayer.swingProgressInt < 0) {
+            thePlayer.swingProgressInt = -1;
+            thePlayer.isSwingInProgress = true;
         }
     }
 }

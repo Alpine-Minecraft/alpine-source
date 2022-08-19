@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import me.alpine.Alpine;
+import me.alpine.mod.impl.ModOldAnims;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -27,7 +29,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import optifine.Config;
 import optifine.DynamicLights;
-import optifine.Reflector;
 import org.lwjgl.opengl.GL11;
 import shadersmod.client.Shaders;
 
@@ -39,21 +40,19 @@ public class ItemRenderer {
      * A reference to the Minecraft object.
      */
     private final Minecraft mc;
+    private final RenderManager renderManager;
+    private final RenderItem itemRenderer;
     private ItemStack itemToRender;
-
     /**
      * How far the current item has been equipped (0 disequipped and 1 fully up)
      */
     private float equippedProgress;
     private float prevEquippedProgress;
-    private final RenderManager renderManager;
-    private final RenderItem itemRenderer;
-
     /**
      * The index of the currently held item (0-8, or -1 if not yet updated)
      */
     private int equippedItemSlot = -1;
-    
+
     public ItemRenderer(Minecraft mcIn) {
         this.mc = mcIn;
         this.renderManager = mcIn.getRenderManager();
@@ -242,7 +241,7 @@ public class ItemRenderer {
         }
 
         GlStateManager.translate(0.0F, f2, 0.0F);
-        float f3 = 1.0F - (float) Math.pow((double) f1, 27.0D);
+        float f3 = 1.0F - (float) Math.pow(f1, 27.0D);
         GlStateManager.translate(f3 * 0.6F, f3 * -0.5F, f3 * 0.0F);
         GlStateManager.rotate(f3 * 90.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(f3 * 10.0F, 1.0F, 0.0F, 0.0F);
@@ -313,39 +312,37 @@ public class ItemRenderer {
         if (this.itemToRender != null) {
             if (this.itemToRender.getItem() instanceof ItemMap) {
                 this.renderItemMap(entityplayersp, f2, f, f1);
-            }
-            else if (entityplayersp.getItemInUseCount() > 0) {
+            } else if (entityplayersp.getItemInUseCount() > 0) {
+                boolean oldAnims = Alpine.getInstance().getModsManager().getMod(ModOldAnims.class).isEnabled();
                 EnumAction enumaction = this.itemToRender.getItemUseAction();
 
-                switch (ItemRenderer.ItemRenderer$1.field_178094_a[enumaction.ordinal()]) {
-                    case 1:
+                switch (enumaction) {
+                    case NONE:
                         this.transformFirstPersonItem(f, 0.0F);
                         break;
 
-                    case 2:
-                    case 3:
+                    case EAT:
+                    case DRINK:
                         this.func_178104_a(entityplayersp, partialTicks);
-                        this.transformFirstPersonItem(f, 0.0F);
+                        this.transformFirstPersonItem(f, oldAnims ? f1 : 0.0F);
                         break;
 
-                    case 4:
-                        this.transformFirstPersonItem(f, 0.0F);
+                    case BLOCK:
+                        this.transformFirstPersonItem(oldAnims ? 0.2F : f, oldAnims ? f1 : 0.0F);
                         this.func_178103_d();
                         break;
 
-                    case 5:
-                        this.transformFirstPersonItem(f, 0.0F);
+                    case BOW:
+                        this.transformFirstPersonItem(f, oldAnims ? f1 : 0.0F);
                         this.func_178098_a(partialTicks, entityplayersp);
                 }
-            }
-            else {
+            } else {
                 this.func_178105_d(f1);
                 this.transformFirstPersonItem(f, f1);
             }
 
             this.renderItem(entityplayersp, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
-        }
-        else if (!entityplayersp.isInvisible()) {
+        } else if (!entityplayersp.isInvisible()) {
             this.func_178095_a(entityplayersp, f, f1);
         }
 
@@ -403,20 +400,15 @@ public class ItemRenderer {
         float f = 0.1F;
         GlStateManager.color(0.1F, 0.1F, 0.1F, 0.5F);
         GlStateManager.pushMatrix();
-        float f1 = -1.0F;
-        float f2 = 1.0F;
-        float f3 = -1.0F;
-        float f4 = 1.0F;
-        float f5 = -0.5F;
         float f6 = p_178108_2_.getMinU();
         float f7 = p_178108_2_.getMaxU();
         float f8 = p_178108_2_.getMinV();
         float f9 = p_178108_2_.getMaxV();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos(-1.0D, -1.0D, -0.5D).tex((double) f7, (double) f9).endVertex();
-        worldrenderer.pos(1.0D, -1.0D, -0.5D).tex((double) f6, (double) f9).endVertex();
-        worldrenderer.pos(1.0D, 1.0D, -0.5D).tex((double) f6, (double) f8).endVertex();
-        worldrenderer.pos(-1.0D, 1.0D, -0.5D).tex((double) f7, (double) f8).endVertex();
+        worldrenderer.pos(-1.0D, -1.0D, -0.5D).tex(f7, f9).endVertex();
+        worldrenderer.pos(1.0D, -1.0D, -0.5D).tex(f6, f9).endVertex();
+        worldrenderer.pos(1.0D, 1.0D, -0.5D).tex(f6, f8).endVertex();
+        worldrenderer.pos(-1.0D, 1.0D, -0.5D).tex(f7, f8).endVertex();
         tessellator.draw();
         GlStateManager.popMatrix();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -436,19 +428,13 @@ public class ItemRenderer {
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.pushMatrix();
-            float f1 = 4.0F;
-            float f2 = -1.0F;
-            float f3 = 1.0F;
-            float f4 = -1.0F;
-            float f5 = 1.0F;
-            float f6 = -0.5F;
             float f7 = -this.mc.thePlayer.rotationYaw / 64.0F;
             float f8 = this.mc.thePlayer.rotationPitch / 64.0F;
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(-1.0D, -1.0D, -0.5D).tex((double) (4.0F + f7), (double) (4.0F + f8)).endVertex();
-            worldrenderer.pos(1.0D, -1.0D, -0.5D).tex((double) (0.0F + f7), (double) (4.0F + f8)).endVertex();
-            worldrenderer.pos(1.0D, 1.0D, -0.5D).tex((double) (0.0F + f7), (double) (0.0F + f8)).endVertex();
-            worldrenderer.pos(-1.0D, 1.0D, -0.5D).tex((double) (4.0F + f7), (double) (0.0F + f8)).endVertex();
+            worldrenderer.pos(-1.0D, -1.0D, -0.5D).tex(4.0F + f7, 4.0F + f8).endVertex();
+            worldrenderer.pos(1.0D, -1.0D, -0.5D).tex(0.0F + f7, 4.0F + f8).endVertex();
+            worldrenderer.pos(1.0D, 1.0D, -0.5D).tex(0.0F + f7, 0.0F + f8).endVertex();
+            worldrenderer.pos(-1.0D, 1.0D, -0.5D).tex(4.0F + f7, 0.0F + f8).endVertex();
             tessellator.draw();
             GlStateManager.popMatrix();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -485,10 +471,10 @@ public class ItemRenderer {
             GlStateManager.translate((float) (-(i * 2 - 1)) * 0.24F, -0.3F, 0.0F);
             GlStateManager.rotate((float) (i * 2 - 1) * 10.0F, 0.0F, 1.0F, 0.0F);
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos((double) f5, (double) f7, (double) f9).tex((double) f2, (double) f4).endVertex();
-            worldrenderer.pos((double) f6, (double) f7, (double) f9).tex((double) f1, (double) f4).endVertex();
-            worldrenderer.pos((double) f6, (double) f8, (double) f9).tex((double) f1, (double) f3).endVertex();
-            worldrenderer.pos((double) f5, (double) f8, (double) f9).tex((double) f2, (double) f3).endVertex();
+            worldrenderer.pos(f5, f7, f9).tex(f2, f4).endVertex();
+            worldrenderer.pos(f6, f7, f9).tex(f1, f4).endVertex();
+            worldrenderer.pos(f6, f8, f9).tex(f1, f3).endVertex();
+            worldrenderer.pos(f5, f8, f9).tex(f2, f3).endVertex();
             tessellator.draw();
             GlStateManager.popMatrix();
         }
@@ -509,10 +495,8 @@ public class ItemRenderer {
             if (!this.itemToRender.getIsItemStackEqual(itemstack)) {
                 flag = true;
             }
-        }
-        else if (this.itemToRender == null && itemstack == null) {
-        }
-        else {
+        } else if (this.itemToRender == null && itemstack == null) {
+        } else {
             flag = true;
         }
 
@@ -543,41 +527,5 @@ public class ItemRenderer {
      */
     public void resetEquippedProgress2() {
         this.equippedProgress = 0.0F;
-    }
-
-    static final class ItemRenderer$1 {
-        static final int[] field_178094_a = new int[EnumAction.values().length];
-        
-        static {
-            try {
-                field_178094_a[EnumAction.NONE.ordinal()] = 1;
-            } catch (NoSuchFieldError var5) {
-                ;
-            }
-
-            try {
-                field_178094_a[EnumAction.EAT.ordinal()] = 2;
-            } catch (NoSuchFieldError var4) {
-                ;
-            }
-
-            try {
-                field_178094_a[EnumAction.DRINK.ordinal()] = 3;
-            } catch (NoSuchFieldError var3) {
-                ;
-            }
-
-            try {
-                field_178094_a[EnumAction.BLOCK.ordinal()] = 4;
-            } catch (NoSuchFieldError var2) {
-                ;
-            }
-
-            try {
-                field_178094_a[EnumAction.BOW.ordinal()] = 5;
-            } catch (NoSuchFieldError var1) {
-                ;
-            }
-        }
     }
 }
