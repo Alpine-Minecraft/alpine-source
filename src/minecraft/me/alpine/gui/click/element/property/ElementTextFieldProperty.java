@@ -85,11 +85,7 @@ public class ElementTextFieldProperty extends ElementBaseProperty {
 
     @Override
     public void onKey(char typedchar, int keyCode) {
-        System.out.println(typedchar + " " + keyCode);
-
         property.onKey(typedchar, keyCode);
-
-
         super.onKey(typedchar, keyCode);
     }
 

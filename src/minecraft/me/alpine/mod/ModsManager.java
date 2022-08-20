@@ -2,7 +2,10 @@ package me.alpine.mod;
 
 import lombok.Getter;
 import me.alpine.event.EventManager;
+import me.alpine.event.impl.EventKey;
 import me.alpine.mod.impl.*;
+import me.alpine.mod.property.BaseProperty;
+import me.alpine.mod.property.impl.KeybindProperty;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,6 +29,7 @@ public class ModsManager {
         this.mods.add(new ModBlockOverlay());
         this.mods.add(new ModOldAnims());
         this.mods.add(new ModAutoGG());
+        this.mods.add(new ModHotkeys());
     }
 
     public <T extends Mod> T getMod(Class<T> clazz) {
@@ -54,5 +58,15 @@ public class ModsManager {
             }
         }
         return draggableMods;
+    }
+
+    public void onKey(EventKey eventKey) {
+        for (Mod mod: mods) {
+            for (BaseProperty property : mod.getProperties()) {
+                if (property instanceof KeybindProperty) {
+                    ((KeybindProperty) property).onKeyPress(eventKey);
+                }
+            }
+        }
     }
 }

@@ -90,6 +90,8 @@ public class Alpine {
 
     @EventTarget
     public void onKey(EventKey e) {
+        getModsManager().onKey(e);
+
         if (e.getKey() == Keyboard.KEY_RSHIFT) {
             Minecraft.getMinecraft().displayGuiScreen(GuiClick.getInstance());
         } else if (e.getKey() == Keyboard.KEY_RCONTROL) {

@@ -1,5 +1,7 @@
 package me.alpine.event;
 
+import me.alpine.event.impl.EventKey;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -51,6 +53,8 @@ public class EventManager {
     public static void invoke(Event event) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         for (Map.Entry<Class<?>, Object> entry: classRegistry.entrySet()) {
             List<Method> methods = filter(event, entry.getKey().getDeclaredMethods());
+
+
 
             for (Method method: methods) {
                 method.setAccessible(true);

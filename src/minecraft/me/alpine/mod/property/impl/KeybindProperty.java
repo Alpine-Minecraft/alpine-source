@@ -21,7 +21,6 @@ public final class KeybindProperty extends BaseProperty {
     public KeybindProperty(final String name, final int bind) {
         super(name);
         this.bind = bind;
-        EventManager.register(this);
     }
 
     public KeybindProperty addAction(final Runnable action) {
@@ -33,7 +32,6 @@ public final class KeybindProperty extends BaseProperty {
         return Keyboard.getKeyName(this.bind);
     }
 
-    @EventTarget
     public void onKeyPress(final EventKey event) {
         if (event.getKey() == this.bind) {
             for (final Runnable action : this.actions) {
