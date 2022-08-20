@@ -3,10 +3,7 @@ package me.alpine.gui.click.element;
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.gui.click.Theme;
-import me.alpine.gui.click.element.property.ElementBaseProperty;
-import me.alpine.gui.click.element.property.ElementBooleanProperty;
-import me.alpine.gui.click.element.property.ElementNumberProperty;
-import me.alpine.gui.click.element.property.ElementTextFieldProperty;
+import me.alpine.gui.click.element.property.*;
 import me.alpine.gui.click.element.property.color.ElementColorProperty;
 import me.alpine.gui.click.element.property.multicombo.ElementComboProperty;
 import me.alpine.gui.click.element.property.singlecombo.ElementEnumProperty;
@@ -68,6 +65,8 @@ public class ElementMod {
             children.add(new ElementColorProperty(this, (ColorProperty) property, children.size()));
         } else if (property instanceof TextFieldProperty) {
             children.add(new ElementTextFieldProperty(this, (TextFieldProperty) property, children.size()));
+        } else if (property instanceof KeybindProperty) {
+            children.add(new ElementKeybindProperty(this, (KeybindProperty) property, children.size()));
         }
     }
 

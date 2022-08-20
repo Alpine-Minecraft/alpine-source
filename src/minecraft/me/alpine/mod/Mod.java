@@ -84,6 +84,12 @@ public class Mod {
         return property;
     }
 
+    public KeybindProperty addProperty(String name, int key) {
+        KeybindProperty property = new KeybindProperty(name, key);
+        this.properties.add(property);
+        return property;
+    }
+
     public void onEnable() {
         EventManager.register(this);
     }
