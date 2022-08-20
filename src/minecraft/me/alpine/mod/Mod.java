@@ -78,6 +78,12 @@ public class Mod {
         return property;
     }
 
+    public TextFieldProperty addProperty(String name, String value) {
+        TextFieldProperty property = new TextFieldProperty(name, value);
+        this.properties.add(property);
+        return property;
+    }
+
     public void onEnable() {
         EventManager.register(this);
     }

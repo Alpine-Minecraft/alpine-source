@@ -41,6 +41,8 @@ public class ElementBaseProperty {
 
     public void onRelease(int mouseX, int mouseY, int state) {}
 
+    public void onKey(char typedchar, int keyCode) {}
+
     public final boolean updateTotalHeight(boolean hidden) {
         if (hidden) {
             totalH = 0;

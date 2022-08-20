@@ -6,6 +6,8 @@ import me.alpine.mod.EnumModCategory;
 import me.alpine.mod.ModText;
 import me.alpine.mod.property.impl.*;
 import me.alpine.util.render.Position;
+import me.alpine.util.render.shader.RoundedRectShader;
+import net.minecraft.client.Minecraft;
 
 import java.awt.*;
 
@@ -25,6 +27,8 @@ public class ModTest extends ModText {
         addProperty("Hide Enum Property", false).addChangeListener(hidden -> eProp.setHidden((Boolean) hidden));
         ComboProperty cProp = addProperty("Combo Property", new String[]{"Value 1", "Value 3"}, new String[]{"Value 1", "Value 2", "Value 3"});
         addProperty("Hide Combo Property", false).addChangeListener(hidden -> cProp.setHidden((Boolean) hidden));
+        addProperty("Text Field Property", "");
+
         addProperty("Folder Property",
                 new BooleanProperty("Boolean Property", true),
                 new NumberProperty("Number Property", 0.0, 0.0, 1.0, 0.1),
@@ -63,5 +67,9 @@ public class ModTest extends ModText {
     @EventTarget
     public void onAlwaysRender(EventRender2D e) {
         super.onAlwaysRender(e);
+
+        Minecraft.getMinecraft().mcProfiler.startSection("ModTest");
+        RoundedRectShader.getInstance().drawRound(70, 70, 50, 50, 5, Color.RED);
+        Minecraft.getMinecraft().mcProfiler.endSection();
     }
 }

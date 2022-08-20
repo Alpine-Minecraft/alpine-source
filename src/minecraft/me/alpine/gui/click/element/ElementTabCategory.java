@@ -105,4 +105,9 @@ public class ElementTabCategory extends ElementTab {
     public void onRelease(int mouseX, int mouseY, int state) {
         children.forEach(e -> e.onRelease(mouseX, mouseY, state));
     }
+
+    @Override
+    public void onKey(char typedChar, int keyCode) {
+        children.forEach(e -> e.onKey(typedChar, keyCode));
+    }
 }

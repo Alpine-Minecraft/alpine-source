@@ -16,6 +16,7 @@ public class Fonts {
         final long start = System.currentTimeMillis();
         fonts = new HashMap<>();
 
+        fonts.put("productsans 10", CFontRenderer.create("/assets/minecraft/alpine/font/productsans/bold.ttf", 10));
         fonts.put("productsans 14", CFontRenderer.create("/assets/minecraft/alpine/font/productsans/bold.ttf", 14));
         fonts.put("productsans 19", CFontRenderer.create("/assets/minecraft/alpine/font/productsans/bold.ttf", 19));
         fonts.put("nunito semibold 22", CFontRenderer.create("/assets/minecraft/alpine/font/nunito/semibold.ttf", 22));

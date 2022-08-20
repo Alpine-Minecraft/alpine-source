@@ -6,6 +6,7 @@ import me.alpine.gui.click.Theme;
 import me.alpine.gui.click.element.property.ElementBaseProperty;
 import me.alpine.gui.click.element.property.ElementBooleanProperty;
 import me.alpine.gui.click.element.property.ElementNumberProperty;
+import me.alpine.gui.click.element.property.ElementTextFieldProperty;
 import me.alpine.gui.click.element.property.color.ElementColorProperty;
 import me.alpine.gui.click.element.property.multicombo.ElementComboProperty;
 import me.alpine.gui.click.element.property.singlecombo.ElementEnumProperty;
@@ -65,6 +66,8 @@ public class ElementMod {
             children.add(new ElementComboProperty(this, (ComboProperty) property, children.size()));
         } else if (property instanceof ColorProperty) {
             children.add(new ElementColorProperty(this, (ColorProperty) property, children.size()));
+        } else if (property instanceof TextFieldProperty) {
+            children.add(new ElementTextFieldProperty(this, (TextFieldProperty) property, children.size()));
         }
     }
 
@@ -174,5 +177,9 @@ public class ElementMod {
 
     public void onRelease(int mouseX, int mouseY, int state) {
         children.forEach(e -> e.onRelease(mouseX, mouseY, state));
+    }
+
+    public void onKey(char key, int keyCode) {
+        children.forEach(e -> e.onKey(key, keyCode));
     }
 }

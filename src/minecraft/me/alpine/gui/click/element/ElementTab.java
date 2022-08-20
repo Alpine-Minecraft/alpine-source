@@ -46,4 +46,8 @@ public class ElementTab {
 
     }
 
+    public void onKey(char typedchar, int keyCode) {
+
+    }
+
 }

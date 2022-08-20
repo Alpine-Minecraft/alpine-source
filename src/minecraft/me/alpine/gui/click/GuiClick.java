@@ -13,6 +13,7 @@ import me.alpine.util.render.Easings;
 import me.alpine.util.render.GuiUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class GuiClick extends GuiScreen {
 
     @Override
     public void initGui() {
+        Keyboard.enableRepeatEvents(true);
+
         if (renderedTab == null) {
             renderedTab = children.get(0);
         }
@@ -68,6 +71,7 @@ public class GuiClick extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
+        Keyboard.enableRepeatEvents(false);
         children.forEach(ElementTab::onClose);
 
         super.onGuiClosed();
@@ -115,6 +119,11 @@ public class GuiClick extends GuiScreen {
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         children.forEach(e -> e.onRelease(mouseX, mouseY, state));
         super.mouseReleased(mouseX, mouseY, state);
+    }
+
+    @Override protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        children.forEach(e -> e.onKey(typedChar, keyCode));
+        super.keyTyped(typedChar, keyCode);
     }
 
     @Override
