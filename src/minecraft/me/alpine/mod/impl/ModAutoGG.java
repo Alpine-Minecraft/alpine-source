@@ -24,12 +24,23 @@ public class ModAutoGG extends Mod {
 
         S02PacketChat chat = (S02PacketChat) packet;
 
-        if (!chat.getChatComponent().getUnformattedText().equals("Want to play again?")) return;
+        String s = chat.getChatComponent().getUnformattedText();
+        String[] ss = new String[] {"Winner #1 (", "Top Survivors", "Winners - ", "Winners: ", "Winner: ", "Winning Team: ", " won the game!", "Top Seeker: ", "Last team standing!", "1st Place: ", "1st Killer - ", "1st Place - ", "Winner: ", " - Damage Dealt - ", "Winning Team -", "1st - ", " Duel - "};
 
-        String S = "gg";
-        if (Math.random() > 0.5) S = "good game";
+        boolean found = false;
+        for (String string : ss) {
+            if (s.contains(string)) {
+                found = true;
+                break;
+            }
+        }
 
-        mc.thePlayer.sendChatMessage(S);
+        if (found) {
+            String S = "gg";
+            if (Math.random() > 0.5) S = "good game";
+
+            mc.thePlayer.sendChatMessage(S);
+        }
     }
 }
 
