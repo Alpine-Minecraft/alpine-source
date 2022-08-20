@@ -1,5 +1,6 @@
 package me.alpine.util.render.shader;
 
+import me.alpine.util.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -96,7 +97,8 @@ public class RoundedRectShader {
 
     public void drawRound(float x, float y, float width, float height, float radius, Color color) {
         GlStateManager.resetColor();
-        GlStateManager.enableBlend();
+//        GlStateManager.enableBlend();
+        boolean blend = RenderUtil.glEnableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         getInstance().load();
 
@@ -118,7 +120,7 @@ public class RoundedRectShader {
         glVertex2f(x + width + 1, y - 1);
         glEnd();
         getInstance().unload();
-        GlStateManager.disableBlend();
+        RenderUtil.glRestoreBlend(blend);
     }
 
 
