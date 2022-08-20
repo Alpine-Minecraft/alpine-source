@@ -20,19 +20,16 @@ public class ModAutoGG extends Mod {
     @EventTarget
     public void onPacket(EventPacket e) {
         Packet packet = e.getPacket();
-        if (packet instanceof S02PacketChat) {
-            S02PacketChat chat = (S02PacketChat) packet;
-            if (chat.getChatComponent().getUnformattedText().equals("Want to play again?")) {
-                String S = "gg";
+        if (!(packet instanceof S02PacketChat)) return;
 
-                if (Math.random() > 0.5) {
-                    S = "gg";
-                } else {
-                    S = "good game";
-                }
-                mc.thePlayer.sendChatMessage(S);
-            }
-        }
+        S02PacketChat chat = (S02PacketChat) packet;
+
+        if (!chat.getChatComponent().getUnformattedText().equals("Want to play again?")) return;
+
+        String S = "gg";
+        if (Math.random() > 0.5) S = "good game";
+
+        mc.thePlayer.sendChatMessage(S);
     }
 }
 
