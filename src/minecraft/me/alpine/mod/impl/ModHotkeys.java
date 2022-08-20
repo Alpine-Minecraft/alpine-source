@@ -15,6 +15,7 @@ public class ModHotkeys extends Mod {
             String command = f1.getValue();
             if (!command.isEmpty()) {
                 mc.thePlayer.sendChatMessage(command);
+
             }
         });
     }
