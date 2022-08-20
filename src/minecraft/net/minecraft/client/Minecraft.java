@@ -8,6 +8,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import lombok.Getter;
 import lombok.Setter;
 import me.alpine.Alpine;
 import me.alpine.event.impl.EventClick;
@@ -134,7 +135,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
     /**
      * The RenderEngine instance used by Minecraft
      */
-    private TextureManager renderEngine;
+    @Getter private TextureManager renderEngine;
 
     /**
      * Set to 'this' in Minecraft constructor; used by some settings get methods

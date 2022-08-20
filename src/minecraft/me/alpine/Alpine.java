@@ -12,6 +12,7 @@ import me.alpine.mod.ModsManager;
 import me.alpine.mod.impl.ModOldAnims;
 import me.alpine.profile.ProfileManager;
 import me.alpine.util.font.Fonts;
+import me.alpine.util.render.WavyCapeRenderer;
 import me.alpine.util.render.shader.BlurUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -42,6 +43,8 @@ public class Alpine {
     /** The mods manager instance */
     private final ModsManager modsManager;
 
+    private WavyCapeRenderer wavyCapeRenderer;
+
     private Alpine() {
         EventManager.register(this);
 
@@ -53,6 +56,8 @@ public class Alpine {
         this.directory = new File(Minecraft.getMinecraft().mcDataDir, "alpine");
 
         this.modsManager = new ModsManager();
+
+        this.wavyCapeRenderer = new WavyCapeRenderer();
 
         /* Disable fast render to prevent rendering issues (i.e. blur) */
         Minecraft.getMinecraft().gameSettings.ofFastRender = false;
