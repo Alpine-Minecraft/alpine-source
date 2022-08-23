@@ -37,9 +37,7 @@ public class WavyCapeRenderer {
         for (int i = 0; i < 50; i++) {
             final List<Node> list = new ArrayList<>();
             for (int j = 0; j < horzNodes; j++)
-                list.add(new Node(player.posX - 1,
-                        player.posY + 2 - i * targetDist,
-                        player.posZ + ((double) j) / (horzNodes - 1),
+                list.add(new Node(player.posX - 1, player.posY + 2 - i * targetDist, player.posZ + ((double) j) / (horzNodes - 1),
                         i,
                         j));
             nodes.add(list);
@@ -51,7 +49,7 @@ public class WavyCapeRenderer {
         if (mc.theWorld == null) return;
         final double partialTicks = e.getPartialRenderTick();
         final EntityPlayer player = e.getPlayer();
-        final boolean check = true; /* TODO put your if check */
+        final boolean check = false; /* TODO put your if check */
         if (check) {
             final Entity viewer = mc.getRenderViewEntity();
             final double pX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
@@ -62,45 +60,48 @@ public class WavyCapeRenderer {
                 double gravity = 0.04;
                 node.aY -= gravity / 2; node.update(pX, pY, pZ, player); }
             updateFixedNodes(pX, pY, pZ, player);
-            physics: {
-                for (int step = 0; step < 6; step++) for (int i = 0; i < nodes.size(); i++) for (int j = 0; j < horzNodes; j++) {
-                    final Node node = nodes.get(i).get(j);
-                    final List<Node> struct = new ArrayList<Node>();
-                    final List<Node> shear = new ArrayList<Node>();
-                    final List<Node> bend = new ArrayList<Node>();
-                    if (i + 1 < nodes.size()) struct.add(nodes.get(i + 1).get(j));
-                    if (j + 1 < horzNodes) struct.add(nodes.get(i).get(j + 1));
-                    if (i - 1 >= 0) struct.add(nodes.get(i - 1).get(j));
-                    if (j - 1 >= 0) struct.add(nodes.get(i).get(j - 1));
-                    if (i + 1 < nodes.size() && j + 1 < horzNodes) shear.add(nodes.get(i + 1).get(j + 1));
-                    if (i + 1 < nodes.size() && j - 1 >= 0) shear.add(nodes.get(i + 1).get(j - 1));
-                    if (i - 1 >= 0 && j + 1 < horzNodes) shear.add(nodes.get(i - 1).get(j + 1));
-                    if (i - 1 >= 0 && j - 1 >= 0) shear.add(nodes.get(i - 1).get(j - 1));
-                    if (i + 2 < nodes.size()) bend.add(nodes.get(i + 2).get(j));
-                    if (j + 2 < horzNodes) bend.add(nodes.get(i).get(j + 2));
-                    if (i - 2 >= 0) bend.add(nodes.get(i - 2).get(j));
-                    if (j - 2 >= 0) bend.add(nodes.get(i).get(j - 2));
-                    try {
-                        updateNode(node, struct, shear, bend);
-                    } catch (final Exception ex) {
-                        ex.printStackTrace();
-                        System.exit(0);
+            {
+                for (int step = 0; step < 6; step++)
+                    for (int i = 0; i < nodes.size(); i++)
+                        for (int j = 0; j < horzNodes; j++) {
+                            final Node node = nodes.get(i).get(j);
+                            final List<Node> struct = new ArrayList<>();
+                            final List<Node> shear = new ArrayList<>();
+                            final List<Node> bend = new ArrayList<>();
+                            if (i + 1 < nodes.size()) struct.add(nodes.get(i + 1).get(j));
+                            if (j + 1 < horzNodes) struct.add(nodes.get(i).get(j + 1));
+                            if (i - 1 >= 0) struct.add(nodes.get(i - 1).get(j));
+                            if (j - 1 >= 0) struct.add(nodes.get(i).get(j - 1));
+                            if (i + 1 < nodes.size() && j + 1 < horzNodes) shear.add(nodes.get(i + 1).get(j + 1));
+                            if (i + 1 < nodes.size() && j - 1 >= 0) shear.add(nodes.get(i + 1).get(j - 1));
+                            if (i - 1 >= 0 && j + 1 < horzNodes) shear.add(nodes.get(i - 1).get(j + 1));
+                            if (i - 1 >= 0 && j - 1 >= 0) shear.add(nodes.get(i - 1).get(j - 1));
+                            if (i + 2 < nodes.size()) bend.add(nodes.get(i + 2).get(j));
+                            if (j + 2 < horzNodes) bend.add(nodes.get(i).get(j + 2));
+                            if (i - 2 >= 0) bend.add(nodes.get(i - 2).get(j));
+                            if (j - 2 >= 0) bend.add(nodes.get(i).get(j - 2));
+                            try {
+                                updateNode(node, struct, shear, bend);
+                            } catch (final Exception ex) {
+                                ex.printStackTrace();
+                                System.exit(0);
+                            }
+                        }
+                for (int i = 0; i < nodes.size(); i++)
+                    for (int j = 0; j < horzNodes; j++) {
+                        Node up = null, down = null, left = null, right = null;
+                        Node up2 = null, down2 = null, left2 = null, right2 = null;
+                        if (i + 1 < nodes.size()) down = nodes.get(i + 1).get(j);
+                        if (j + 1 < horzNodes) right = nodes.get(i).get(j + 1);
+                        if (i - 1 >= 0) up = nodes.get(i - 1).get(j);
+                        if (j - 1 >= 0) left = nodes.get(i).get(j - 1);
+                        if (i + 2 < nodes.size()) down2 = nodes.get(i + 2).get(j);
+                        if (j + 2 < horzNodes) right2 = nodes.get(i).get(j + 2);
+                        if (i - 2 >= 0) up2 = nodes.get(i - 2).get(j);
+                        if (j - 2 >= 0) left2 = nodes.get(i).get(j - 2);
+                        /* this drops fps */
+                        nodes.get(i).get(j).updateNormal(up, left, right, down, up2, left2, right2, down2);
                     }
-                }
-                for (int i = 0; i < nodes.size(); i++) for (int j = 0; j < horzNodes; j++) {
-                    Node up = null , down = null , left = null , right = null;
-                    Node up2 = null , down2 = null , left2 = null , right2 = null;
-                    if (i + 1 < nodes.size()) down = nodes.get(i + 1).get(j);
-                    if (j + 1 < horzNodes) right = nodes.get(i).get(j + 1);
-                    if (i - 1 >= 0) up = nodes.get(i - 1).get(j);
-                    if (j - 1 >= 0) left = nodes.get(i).get(j - 1);
-                    if (i + 2 < nodes.size()) down2 = nodes.get(i + 2).get(j);
-                    if (j + 2 < horzNodes) right2 = nodes.get(i).get(j + 2);
-                    if (i - 2 >= 0) up2 = nodes.get(i - 2).get(j);
-                    if (j - 2 >= 0) left2 = nodes.get(i).get(j - 2);
-                    /* this drops fps */
-                    nodes.get(i).get(j).updateNormal(up, left, right, down, up2, left2, right2, down2);
-                }
             }
             GlStateManager.pushMatrix();
             GlStateManager.enableBlend();
