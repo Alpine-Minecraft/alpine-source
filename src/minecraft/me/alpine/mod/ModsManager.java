@@ -30,6 +30,7 @@ public class ModsManager {
         this.mods.add(new ModOldAnims());
         this.mods.add(new ModAutoGG());
         this.mods.add(new ModHotkeys());
+        this.mods.add(new ModKeystrokes());
     }
 
     public <T extends Mod> T getMod(Class<T> clazz) {
