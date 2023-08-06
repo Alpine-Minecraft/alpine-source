@@ -14,8 +14,7 @@ import optifine.CustomColors;
 
 public class RenderXPOrb extends Render {
     private static final ResourceLocation experienceOrbTextures = new ResourceLocation("textures/entity/experience_orb.png");
-    private static final String __OBFID = "CL_00000993";
-
+    
     public RenderXPOrb(RenderManager renderManagerIn) {
         super(renderManagerIn);
         this.shadowSize = 0.15F;

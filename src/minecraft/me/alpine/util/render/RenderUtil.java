@@ -1,7 +1,10 @@
 package me.alpine.util.render;
 
 import lombok.experimental.UtilityClass;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
@@ -32,5 +35,13 @@ public class RenderUtil {
         if (!wasEnabled) {
             glDisable(GL_BLEND);
         }
+    }
+
+    public void prepareScissorBox(double x, double y, double width, double height)
+    {
+        Minecraft mc = Minecraft.getMinecraft();
+        ScaledResolution scale = new ScaledResolution(mc);
+        int scaleFactor = scale.getScaleFactor();
+        GL11.glScissor(((int) x * scaleFactor), ((int) (mc.displayHeight - (y * scaleFactor) - height * scaleFactor)), ((int) width * scaleFactor), ((int) (height) * scaleFactor));
     }
 }

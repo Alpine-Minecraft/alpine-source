@@ -18,8 +18,7 @@ import java.util.BitSet;
 import java.util.List;
 
 public class BlockModelRenderer {
-    private static final String __OBFID = "CL_00002518";
-    private static float aoLightValueOpaque = 0.2F;
+        private static float aoLightValueOpaque = 0.2F;
 
     public static void updateAoLightValue() {
         aoLightValueOpaque = 1.0F - Config.getAmbientOcclusionLevel() * 0.8F;
@@ -442,8 +441,7 @@ public class BlockModelRenderer {
 
     static final class BlockModelRenderer$1 {
         static final int[] field_178290_a = new int[EnumFacing.values().length];
-        private static final String __OBFID = "CL_00002517";
-
+        
         static {
             try {
                 field_178290_a[EnumFacing.DOWN.ordinal()] = 1;
@@ -486,8 +484,7 @@ public class BlockModelRenderer {
     public static class AmbientOcclusionFace {
         private final float[] vertexColorMultiplier = new float[4];
         private final int[] vertexBrightness = new int[4];
-        private static final String __OBFID = "CL_00002515";
-
+        
         public AmbientOcclusionFace(BlockModelRenderer p_i46235_1_) {
         }
 
@@ -665,8 +662,7 @@ public class BlockModelRenderer {
         protected final BlockModelRenderer.Orientation[] field_178285_m;
         private static final BlockModelRenderer.EnumNeighborInfo[] field_178282_n = new BlockModelRenderer.EnumNeighborInfo[6];
         private static final BlockModelRenderer.EnumNeighborInfo[] $VALUES = new BlockModelRenderer.EnumNeighborInfo[]{ DOWN, UP, NORTH, SOUTH, WEST, EAST };
-        private static final String __OBFID = "CL_00002516";
-
+        
         private EnumNeighborInfo(String p_i6_3_, int p_i6_4_, EnumFacing[] p_i6_5_, float p_i6_6_, boolean p_i6_7_, BlockModelRenderer.Orientation[] p_i6_8_, BlockModelRenderer.Orientation[] p_i6_9_, BlockModelRenderer.Orientation[] p_i6_10_, BlockModelRenderer.Orientation[] p_i6_11_) {
             this.field_178276_g = p_i6_5_;
             this.field_178288_h = p_i6_6_;
@@ -707,8 +703,7 @@ public class BlockModelRenderer {
 
         protected final int field_178229_m;
         private static final BlockModelRenderer.Orientation[] $VALUES = new BlockModelRenderer.Orientation[]{ DOWN, UP, NORTH, SOUTH, WEST, EAST, FLIP_DOWN, FLIP_UP, FLIP_NORTH, FLIP_SOUTH, FLIP_WEST, FLIP_EAST };
-        private static final String __OBFID = "CL_00002513";
-
+        
         private Orientation(String p_i8_3_, int p_i8_4_, EnumFacing p_i8_5_, boolean p_i8_6_) {
             this.field_178229_m = p_i8_5_.getIndex() + (p_i8_6_ ? EnumFacing.values().length : 0);
         }
@@ -728,8 +723,7 @@ public class BlockModelRenderer {
         private final int field_178198_j;
         private static final BlockModelRenderer.VertexTranslations[] field_178199_k = new BlockModelRenderer.VertexTranslations[6];
         private static final BlockModelRenderer.VertexTranslations[] $VALUES = new BlockModelRenderer.VertexTranslations[]{ DOWN, UP, NORTH, SOUTH, WEST, EAST };
-        private static final String __OBFID = "CL_00002514";
-
+        
         private VertexTranslations(String p_i7_3_, int p_i7_4_, int p_i7_5_, int p_i7_6_, int p_i7_7_, int p_i7_8_) {
             this.field_178191_g = p_i7_5_;
             this.field_178200_h = p_i7_6_;

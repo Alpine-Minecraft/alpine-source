@@ -91,8 +91,7 @@ public abstract class EntityLiving extends EntityLivingBase {
     private boolean isLeashed;
     private Entity leashedToEntity;
     private NBTTagCompound leashNBTTag;
-    private static final String __OBFID = "CL_00001550";
-    public int randomMobsId = 0;
+        public int randomMobsId = 0;
     public BiomeGenBase spawnBiome = null;
     public BlockPos spawnPosition = null;
 
@@ -1187,8 +1186,7 @@ public abstract class EntityLiving extends EntityLivingBase {
         IN_WATER("IN_WATER", 2);
 
         private static final EntityLiving.SpawnPlacementType[] $VALUES = new EntityLiving.SpawnPlacementType[]{ ON_GROUND, IN_AIR, IN_WATER };
-        private static final String __OBFID = "CL_00002255";
-
+        
         private SpawnPlacementType(String p_i18_3_, int p_i18_4_) {
         }
     }

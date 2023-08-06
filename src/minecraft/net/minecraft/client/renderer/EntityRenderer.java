@@ -2,6 +2,7 @@ package net.minecraft.client.renderer;
 
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
+import me.alpine.event.impl.EventRender3D;
 import me.alpine.util.render.DeltaTime;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -220,8 +221,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
     private int shaderIndex;
     private boolean useShader;
     public int frameCount;
-    private static final String __OBFID = "CL_00000947";
-    private boolean initialized = false;
+        private boolean initialized = false;
     private World updatedWorld = null;
     private boolean showDebugInfo = false;
     public boolean fogStandard = false;
@@ -1200,15 +1200,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                     CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
                     crashreportcategory.addCrashSectionCallable("Screen name", new EntityRenderer2(this));
                     crashreportcategory.addCrashSectionCallable("Mouse location", new Callable() {
-                        private static final String __OBFID = "CL_00000950";
-
+                        
                         public String call() throws Exception {
                             return String.format("Scaled: (%d, %d). Absolute: (%d, %d)", new Object[]{ Integer.valueOf(j1), Integer.valueOf(k1), Integer.valueOf(Mouse.getX()), Integer.valueOf(Mouse.getY()) });
                         }
                     });
                     crashreportcategory.addCrashSectionCallable("Screen size", new Callable() {
-                        private static final String __OBFID = "CL_00000951";
-
+                        
                         public String call() throws Exception {
                             return String.format("Scaled: (%d, %d). Absolute: (%d, %d). Scale factor of %d", new Object[]{ Integer.valueOf(scaledresolution.getScaledWidth()), Integer.valueOf(scaledresolution.getScaledHeight()), Integer.valueOf(EntityRenderer.this.mc.displayWidth), Integer.valueOf(EntityRenderer.this.mc.displayHeight), Integer.valueOf(scaledresolution.getScaleFactor()) });
                         }
@@ -1597,6 +1595,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             this.mc.mcProfiler.endStartSection("aboveClouds");
             this.renderCloudsCheck(renderglobal, partialTicks, pass);
         }
+
+        new EventRender3D().call();
 
         this.mc.mcProfiler.endStartSection("hand");
         boolean flag2 = ReflectorForge.renderFirstPersonHand(this.mc.renderGlobal, partialTicks, pass);

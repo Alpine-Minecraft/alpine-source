@@ -1,5 +1,8 @@
 package me.alpine.event;
 
+import me.alpine.event.impl.EventKey;
+import me.alpine.event.impl.EventPlayerRender;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -53,6 +56,10 @@ public class EventManager {
             List<Method> methods = filter(event, entry.getKey().getDeclaredMethods());
 
             for (Method method: methods) {
+                if (event instanceof EventPlayerRender) {
+                    System.out.println();
+                }
+
                 method.setAccessible(true);
                 method.invoke(entry.getValue(), event);
             }

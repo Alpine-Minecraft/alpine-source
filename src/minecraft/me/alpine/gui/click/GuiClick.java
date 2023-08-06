@@ -3,7 +3,9 @@ package me.alpine.gui.click;
 import lombok.Getter;
 import lombok.Setter;
 import me.alpine.Alpine;
-import me.alpine.gui.click.element.ElementCategory;
+import me.alpine.gui.click.element.ElementTab;
+import me.alpine.gui.click.element.ElementTabCategory;
+import me.alpine.gui.click.element.ElementTabProfiles;
 import me.alpine.mod.EnumModCategory;
 import me.alpine.util.font.Fonts;
 import me.alpine.util.render.DeltaTime;
@@ -11,6 +13,7 @@ import me.alpine.util.render.Easings;
 import me.alpine.util.render.GuiUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,26 +22,34 @@ public class GuiClick extends GuiScreen {
     @Getter private static final GuiClick instance = new GuiClick();
 
     protected double onOpenAnimation = 0;
-    @Getter @Setter private EnumModCategory renderedCategory;
-    @Getter private final ArrayList<ElementCategory> children;
+    @Getter @Setter private ElementTab renderedTab;
+    @Getter private final ArrayList<ElementTab> children;
     @Getter @Setter private int bgWidth;
     @Getter @Setter private int bgHeight;
     @Getter @Setter private int bgX;
     @Getter @Setter private int bgY;
+
+    @Getter @Setter private int modsX;
+    @Getter @Setter private int modsWidth;
+
 
     public GuiClick() {
         children = new ArrayList<>();
 
         for (int i = 0; i < EnumModCategory.values().length; i++) {
             EnumModCategory category = EnumModCategory.values()[i];
-            children.add(new ElementCategory(this, category.toString(), category, i));
+            children.add(new ElementTabCategory(this, category.getFormattedName(), category, i));
         }
+
+        children.add(new ElementTabProfiles(this, children.size(), "Profiles"));
     }
 
     @Override
     public void initGui() {
-        if (renderedCategory == null) {
-            renderedCategory = EnumModCategory.values()[0];
+        Keyboard.enableRepeatEvents(true);
+
+        if (renderedTab == null) {
+            renderedTab = children.get(0);
         }
 
         this.onOpenAnimation = 0;
@@ -48,19 +59,20 @@ public class GuiClick extends GuiScreen {
         this.bgX = this.width / 2 - bgWidth / 2;
         this.bgY = this.height / 2 - bgHeight / 2;
 
-        children.forEach(ElementCategory::onInit);
+        children.forEach(ElementTab::onInit);
 
         final String s = Alpine.getInstance().getName() + " v" + Alpine.getInstance().getVersion();
         int buttonsWidth = children.stream().mapToInt(e -> e.getW() + 3).sum() + Fonts.get("nunito semibold 22").getStringWidth(s) + 8;
         this.bgWidth = Math.max(this.bgWidth, buttonsWidth + 3);
         this.bgX = this.width / 2 - bgWidth / 2;
 
-        children.forEach(ElementCategory::onInit);
+        children.forEach(ElementTab::onInit);
     }
 
     @Override
     public void onGuiClosed() {
-        children.forEach(ElementCategory::onClose);
+        Keyboard.enableRepeatEvents(false);
+        children.forEach(ElementTab::onClose);
 
         super.onGuiClosed();
     }
@@ -76,19 +88,22 @@ public class GuiClick extends GuiScreen {
         GlStateManager.scale(animEased, animEased, 1);
         GlStateManager.translate(-this.width / 2.0D, -this.height / 2.0D, 0);
 
+        /* Outline of the background */
         GuiUtil.drawRoundedRect(bgX - 0.5, bgY - 0.5, bgX + bgWidth + 0.5, bgY + bgHeight + 0.5, 8, 0xFF000000);
-        GuiUtil.drawRoundedRect(bgX, bgY, bgX + bgWidth, bgY + bgHeight, 8, Theme.getBackgroundColor());
+        /* General background */
+        GuiUtil.drawRoundedRect(bgX, bgY, bgX + bgWidth, bgY + bgHeight, 8, Theme.foreground());
 
         final int barY = getChildren().get(0).getY() + getChildren().get(0).getH() + 2;
-        GuiUtil.drawRect(bgX, barY, bgX + bgWidth, barY + 1, Theme.getTrimColor());
-        GuiUtil.drawRoundedRect(bgX, barY + 1, getChildren().get(1).getChildren().get(0).getX() + getChildren().get(1).getChildren().get(0).getW() + 5, bgY + bgHeight, 0, 0, 8, 0, 0xFF151525);
+        GuiUtil.drawRect(bgX, barY, bgX + bgWidth, barY - 1, 0xff579E9E);
+        /* Background of modules list */
+        GuiUtil.drawRoundedRect(bgX, barY, modsX + modsWidth + 5, bgY + bgHeight, 0, 0, 8, 0, Theme.background());
         final String s = Alpine.getInstance().getName() + " v" + Alpine.getInstance().getVersion();
         Fonts.get("nunito semibold 22").drawString(s, (bgX + bgWidth - Fonts.get("nunito semibold 22").getStringWidth(s) - 3) * animEased, bgY + 3, 0xFFFFFFFF);
 
 
-        for (ElementCategory category : children) {
-            category.setOpened(category.getCategory() == renderedCategory);
-            category.onRender(mouseX, mouseY);
+        for (ElementTab tab : children) {
+            tab.setOpened(tab == renderedTab);
+            tab.onRender(mouseX, mouseY);
         }
 
         GlStateManager.popMatrix();
@@ -104,6 +119,11 @@ public class GuiClick extends GuiScreen {
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         children.forEach(e -> e.onRelease(mouseX, mouseY, state));
         super.mouseReleased(mouseX, mouseY, state);
+    }
+
+    @Override protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        children.forEach(e -> e.onKey(typedChar, keyCode));
+        super.keyTyped(typedChar, keyCode);
     }
 
     @Override

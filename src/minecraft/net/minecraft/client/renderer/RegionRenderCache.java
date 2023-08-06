@@ -19,8 +19,7 @@ public class RegionRenderCache extends ChunkCache {
     private final BlockPos position;
     private int[] combinedLights;
     private IBlockState[] blockStates;
-    private static final String __OBFID = "CL_00002565";
-    private static ArrayDeque<int[]> cacheLights = new ArrayDeque();
+        private static ArrayDeque<int[]> cacheLights = new ArrayDeque();
     private static ArrayDeque<IBlockState[]> cacheStates = new ArrayDeque();
     private static int maxCacheSize = Config.limit(Runtime.getRuntime().availableProcessors(), 1, 32);
 

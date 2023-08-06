@@ -31,8 +31,7 @@ public abstract class Render<T extends Entity> {
      * Determines the darkness of the object's shadow. Higher value makes a darker shadow.
      */
     protected float shadowOpaque = 1.0F;
-    private static final String __OBFID = "CL_00000992";
-
+    
     protected Render(RenderManager renderManager) {
         this.renderManager = renderManager;
     }
@@ -279,7 +278,7 @@ public abstract class Render<T extends Entity> {
      */
     public void doRenderShadowAndFire(Entity entityIn, double x, double y, double z, float yaw, float partialTicks) {
         if (this.renderManager.options != null) {
-            if (this.renderManager.options.field_181151_V && this.shadowSize > 0.0F && !entityIn.isInvisible() && this.renderManager.isRenderShadow()) {
+            if (this.renderManager.options.entityShadows && this.shadowSize > 0.0F && !entityIn.isInvisible() && this.renderManager.isRenderShadow()) {
                 double d0 = this.renderManager.getDistanceToCamera(entityIn.posX, entityIn.posY, entityIn.posZ);
                 float f = (float) ((1.0D - d0 / 256.0D) * (double) this.shadowOpaque);
 

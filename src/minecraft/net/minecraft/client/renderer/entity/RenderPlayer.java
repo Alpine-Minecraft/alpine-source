@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
+import me.alpine.event.impl.EventPlayerRender;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelPlayer;
@@ -46,6 +48,11 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
      */
     public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (!entity.isUser() || this.renderManager.livingPlayer == entity) {
+
+            Minecraft.getMinecraft().mcProfiler.startSection("WavyCape");
+            new EventPlayerRender(entity, this, partialTicks, x, y, z).call();
+            Minecraft.getMinecraft().mcProfiler.endSection();
+
             double d0 = y;
 
             if (entity.isSneaking() && !(entity instanceof EntityPlayerSP)) {

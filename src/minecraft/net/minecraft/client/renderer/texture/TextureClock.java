@@ -8,8 +8,7 @@ import shadersmod.client.ShadersTex;
 public class TextureClock extends TextureAtlasSprite {
     private double field_94239_h;
     private double field_94240_i;
-    private static final String __OBFID = "CL_00001070";
-
+    
     public TextureClock(String iconName) {
         super(iconName);
     }

@@ -2,13 +2,19 @@ package me.alpine.gui.click;
 
 import lombok.experimental.UtilityClass;
 
+import java.awt.*;
+
 @UtilityClass
-public class Theme {
-    static int getBackgroundColor() {
-        return 0xFF202030;
+public final class Theme {
+    public int foreground() {
+        return new Color(0x1A2B37).getRGB();
     }
 
-    static int getTrimColor() {
-        return 0xFF000000;
+    public int background() {
+        return new Color(0x121017).getRGB();
+    }
+
+    public int accent() {
+        return new Color(0xFF579E9E).getRGB();
     }
 }

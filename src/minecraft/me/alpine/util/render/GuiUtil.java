@@ -2,12 +2,17 @@ package me.alpine.util.render;
 
 import lombok.experimental.UtilityClass;
 import me.alpine.util.render.shader.BlurUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
 
 @UtilityClass
 public final class GuiUtil {
@@ -90,6 +95,7 @@ public final class GuiUtil {
         GlStateManager.disableTexture2D();
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         GlStateManager.color(red, green, blue, alpha);
+        GL11.glLineWidth(2.0F);
         worldRenderer.begin(GL11.GL_LINE_LOOP, DefaultVertexFormats.POSITION);
         worldRenderer.pos(x, y2, 0.0D).endVertex();
         worldRenderer.pos(x2, y2, 0.0D).endVertex();
@@ -132,6 +138,46 @@ public final class GuiUtil {
         }
         GL11.glEnd();
 
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
+        GL11.glScaled(2.0D, 2.0D, 2.0D);
+        GL11.glPopAttrib();
+    }
+
+    public void drawRoundedRectOutline(double x, double y, double x2, double y2, double width, double radius, int color) {
+        drawRoundedRectOutline(x, y, x2, y2, width, radius, radius, radius, radius, color);
+    }
+
+    public void drawRoundedRectOutline(double x, double y, double x2, double y2, double width,
+                                double rTopLeft, double rTopRight, double rBottomLeft, double rBottomRight, int color) {
+        GL11.glPushAttrib(0);
+        GL11.glScaled(0.5D, 0.5D, 0.5D);
+        x *= 2.0D;
+        y *= 2.0D;
+        x2 *= 2.0D;
+        y2 *= 2.0D;
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+        GL11.glLineWidth((float) width);
+        RenderUtil.glSetColor(color);
+
+        GL11.glBegin(GL11.GL_LINE_LOOP);
+        {
+            int i;
+            for (i = 0; i <= 90; i += 3)
+                GL11.glVertex3d(x + rTopLeft + Math.sin(i * Math.PI / 180.0D) * rTopLeft * -1.0D, y + rTopLeft + Math.cos(i * Math.PI / 180.0D) * rTopLeft * -1.0D, 0.0D);
+            for (i = 90; i <= 180; i += 3)
+                GL11.glVertex3d(x + rBottomLeft + Math.sin(i * Math.PI / 180.0D) * rBottomLeft * -1.0D, y2 - rBottomLeft + Math.cos(i * Math.PI / 180.0D) * rBottomLeft * -1.0D, 0.0D);
+            for (i = 0; i <= 90; i += 3)
+                GL11.glVertex3d(x2 - rBottomRight + Math.sin(i * Math.PI / 180.0D) * rBottomRight, y2 - rBottomRight + Math.cos(i * Math.PI / 180.0D) * rBottomRight, 0.0D);
+            for (i = 90; i <= 180; i += 3)
+                GL11.glVertex3d(x2 - rTopRight + Math.sin(i * Math.PI / 180.0D) * rTopRight, y + rTopRight + Math.cos(i * Math.PI / 180.0D) * rTopRight, 0.0D);
+        }
+        GL11.glEnd();
+
         GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
@@ -148,11 +194,11 @@ public final class GuiUtil {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
 
-        // enable anti-aliasing
+        // enable anti-aliasing (commented ou cause it made the circle transparent sometimes)
         GL11.glEnable(GL11.GL_POLYGON_SMOOTH);
         GL11.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST);
 
-        RenderUtil.glSetColor(color);
+        RenderUtil.glSetColor(-1);
         GL11.glBegin(GL11.GL_POLYGON);
         /* Iterate backwards so that the polygon is not culled (drawing should be anti-clockwise),
         also, step 3 times for optimisation */
@@ -202,6 +248,52 @@ public final class GuiUtil {
 
         GL11.glScaled(2.0D, 2.0D, 2.0D);
         GL11.glPopAttrib();
+    }
+
+    public void drawColorPalette(int x, int y, int width, int height, Color color) {
+        double red = color.getRed() / 255.0D;
+        double green = color.getGreen() / 255.0D;
+        double blue = color.getBlue() / 255.0D;
+        double alpha = color.getAlpha() / 255.0D;
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+
+        GL11.glBegin(GL11.GL_POLYGON);
+        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+        GL11.glVertex2d(x, y);
+        GL11.glVertex2d(x, y + height);
+        GL11.glColor4d(red, green, blue, alpha);
+        GL11.glVertex2d(x + width, y + height);
+        GL11.glVertex2d(x + width, y);
+        GL11.glEnd();
+
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+
+        GL11.glBegin(GL11.GL_POLYGON);
+        GL11.glColor4d(0.0D, 0.0D, 0.0D, 0.0D);
+        GL11.glVertex2d(x, y);
+        GL11.glColor4d(0.0D, 0.0D, 0.0D, 1.0D);
+        GL11.glVertex2d(x, y + height);
+        GL11.glVertex2d(x + width, y + height);
+        GL11.glColor4d(0.0D, 0.0D, 0.0D, 0.0D);
+        GL11.glVertex2d(x + width, y);
+        GL11.glEnd();
+
+        GL11.glColor4d(1.0D, 1.0D, 1.0D, 1.0D);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glShadeModel(GL11.GL_FLAT);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public void drawImage(int x, int y, int width, int height, String location) {
+        GlStateManager.enableBlend();
+        RenderUtil.glSetColor(-1);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(location));
+        Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 0, width, height, width, height);
     }
 
     /**

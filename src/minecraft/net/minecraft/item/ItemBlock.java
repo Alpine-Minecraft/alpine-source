@@ -1,5 +1,6 @@
 package net.minecraft.item;
 
+import me.alpine.viamcp.utils.FixedSoundEngine;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -34,7 +35,8 @@ public class ItemBlock extends Item {
      * Called when a Block is right-clicked with this Item
      */
     public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
+        return FixedSoundEngine.onItemUse(this, stack, playerIn, worldIn, pos, side, hitX, hitY, hitZ);
+        /*IBlockState iblockstate = worldIn.getBlockState(pos);
         Block block = iblockstate.getBlock();
 
         if (!block.isReplaceable(worldIn, pos)) {
@@ -43,11 +45,9 @@ public class ItemBlock extends Item {
 
         if (stack.stackSize == 0) {
             return false;
-        }
-        else if (!playerIn.canPlayerEdit(pos, side, stack)) {
+        } else if (!playerIn.canPlayerEdit(pos, side, stack)) {
             return false;
-        }
-        else if (worldIn.canBlockBePlaced(this.block, pos, false, side, (Entity) null, stack)) {
+        } else if (worldIn.canBlockBePlaced(this.block, pos, false, side, (Entity) null, stack)) {
             int i = this.getMetadata(stack.getMetadata());
             IBlockState iblockstate1 = this.block.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, i, playerIn);
 
@@ -64,10 +64,9 @@ public class ItemBlock extends Item {
             }
 
             return true;
-        }
-        else {
+        } else {
             return false;
-        }
+        }*/
     }
 
     public static boolean setTileEntityNBT(World worldIn, EntityPlayer pos, BlockPos stack, ItemStack p_179224_3_) {
@@ -75,8 +74,7 @@ public class ItemBlock extends Item {
 
         if (minecraftserver == null) {
             return false;
-        }
-        else {
+        } else {
             if (p_179224_3_.hasTagCompound() && p_179224_3_.getTagCompound().hasKey("BlockEntityTag", 10)) {
                 TileEntity tileentity = worldIn.getTileEntity(stack);
 
@@ -111,8 +109,7 @@ public class ItemBlock extends Item {
 
         if (block == Blocks.snow_layer) {
             side = EnumFacing.UP;
-        }
-        else if (!block.isReplaceable(worldIn, pos)) {
+        } else if (!block.isReplaceable(worldIn, pos)) {
             pos = pos.offset(side);
         }
 

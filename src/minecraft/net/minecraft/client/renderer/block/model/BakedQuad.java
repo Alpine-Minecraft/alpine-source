@@ -16,8 +16,7 @@ public class BakedQuad implements IVertexProducer {
     protected int[] vertexData;
     protected final int tintIndex;
     protected final EnumFacing face;
-    private static final String __OBFID = "CL_00002512";
-    private TextureAtlasSprite sprite = null;
+        private TextureAtlasSprite sprite = null;
     private int[] vertexDataSingle = null;
 
     public BakedQuad(int[] p_i9_1_, int p_i9_2_, EnumFacing p_i9_3_, TextureAtlasSprite p_i9_4_) {

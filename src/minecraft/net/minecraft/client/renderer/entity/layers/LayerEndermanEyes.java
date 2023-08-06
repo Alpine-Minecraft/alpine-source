@@ -12,8 +12,7 @@ import shadersmod.client.Shaders;
 public class LayerEndermanEyes implements LayerRenderer {
     private static final ResourceLocation field_177203_a = new ResourceLocation("textures/entity/enderman/enderman_eyes.png");
     private final RenderEnderman endermanRenderer;
-    private static final String __OBFID = "CL_00002418";
-
+    
     public LayerEndermanEyes(RenderEnderman endermanRendererIn) {
         this.endermanRenderer = endermanRendererIn;
     }

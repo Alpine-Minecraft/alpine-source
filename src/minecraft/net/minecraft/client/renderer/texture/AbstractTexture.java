@@ -11,8 +11,7 @@ public abstract class AbstractTexture implements ITextureObject {
     protected boolean mipmap;
     protected boolean blurLast;
     protected boolean mipmapLast;
-    private static final String __OBFID = "CL_00001047";
-    public MultiTexID multiTex;
+        public MultiTexID multiTex;
 
     public void setBlurMipmapDirect(boolean p_174937_1_, boolean p_174937_2_) {
         this.blur = p_174937_1_;

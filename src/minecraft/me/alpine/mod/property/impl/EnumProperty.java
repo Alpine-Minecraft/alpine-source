@@ -1,7 +1,9 @@
 package me.alpine.mod.property.impl;
 
+import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
+import me.alpine.Alpine;
 import me.alpine.mod.property.BaseProperty;
 
 import java.util.Arrays;
@@ -31,5 +33,21 @@ public final class EnumProperty extends BaseProperty {
             index = this.values.size() - 1;
         }
         this.selectedValue = this.values.get(index);
+    }
+
+    @Override
+    public JsonObject toJson() {
+        final JsonObject json = super.toJson();
+        json.addProperty("value", this.selectedValue);
+        return json;
+    }
+
+    @Override
+    public void fromJson(JsonObject json) {
+        if (json.has("value")) {
+            this.selectedValue = json.get("value").getAsString();
+        } else {
+            Alpine.getInstance().getLogger().warn("Malformed JSON on enum property, member 'value' not found");
+        }
     }
 }
