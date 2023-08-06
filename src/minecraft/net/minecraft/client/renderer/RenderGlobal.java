@@ -2222,6 +2222,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         tessellator.draw();
     }
 
+
     /**
      * Marks the blocks in the given range for update
      */
